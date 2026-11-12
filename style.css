@@ -159,3 +159,4 @@ html,body{height:100%}
 @media (max-width:480px){.ghost .lbl{display:none}.ghost{padding:6px 9px}.school{font-size:14px}.sub{font-size:11px}}
 .dlg-box h3{margin:0 0 4px}
 .dlg-box label{margin-top:10px}
+.tile .en{font-size:12.5px;color:#5b6b80;margin-top:-2px}

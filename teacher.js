@@ -1,5 +1,5 @@
 // टीचर पैनल: बच्चे जोड़ना, PIN देना, मोबाइल Reset/Block, चैप्टर और वीडियो जोड़ना
-import { SCHOOL_NAME, CLASSES, hasStreams, allSubjects, DEMO } from "./config.js";
+import { SCHOOL_NAME, CLASSES, hasStreams, allSubjects, subjLabel, DEMO } from "./config.js";
 import * as S from "./store.js";
 import { ask, tell } from "./dialog.js";
 
@@ -116,7 +116,7 @@ async function chaptersTab() {
 
   shell(tabs() + `
   <div class="filters"><select id="ccls">${clsOpts(ui.chCls)}</select>
-    <select id="csub">${subs.map((s) => `<option value="${s.id}" ${s.id === ui.chSub ? "selected" : ""}>${s.icon} ${esc(s.name)}</option>`).join("")}</select></div>
+    <select id="csub">${subs.map((s) => `<option value="${s.id}" ${s.id === ui.chSub ? "selected" : ""}>${s.icon} ${esc(subjLabel(s))}</option>`).join("")}</select></div>
 
   ${hasStreams(ui.chCls) ? `<p class="hint">जो विषय कई संकाय में है (जैसे अर्थशास्त्र, गणित, भाषाएँ), उसका चैप्टर एक बार जोड़ें — वो सभी संकाय में अपने-आप दिखेगा।</p>` : ""}
   <section class="card section">
@@ -136,7 +136,7 @@ async function chaptersTab() {
     </form>
   </section>
 
-  <section class="section"><h3>कक्षा ${esc(ui.chCls)} — ${esc((subs.find((s) => s.id === ui.chSub) || {}).name)} (${list.length} चैप्टर)</h3>
+  <section class="section"><h3>कक्षा ${esc(ui.chCls)} — ${esc(subjLabel(subs.find((s) => s.id === ui.chSub)))} (${list.length} चैप्टर)</h3>
     ${list.length ? list.map((c) => `<div class="st" data-id="${esc(c.id)}">
       <div class="t">${esc(c.number)}. ${esc(c.title)}</div>
       <div class="chips">${c.youtubeId ? `<span class="chip ok">▶ वीडियो जुड़ा</span>` : `<span class="chip">वीडियो नहीं</span>`}

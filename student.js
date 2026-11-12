@@ -1,5 +1,5 @@
 // बच्चों वाली साइट: Login → कक्षा → (11–12 में संकाय) → विषय → चैप्टर → वीडियो
-import { SCHOOL_NAME, TAGLINE, CLASSES, STREAMS, hasStreams, subjectGroups, subjectById, DEMO } from "./config.js";
+import { SCHOOL_NAME, TAGLINE, CLASSES, STREAMS, hasStreams, subjectGroups, subjectById, subjLabel, DEMO } from "./config.js";
 import * as S from "./store.js";
 import { ask } from "./dialog.js";
 
@@ -131,7 +131,7 @@ async function subjectsView(cls, stream, isHome = false) {
   <h2>📚 कौन सा विषय पढ़ना है?</h2>
   ${subjectGroups(cls, stream).map((g) => `<h3 class="gtitle">${esc(g.title)}</h3>
     <div class="grid">${g.items.map((s) => `<a class="tile" href="#c${cls}-${stream}-${s.id}"><div class="ic">${s.icon}</div>
-      <div class="t">${esc(s.name)}</div><div class="c">${countLabel(list.filter((c) => c.subject === s.id).length)}</div></a>`).join("")}
+      <div class="t">${esc(s.name)}</div><div class="en">(${esc(s.en)})</div><div class="c">${countLabel(list.filter((c) => c.subject === s.id).length)}</div></a>`).join("")}
     </div>`).join("")}
   ${isHome ? `<div class="logout-row"><button class="btn red" data-logout>🚪 Logout करें</button></div>` : ""}`, !isHome);
 }
@@ -143,8 +143,8 @@ async function chapterListView(cls, stream, sid) {
   let list;
   try { list = (await chaptersFor(cls)).filter((c) => c.subject === sid); } catch (e) { return errorView(e); }
   const st = streamOf(stream);
-  render(`<div class="crumb">कक्षा ${esc(cls)}${st ? " › " + st.name : ""} › ${esc(sub.name)}</div>
-  <h2>${sub.icon} ${esc(sub.name)} — चैप्टर चुनें</h2>
+  render(`<div class="crumb">कक्षा ${esc(cls)}${st ? " › " + st.name : ""} › ${esc(subjLabel(sub))}</div>
+  <h2>${sub.icon} ${esc(subjLabel(sub))} — चैप्टर चुनें</h2>
   <div class="chlist">
   ${list.length ? list.map((c) => `<a class="row" href="#c${cls}-${stream}-${sid}-${encodeURIComponent(c.id)}">
       <div class="num">${esc(c.number)}</div>
@@ -167,7 +167,7 @@ async function chapterView(cls, stream, sid, id) {
     .map((p) => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`).join("");
   const st = streamOf(stream);
   // अगला/पिछला चैप्टर history में नया पन्ना नहीं जोड़ता, ताकि Back सीधे चैप्टर लिस्ट पर जाए
-  render(`<div class="crumb">कक्षा ${esc(cls)}${st ? " › " + st.name : ""} › ${esc(sub ? sub.name : sid)}</div>
+  render(`<div class="crumb">कक्षा ${esc(cls)}${st ? " › " + st.name : ""} › ${esc(sub ? subjLabel(sub) : sid)}</div>
   <h2>अध्याय ${esc(c.number)}: ${esc(c.title)}</h2>
   <div class="player" id="player">
     ${c.youtubeId

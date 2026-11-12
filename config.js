@@ -32,49 +32,51 @@ export const hasStreams = (cls) => cls === "11" || cls === "12";
 // ---------- विषय (Bihar Board) ----------
 // एक ही id वाला विषय हर जगह एक ही किताब है (जैसे अर्थशास्त्र Arts और Commerce दोनों में),
 // इसलिए उसके चैप्टर एक बार जोड़ने पर दोनों जगह दिखेंगे।
-const s = (id, name, icon) => ({ id, name, icon });
+const s = (id, name, en, icon) => ({ id, name, en, icon });
+// "हिन्दी (Hindi)" जैसा पूरा नाम
+export const subjLabel = (x) => (x ? `${x.name} (${x.en})` : "");
 
 // कक्षा 9–10
 const G910 = [
-  { title: "मुख्य विषय", items: [
-    s("maths", "गणित", "➗"), s("science", "विज्ञान", "🔬"), s("social", "सामाजिक विज्ञान", "🌍"), s("english", "English", "🔤")] },
-  { title: "मातृभाषा", items: [
-    s("hindi", "हिन्दी", "📖"), s("urdu", "उर्दू", "✒️"), s("bangla", "बांग्ला", "📗"), s("maithili", "मैथिली", "📘")] },
-  { title: "द्वितीय भारतीय भाषा", items: [
-    s("sanskrit", "संस्कृत", "📜"), s("arabic", "अरबी", "📙"), s("persian", "फ़ारसी", "📕"), s("bhojpuri", "भोजपुरी", "📒")] },
-  { title: "ऐच्छिक विषय", items: [
-    s("highermaths", "उच्च गणित", "📐"), s("economics", "अर्थशास्त्र", "📊"), s("commerce", "वाणिज्य", "🧾"),
-    s("homescience", "गृह विज्ञान", "🏠"), s("music", "संगीत", "🎵"), s("dance", "नृत्य", "💃"),
-    s("finearts", "चित्रकला / ललित कला", "🖌️"), s("computer", "कंप्यूटर विज्ञान", "💻"), s("yoga", "योग एवं शारीरिक शिक्षा", "🧘")] }
+  { title: "मुख्य विषय (Main Subjects)", items: [
+    s("maths", "गणित", "Mathematics", "➗"), s("science", "विज्ञान", "Science", "🔬"), s("social", "सामाजिक विज्ञान", "Social Science", "🌍"), s("english", "English", "अंग्रेज़ी", "🔤")] },
+  { title: "मातृभाषा (Mother Tongue)", items: [
+    s("hindi", "हिन्दी", "Hindi", "📖"), s("urdu", "उर्दू", "Urdu", "✒️"), s("bangla", "बांग्ला", "Bangla", "📗"), s("maithili", "मैथिली", "Maithili", "📘")] },
+  { title: "द्वितीय भारतीय भाषा (Second Indian Language)", items: [
+    s("sanskrit", "संस्कृत", "Sanskrit", "📜"), s("arabic", "अरबी", "Arabic", "📙"), s("persian", "फ़ारसी", "Persian", "📕"), s("bhojpuri", "भोजपुरी", "Bhojpuri", "📒")] },
+  { title: "ऐच्छिक विषय (Optional Subjects)", items: [
+    s("highermaths", "उच्च गणित", "Higher Mathematics", "📐"), s("economics", "अर्थशास्त्र", "Economics", "📊"), s("commerce", "वाणिज्य", "Commerce", "🧾"),
+    s("homescience", "गृह विज्ञान", "Home Science", "🏠"), s("music", "संगीत", "Music", "🎵"), s("dance", "नृत्य", "Dance", "💃"),
+    s("finearts", "चित्रकला / ललित कला", "Painting / Fine Arts", "🖌️"), s("computer", "कंप्यूटर विज्ञान", "Computer Science", "💻"), s("yoga", "योग एवं शारीरिक शिक्षा", "Yoga & Physical Education", "🧘")] }
 ];
 
 // कक्षा 11–12 की भाषाएँ (तीनों संकाय में)
-const LANG1112 = { title: "भाषा", items: [
-  s("hindi", "हिन्दी", "📖"), s("english", "English", "🔤"), s("urdu", "उर्दू", "✒️"), s("maithili", "मैथिली", "📘"),
-  s("sanskrit", "संस्कृत", "📜"), s("prakrit", "प्राकृत", "📃"), s("magahi", "मगही", "📗"), s("bhojpuri", "भोजपुरी", "📒"),
-  s("arabic", "अरबी", "📙"), s("persian", "फ़ारसी", "📕"), s("pali", "पालि", "🪷"), s("bangla", "बांग्ला", "📓")] };
+const LANG1112 = { title: "भाषा (Languages)", items: [
+  s("hindi", "हिन्दी", "Hindi", "📖"), s("english", "English", "अंग्रेज़ी", "🔤"), s("urdu", "उर्दू", "Urdu", "✒️"), s("maithili", "मैथिली", "Maithili", "📘"),
+  s("sanskrit", "संस्कृत", "Sanskrit", "📜"), s("prakrit", "प्राकृत", "Prakrit", "📃"), s("magahi", "मगही", "Magahi", "📗"), s("bhojpuri", "भोजपुरी", "Bhojpuri", "📒"),
+  s("arabic", "अरबी", "Arabic", "📙"), s("persian", "फ़ारसी", "Persian", "📕"), s("pali", "पालि", "Pali", "🪷"), s("bangla", "बांग्ला", "Bangla", "📓")] };
 
-const EXTRA1112 = { title: "अतिरिक्त / ऐच्छिक", items: [
-  s("computer", "कंप्यूटर विज्ञान", "💻"), s("multimedia", "मल्टीमीडिया एवं वेब टेक्नोलॉजी", "🌐"),
-  s("yoga", "योग एवं शारीरिक शिक्षा", "🧘")] };
+const EXTRA1112 = { title: "अतिरिक्त / ऐच्छिक (Additional / Optional)", items: [
+  s("computer", "कंप्यूटर विज्ञान", "Computer Science", "💻"), s("multimedia", "मल्टीमीडिया एवं वेब टेक्नोलॉजी", "Multimedia & Web Technology", "🌐"),
+  s("yoga", "योग एवं शारीरिक शिक्षा", "Yoga & Physical Education", "🧘")] };
 
 const G1112 = {
   science: [
-    { title: "मुख्य विषय", items: [
-      s("physics", "भौतिकी", "⚛️"), s("chemistry", "रसायन विज्ञान", "🧪"), s("biology", "जीव विज्ञान", "🧬"),
-      s("maths", "गणित", "➗"), s("agriculture", "कृषि", "🌾")] },
+    { title: "मुख्य विषय (Main Subjects)", items: [
+      s("physics", "भौतिकी", "Physics", "⚛️"), s("chemistry", "रसायन विज्ञान", "Chemistry", "🧪"), s("biology", "जीव विज्ञान", "Biology", "🧬"),
+      s("maths", "गणित", "Mathematics", "➗"), s("agriculture", "कृषि", "Agriculture", "🌾")] },
     LANG1112, EXTRA1112],
   arts: [
-    { title: "मुख्य विषय", items: [
-      s("history", "इतिहास", "🏛️"), s("geography", "भूगोल", "🗺️"), s("polsci", "राजनीति विज्ञान", "⚖️"),
-      s("economics", "अर्थशास्त्र", "📊"), s("sociology", "समाजशास्त्र", "👥"), s("psychology", "मनोविज्ञान", "🧠"),
-      s("philosophy", "दर्शनशास्त्र", "💭"), s("homescience", "गृह विज्ञान", "🏠"), s("music", "संगीत", "🎵"),
-      s("maths", "गणित", "➗")] },
+    { title: "मुख्य विषय (Main Subjects)", items: [
+      s("history", "इतिहास", "History", "🏛️"), s("geography", "भूगोल", "Geography", "🗺️"), s("polsci", "राजनीति विज्ञान", "Political Science", "⚖️"),
+      s("economics", "अर्थशास्त्र", "Economics", "📊"), s("sociology", "समाजशास्त्र", "Sociology", "👥"), s("psychology", "मनोविज्ञान", "Psychology", "🧠"),
+      s("philosophy", "दर्शनशास्त्र", "Philosophy", "💭"), s("homescience", "गृह विज्ञान", "Home Science", "🏠"), s("music", "संगीत", "Music", "🎵"),
+      s("maths", "गणित", "Mathematics", "➗")] },
     LANG1112, EXTRA1112],
   commerce: [
-    { title: "मुख्य विषय", items: [
-      s("accountancy", "लेखाशास्त्र", "📒"), s("business", "व्यवसाय अध्ययन", "💼"),
-      s("economics", "अर्थशास्त्र", "📊"), s("entrepreneurship", "उद्यमिता", "🚀")] },
+    { title: "मुख्य विषय (Main Subjects)", items: [
+      s("accountancy", "लेखाशास्त्र", "Accountancy", "📒"), s("business", "व्यवसाय अध्ययन", "Business Studies", "💼"),
+      s("economics", "अर्थशास्त्र", "Economics", "📊"), s("entrepreneurship", "उद्यमिता", "Entrepreneurship", "🚀")] },
     LANG1112, EXTRA1112]
 };
 
