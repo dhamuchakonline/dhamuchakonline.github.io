@@ -160,3 +160,37 @@ html,body{height:100%}
 .dlg-box h3{margin:0 0 4px}
 .dlg-box label{margin-top:10px}
 .tile .en{font-size:12.5px;color:#5b6b80;margin-top:-2px}
+
+/* ===== स्वागत स्क्रीन (2–3 सेकंड) ===== */
+#splash{position:fixed;inset:0;z-index:200;overflow:hidden;display:grid;place-items:center;text-align:center;color:#fff;
+  background:radial-gradient(circle at 20% 15%,#2b1a6b 0%,transparent 55%),radial-gradient(circle at 85% 90%,#0e5a6b 0%,transparent 55%),#0b1026;
+  transition:opacity .9s ease, transform .9s ease}
+#splash.sp-out{opacity:0;transform:scale(1.04);pointer-events:none}
+.sp-grid{position:absolute;inset:-50%;background-image:linear-gradient(rgba(120,160,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(120,160,255,.08) 1px,transparent 1px);
+  background-size:34px 34px;transform:perspective(500px) rotateX(55deg) translateY(10%);animation:spGrid 6s linear infinite}
+@keyframes spGrid{to{background-position:0 340px}}
+.sp-blob{position:absolute;width:55vmax;height:55vmax;border-radius:50%;filter:blur(70px);opacity:.45;animation:spFloat 6s ease-in-out infinite alternate}
+.b1{background:#7c3aed;top:-20vmax;left:-15vmax}
+.b2{background:#06b6d4;bottom:-25vmax;right:-15vmax;animation-delay:-2s}
+.b3{background:#f59e0b;top:30%;left:45%;width:30vmax;height:30vmax;opacity:.3;animation-delay:-4s}
+@keyframes spFloat{to{transform:translate(4vmax,3vmax) scale(1.1)}}
+.sp-in{position:relative;padding:24px;max-width:92vw}
+.sp-tag{display:inline-block;font-size:13px;font-weight:700;padding:4px 12px;border:1px solid rgba(255,255,255,.35);border-radius:99px;
+  background:rgba(255,255,255,.08);opacity:0;animation:spUp .6s .1s forwards}
+.sp-title{margin-top:16px;font-family:"Segoe UI",system-ui,sans-serif;font-weight:900;letter-spacing:.12em;font-size:clamp(30px,8.5vw,64px);line-height:1.05;
+  background:linear-gradient(90deg,#67e8f9,#a78bfa,#f472b6,#fbbf24,#67e8f9);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 12px rgba(167,139,250,.55));opacity:0;animation:spUp .7s .25s forwards, spShine 2.4s linear infinite, spFlick 2.2s 1s infinite}
+.sp-hi{font-size:clamp(16px,4.6vw,24px);font-weight:700;margin-top:4px;color:#e0e7ff;opacity:0;animation:spUp .6s .45s forwards}
+.sp-by{margin-top:22px;font-size:13px;letter-spacing:4px;text-transform:uppercase;color:#c4b5fd;opacity:0;animation:spUp .6s .7s forwards}
+.sp-uhs{font-family:"Segoe UI",system-ui,sans-serif;font-weight:900;font-size:clamp(56px,18vw,120px);line-height:1;margin-top:4px;color:#fff;letter-spacing:.08em;
+  text-shadow:0 0 10px #22d3ee,0 0 26px #22d3ee,0 0 52px #7c3aed,0 0 80px #7c3aed;opacity:0;animation:spPop .7s .85s forwards, spGlow 1.4s 1.6s ease-in-out infinite alternate}
+.sp-school{margin-top:10px;font-size:clamp(15px,4.4vw,22px);font-weight:700;color:#fef3c7;text-shadow:0 0 12px rgba(251,191,36,.6);opacity:0;animation:spUp .6s 1.15s forwards}
+.sp-bar{margin:26px auto 0;width:min(240px,60vw);height:5px;border-radius:99px;background:rgba(255,255,255,.15);overflow:hidden;opacity:0;animation:spUp .4s 1.2s forwards}
+.sp-bar span{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#22d3ee,#a78bfa,#f472b6);box-shadow:0 0 12px #a78bfa;animation:spLoad 1.5s 1.25s ease-in-out forwards}
+@keyframes spUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes spPop{0%{opacity:0;transform:scale(.6)}70%{opacity:1;transform:scale(1.08)}100%{opacity:1;transform:scale(1)}}
+@keyframes spShine{to{background-position:300% 0}}
+@keyframes spFlick{0%,100%{opacity:1}46%{opacity:1}48%{opacity:.35}50%{opacity:1}52%{opacity:.5}54%{opacity:1}}
+@keyframes spGlow{to{text-shadow:0 0 6px #22d3ee,0 0 16px #22d3ee,0 0 34px #f472b6,0 0 60px #f472b6}}
+@keyframes spLoad{to{width:100%}}
+@media (prefers-reduced-motion:reduce){#splash *{animation-duration:.01s!important;animation-iteration-count:1!important}}
