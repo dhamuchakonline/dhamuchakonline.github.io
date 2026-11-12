@@ -1,18 +1,18 @@
 // टीचर पैनल: बच्चे जोड़ना, PIN देना, मोबाइल Reset/Block, चैप्टर और वीडियो जोड़ना
-import { SCHOOL_NAME, CLASSES, STREAMS, hasStreams, allSubjects, DEMO } from "./config.js";
+import { SCHOOL_NAME, CLASSES, hasStreams, allSubjects, DEMO } from "./config.js";
 import * as S from "./store.js";
 import { ask, tell } from "./dialog.js";
 
 const app = document.getElementById("app");
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const ui = { tab: "students", fCls: "", q: "", chCls: "10", chSub: "maths", edit: null, okHtml: "" };
+const ui = { tab: "code", fCls: "", q: "", chCls: "10", chSub: "maths", edit: null, okHtml: "" };
 let teacher = null;
 let students = [];
 
 function shell(body) {
-  app.innerHTML = `<header class="top"><div class="brand"><div class="logo">🧑‍🏫</div>
+  app.innerHTML = `<header class="top"><div class="top-in"><div class="brand"><div class="logo">🧑‍🏫</div>
     <div><div class="school">${esc(SCHOOL_NAME)}</div><div class="sub">टीचर पैनल</div></div></div>
-    ${teacher ? `<button class="ghost" id="out">बाहर निकलें</button>` : ""}</header>
+    ${teacher ? `<button class="ghost" id="out">🚪<span class="lbl"> बाहर</span></button>` : ""}</div></header>
     ${DEMO ? `<div class="demo">डेमो मोड — यहाँ किया गया बदलाव सिर्फ इसी मोबाइल में रहेगा</div>` : ""}
     <main class="wrap">${body}</main>`;
   const o = document.getElementById("out");
@@ -40,7 +40,7 @@ function loginView(msg = "") {
 
 function tabs() {
   return `<div class="tabs">
-    <button data-t="students" class="${ui.tab === "students" ? "on" : ""}">👨‍🎓 बच्चे</button>
+    <button data-t="code" class="${ui.tab === "code" ? "on" : ""}">🔑 कोड / बच्चे</button>
     <button data-t="chapters" class="${ui.tab === "chapters" ? "on" : ""}">🎬 चैप्टर / वीडियो</button></div>`;
 }
 function bindTabs() {
@@ -48,7 +48,7 @@ function bindTabs() {
 }
 
 async function main() {
-  if (ui.tab === "students") return studentsTab();
+  if (ui.tab === "code") return codeTab();
   return chaptersTab();
 }
 
@@ -56,109 +56,53 @@ const clsOpts = (sel, withAll) =>
   (withAll ? `<option value="">सभी कक्षा</option>` : "") +
   CLASSES.map((c) => `<option value="${c}" ${c === sel ? "selected" : ""}>कक्षा ${c}</option>`).join("");
 
-// ===================== बच्चे =====================
-async function studentsTab() {
+// ===================== स्कूल कोड + कौन पढ़ रहा है =====================
+const fmt = (d) => d ? d.toLocaleString("hi-IN", { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" }) : "—";
+
+async function codeTab() {
   shell(tabs() + `<div class="loading">लोड हो रहा है…</div>`); bindTabs();
-  try { students = await S.listStudents(); } catch (e) { return fail(e); }
-  students.sort((a, b) => a.class - b.class || (parseInt(a.roll) || 0) - (parseInt(b.roll) || 0) || String(a.roll).localeCompare(b.roll));
-  const q = ui.q.trim().toLowerCase();
-  const shown = students.filter((s) => (!ui.fCls || s.class === ui.fCls) && (!q || s.name.toLowerCase().includes(q) || String(s.roll).toLowerCase() === q));
+  let code, sess;
+  try { [code, sess] = await Promise.all([S.getCode(), S.listSessions()]); } catch (e) { return fail(e); }
+  const fc = ui.fCls;
+  const shown = sess.filter((s) => !fc || s.class === fc);
+  const counts = CLASSES.map((c) => `कक्षा ${c}: ${sess.filter((s) => s.class === c).length}`).join(" · ");
 
   shell(tabs() + `
   <section class="card">
-    <h3>➕ नया बच्चा जोड़ें</h3>
-    <form id="add">
-      <label>बच्चे का नाम<input name="name" required></label>
-      <div class="row2">
-        <label>कक्षा<select name="cls" required>${clsOpts(ui.fCls || "9")}</select></label>
-        <label>रोल नंबर<input name="roll" inputmode="numeric" required></label>
-      </div>
-      <label id="strwrap">संकाय (Stream)<select name="stream">${STREAMS.map((s) => `<option value="${s.id}">${s.name} (${s.en})</option>`).join("")}</select></label>
-      <div class="pinrow"><label>PIN (6 अंक)<input name="pin" inputmode="numeric" maxlength="6" value="${S.randomPin()}" required></label>
-        <button type="button" class="btn" id="gen">🎲 नया</button></div>
-      <div class="err" id="adderr"></div>
-      <button class="primary">जोड़ें</button>
+    <h3>🔑 स्कूल का UDISE कोड</h3>
+    ${code ? `<p class="muted" style="margin:0">अभी का कोड:</p><div class="big" style="margin:6px 0 12px;letter-spacing:2px">${esc(code)}</div>`
+           : `<p class="err" style="margin:0 0 8px">अभी कोई कोड नहीं डाला गया है। नीचे स्कूल का UDISE कोड डालकर सेव करें — तभी बच्चे login कर पाएँगे।</p>`}
+    <form id="cf">
+      <label>${code ? "कोड बदलें" : "UDISE कोड"}<input name="code" inputmode="numeric" required value="${code ? "" : ""}" placeholder="जैसे 10xxxxxxxxx"></label>
+      <div class="err" id="cerr"></div>
+      <button class="primary">${code ? "नया कोड सेव करें" : "कोड सेव करें"}</button>
     </form>
-    ${ui.okHtml}
+    ${code ? `<p class="hint">कोड बदलने पर अभी login सभी बच्चे बाहर हो जाएँगे और उन्हें नया कोड डालना होगा।</p>` : ""}
   </section>
 
   <section class="section">
-    <h3>स्कूल के बच्चे (${students.length})</h3>
-    <div class="filters"><select id="fcls">${clsOpts(ui.fCls, true)}</select>
-      <input id="q" placeholder="नाम या रोल से खोजें" value="${esc(ui.q)}"></div>
+    <h3>👨‍🎓 कौन-कौन पढ़ रहा है (${sess.length})</h3>
+    <p class="muted" style="font-size:13px;margin:0 0 8px">${counts}</p>
+    <div class="filters"><select id="fcls"><option value="">सभी कक्षा</option>${CLASSES.map((c) => `<option value="${c}" ${c === fc ? "selected" : ""}>कक्षा ${c}</option>`).join("")}</select></div>
     <div style="margin-top:10px">
-    ${shown.length ? shown.map((s) => `<div class="st" data-uid="${esc(s.uid)}">
-        <div class="t">${esc(s.name)}</div>
-        <div class="muted" style="font-size:13px">कक्षा ${esc(s.class)}${s.stream ? " · " + esc((STREAMS.find((x) => x.id === s.stream) || {}).name || "") : ""} · रोल ${esc(s.roll)}</div>
-        <div class="chips">
-          ${s.active ? `<span class="chip ok">चालू</span>` : `<span class="chip bad">बंद (Block)</span>`}
-          ${s.bound ? `<span class="chip">📱 मोबाइल जुड़ा है</span>` : `<span class="chip">मोबाइल अभी नहीं जुड़ा</span>`}
-        </div>
-        <div class="acts">
-          <button class="btn" data-a="reset" ${s.bound ? "" : "disabled"}>📱 Reset मोबाइल</button>
-          <button class="btn" data-a="pin">🔑 नया PIN</button>
-          <button class="btn ${s.active ? "red" : ""}" data-a="toggle">${s.active ? "⛔ Block" : "✅ चालू करें"}</button>
-          <button class="btn red" data-a="del">🗑 हटाएँ</button>
-        </div></div>`).join("")
-      : `<div class="empty">कोई बच्चा नहीं मिला।</div>`}
+    ${shown.length ? shown.slice(0, 300).map((s) => `<div class="row" style="cursor:default">
+        <div class="num">${esc(s.class)}</div>
+        <div><div class="t">${esc(s.name)}</div><div class="c">कक्षा ${esc(s.class)} · login: ${esc(fmt(s.at))}</div></div></div>`).join("")
+      : `<div class="empty">अभी कोई बच्चा login नहीं है।</div>`}
     </div>
   </section>`);
   bindTabs();
 
-  const f = document.getElementById("add");
-  document.getElementById("gen").onclick = () => (f.pin.value = S.randomPin());
-  const sw = () => (document.getElementById("strwrap").style.display = hasStreams(f.cls.value) ? "" : "none");
-  f.cls.onchange = sw; sw();
+  document.getElementById("fcls").onchange = (e) => { ui.fCls = e.target.value; codeTab(); };
+  const f = document.getElementById("cf");
   f.onsubmit = async (e) => {
     e.preventDefault();
-    const btn = f.querySelector(".primary"); btn.disabled = true; btn.textContent = "जोड़ रहे हैं…";
-    const d = { name: f.name.value, cls: f.cls.value, roll: f.roll.value, pin: f.pin.value.trim(), stream: hasStreams(f.cls.value) ? f.stream.value : "" };
-    try {
-      await S.addStudent(d);
-      ui.fCls = d.cls;
-      ui.okHtml = pinBox(d.name, d.cls, S.cleanRoll(d.roll), d.pin);
-      studentsTab();
-    } catch (err) {
-      document.getElementById("adderr").textContent = err.message;
-      btn.disabled = false; btn.textContent = "जोड़ें";
-    }
+    const v = f.code.value.trim();
+    if (code && !(await ask(`कोड बदलकर "${v}" करें? अभी login सभी बच्चे बाहर हो जाएँगे।`, "हाँ, बदलें", "नहीं"))) return;
+    const btn = f.querySelector(".primary"); btn.disabled = true;
+    try { await S.setCode(v); codeTab(); }
+    catch (x) { document.getElementById("cerr").textContent = x.message; btn.disabled = false; }
   };
-  document.getElementById("fcls").onchange = (e) => { ui.fCls = e.target.value; ui.okHtml = ""; studentsTab(); };
-  const qi = document.getElementById("q");
-  qi.onchange = () => { ui.q = qi.value; ui.okHtml = ""; studentsTab(); };
-
-  app.querySelectorAll(".st").forEach((card) => {
-    const s = students.find((x) => x.uid === card.dataset.uid);
-    card.querySelectorAll("button[data-a]").forEach((b) => (b.onclick = () => act(b.dataset.a, s, b)));
-  });
-}
-
-function pinBox(name, cls, roll, pin) {
-  return `<div class="okbox"><b>${esc(name)}</b> — कक्षा ${esc(cls)}, रोल ${esc(roll)}<br>
-    बच्चे को यह PIN बताएँ:<div class="big" style="margin:8px 0">${esc(pin)}</div>
-    <span class="muted" style="font-size:13px">यह PIN सिर्फ अभी दिखेगा, इसे नोट कर लें। भूल जाएँ तो "नया PIN" बनाएँ।</span></div>`;
-}
-
-async function act(a, s, btn) {
-  try {
-    if (a === "reset") {
-      if (!(await ask(`${s.name} का मोबाइल Reset करें? इसके बाद बच्चा जिस मोबाइल पर पहले login करेगा, वही जुड़ जाएगा।`))) return;
-      btn.disabled = true; await S.resetDevice(s.uid); ui.okHtml = "";
-    } else if (a === "toggle") {
-      if (s.active && !(await ask(`${s.name} को Block करें? वो साइट नहीं खोल पाएगा।`))) return;
-      btn.disabled = true; await S.setActive(s.uid, !s.active); ui.okHtml = "";
-    } else if (a === "pin") {
-      if (!(await ask(`${s.name} का नया PIN बनाएँ? पुराना PIN बंद हो जाएगा और मोबाइल भी Reset हो जाएगा।`))) return;
-      btn.disabled = true;
-      const pin = S.randomPin();
-      await S.newPin(s, pin);
-      ui.okHtml = pinBox(s.name, s.class, s.roll, pin);
-    } else if (a === "del") {
-      if (!(await ask(`${s.name} (कक्षा ${s.class}, रोल ${s.roll}) को पूरी तरह हटाएँ?`))) return;
-      btn.disabled = true; await S.removeStudent(s); ui.okHtml = "";
-    }
-    studentsTab();
-  } catch (e) { alertErr(e); btn.disabled = false; }
 }
 
 // ===================== चैप्टर / वीडियो =====================

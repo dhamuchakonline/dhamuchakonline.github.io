@@ -157,3 +157,5 @@ html,body{height:100%}
 .top{display:block}
 .login-wrap .hero{align-items:flex-start}
 @media (max-width:480px){.ghost .lbl{display:none}.ghost{padding:6px 9px}.school{font-size:14px}.sub{font-size:11px}}
+.dlg-box h3{margin:0 0 4px}
+.dlg-box label{margin-top:10px}

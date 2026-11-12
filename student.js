@@ -34,7 +34,7 @@ function header(showBack) {
 }
 
 async function doLogout() {
-  if (!(await ask("Logout करने के बाद दोबारा खोलने के लिए टीचर से \"Reset मोबाइल\" करवाना होगा। क्या आप सच में Logout करना चाहते हैं?", "हाँ, Logout", "नहीं"))) return;
+  if (!(await ask("Logout करने के बाद दोबारा खोलने के लिए फिर से नाम, कक्षा और स्कूल का UDISE कोड डालना होगा। Logout करें?", "हाँ, Logout", "नहीं"))) return;
   await S.logout();
   me = null;
   Object.keys(cache).forEach((k) => delete cache[k]);
@@ -63,17 +63,17 @@ function loginView(msg = "") {
   </section>
   <section class="card login">
     <h2>स्वागत है 🙏</h2>
-    <p class="muted">अपना क्लास, रोल नंबर और टीचर से मिला PIN डालें।</p>
+    <p class="muted">अपना नाम, कक्षा और स्कूल का UDISE कोड डालें।</p>
     <form id="f">
-      <label>क्लास
+      <label>आपका नाम<input name="sname" required autocomplete="name" maxlength="50"></label>
+      <label>कक्षा
         <select name="cls" required><option value="">चुनें</option>
         ${CLASSES.map((c) => `<option value="${c}">कक्षा ${c}</option>`).join("")}</select></label>
-      <label>रोल नंबर<input name="roll" inputmode="numeric" required autocomplete="off"></label>
-      <label>PIN<input name="pin" type="password" inputmode="numeric" maxlength="6" required autocomplete="off"></label>
+      <label>स्कूल का UDISE कोड<input name="code" inputmode="numeric" required autocomplete="off"></label>
       <div class="err">${esc(msg)}</div>
       <button class="primary" type="submit">पढ़ाई शुरू करें</button>
     </form>
-    ${DEMO ? `<p class="hint">डेमो के लिए: कक्षा 10, रोल नंबर 1, PIN 123456<br><a href="teacher.html">→ टीचर पैनल का डेमो देखें</a></p>` : ""}
+    ${DEMO ? `<p class="hint">डेमो के लिए: कोई भी नाम, कोई भी कक्षा, UDISE कोड 10010203040<br><a href="teacher.html">→ टीचर पैनल का डेमो देखें</a></p>` : ""}
   </section></div>`, false);
   const f = document.getElementById("f");
   f.onsubmit = async (e) => {
@@ -81,7 +81,7 @@ function loginView(msg = "") {
     const btn = f.querySelector("button");
     btn.disabled = true; btn.textContent = "जाँच हो रही है…";
     try {
-      me = await S.studentLogin(f.cls.value, f.roll.value, f.pin.value);
+      me = await S.studentLogin(f.sname.value, f.cls.value, f.code.value);
       setupHistory();       // login पेज history से हट जाता है
       route();
     } catch (err) {
@@ -110,7 +110,7 @@ function homeView() {
 function greet() {
   const st = streamOf(me.stream);
   return `<div class="homehead"><p class="hello">नमस्ते <b>${esc(me.name)}</b> 👋<br>
-    <span class="muted">कक्षा ${esc(me.class)}${hasStreams(me.class) && st ? " · " + st.name + " (" + st.en + ")" : ""} · रोल ${esc(me.roll)}</span></p></div>`;
+    <span class="muted">कक्षा ${esc(me.class)}${hasStreams(me.class) && st ? " · " + st.name + " (" + st.en + ")" : ""}</span></p></div>`;
 }
 
 function streamsView(cls) {
@@ -174,7 +174,7 @@ async function chapterView(cls, stream, sid, id) {
       ? `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(c.youtubeId)}?rel=0&modestbranding=1&playsinline=1&fs=0"
           title="${esc(c.title)}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>`
       : `<div class="novideo">इस चैप्टर का वीडियो जल्द आएगा।<br>तब तक नीचे के नोट्स पढ़ें।</div>`}
-    <div class="wm" id="wm">${esc(me.name)} · कक्षा ${esc(me.class)} · रोल ${esc(me.roll)}</div>
+    <div class="wm" id="wm">${esc(me.name)} · कक्षा ${esc(me.class)}</div>
     <button class="fsbtn" id="fs" aria-label="पूरी स्क्रीन">⛶</button>
   </div>
   <div class="tools"><button class="btn" id="fs2">⛶ पूरी स्क्रीन में देखें</button></div>

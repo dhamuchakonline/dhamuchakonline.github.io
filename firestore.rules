@@ -1,6 +1,4 @@
 rules_version = '2';
-// UHS धामू चक — सुरक्षा नियम
-// इन्हें Firebase Console → Firestore Database → Rules में पूरा paste करके "Publish" दबाएँ।
 service cloud.firestore {
   match /databases/{database}/documents {
 
@@ -10,47 +8,42 @@ service cloud.firestore {
       return signedIn() && exists(/databases/$(database)/documents/teachers/$(request.auth.uid));
     }
 
-    function me() {
-      return get(/databases/$(database)/documents/students/$(request.auth.uid)).data;
+    function sess() {
+      return get(/databases/$(database)/documents/sessions/$(request.auth.uid)).data;
     }
 
-    // बच्चा तभी पढ़ सकता है जब: लिस्ट में हो, चालू हो, और उसी मोबाइल-login से हो जिससे पहली बार जुड़ा था
-    function isActiveStudent() {
+    function isStudent() {
       return signedIn()
-        && exists(/databases/$(database)/documents/students/$(request.auth.uid))
-        && me().active == true
-        && me().boundAuthTime == request.auth.token.auth_time;
+        && exists(/databases/$(database)/documents/sessions/$(request.auth.uid))
+        && exists(/databases/$(database)/documents/access/$(sess().code));
     }
 
-    // टीचर लिस्ट: सिर्फ Firebase Console से बदली जा सकती है
     match /teachers/{uid} {
       allow get: if signedIn() && request.auth.uid == uid;
       allow list, write: if false;
     }
 
-    // रोल नंबर → अंदरूनी login ईमेल (PIN यहाँ नहीं रहता)
-    match /logins/{key} {
+    match /access/{code} {
       allow get: if true;
-      allow list: if isTeacher();
-      allow write: if isTeacher();
+      allow list, write: if isTeacher();
     }
 
-    match /students/{uid} {
+    match /sessions/{uid} {
       allow read: if isTeacher() || (signedIn() && request.auth.uid == uid);
-      allow create, delete: if isTeacher();
-      allow update: if isTeacher()
-        // बच्चा सिर्फ एक बार अपना मोबाइल जोड़ सकता है (जब टीचर ने Reset किया हो / पहली बार)
-        || (signedIn() && request.auth.uid == uid
-            && resource.data.active == true
-            && resource.data.boundAuthTime == null
-            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['boundAuthTime', 'boundAt'])
-            && request.resource.data.boundAuthTime == request.auth.token.auth_time
-            && request.resource.data.boundAt == request.time);
+      allow delete: if isTeacher() || (signedIn() && request.auth.uid == uid);
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['name', 'class', 'code', 'at'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 50
+        && request.resource.data['class'] in ['9', '10', '11', '12']
+        && request.resource.data.code is string
+        && exists(/databases/$(database)/documents/access/$(request.resource.data.code))
+        && request.resource.data.at == request.time;
     }
 
-    // चैप्टर और वीडियो: टीचर सब देख सकते हैं, बच्चा सिर्फ अपनी कक्षा के
     match /chapters/{id} {
-      allow read: if isTeacher() || (isActiveStudent() && resource.data['class'] == me()['class']);
+      allow read: if isTeacher() || (isStudent() && resource.data['class'] == sess()['class']);
       allow write: if isTeacher();
     }
   }
