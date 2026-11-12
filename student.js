@@ -74,7 +74,8 @@ function loginView(msg = "") {
       <button class="primary" type="submit">पढ़ाई शुरू करें</button>
     </form>
     ${DEMO ? `<p class="hint">डेमो के लिए: कोई भी नाम, कोई भी कक्षा, UDISE कोड 10010203040<br><a href="teacher.html">→ टीचर पैनल का डेमो देखें</a></p>` : ""}
-  </section></div>`, false);
+  </section></div>
+  <p class="credit">✨ Created by <b>Ankush Sir</b> · अंकुश सर द्वारा निर्मित</p>`, false);
   const f = document.getElementById("f");
   f.onsubmit = async (e) => {
     e.preventDefault();
