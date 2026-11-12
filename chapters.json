@@ -1958,6 +1958,17 @@
   "notes": "कार्तीय गुणन:\nA × B · A × B = {(a, b) : a ∈ A, b ∈ B} · n(A × B) = n(A) × n(B) · (a, b) ≠ (b, a) — क्रमित युग्म\n\nसम्बन्ध बनाम फलन:\n• सम्बन्ध: A × B का कोई भी उपसमुच्चय · कुल 2^(mn) सम्बन्ध\n• फलन: ऐसा सम्बन्ध जिसमें A के हर अवयव का B में ठीक एक प्रतिबिंब\n\nविशेष फलन:\nग्राफ़\nफलन | परिभाषा | परिसर\nतत्समक | f(x) = x | R\nअचर | f(x) = c | {c}\nमापांक | f(x) = |x| | [0, ∞)\nचिह्न (signum) | x>0: 1, x=0: 0, x<0: −1 | {−1, 0, 1}\nमहत्तम पूर्णांक | f(x) = [x] | Z\n\nफलनों का बीजगणित:\n• (f + g)(x) = f(x) + g(x)\n• (f − g)(x) = f(x) − g(x)\n• (fg)(x) = f(x) · g(x)\n• (f/g)(x) = f(x)/g(x), g(x) ≠ 0\n\nअभ्यास प्रश्न:\n1. A = {1,2}, B = {a,b,c} → n(A × B)? → 6\n2. [−2.5] = ? → −3"
  },
  {
+  "id": "c11_maths_03",
+  "class": "11",
+  "subject": "maths",
+  "number": 3,
+  "title": "त्रिकोणमितीय फलन",
+  "title_en": "Trigonometric Functions",
+  "video": "/class-9/c11/maths/ch03.mp4",
+  "minutes": 3,
+  "notes": "कोण का माप:\nरेडियन और अंश · π रेडियन = 180° · 1 रेडियन ≈ 57°16′ · चाप लंबाई l = r θ (θ रेडियन में)\n\nचिह्न और आवर्तता:\nचतुर्थांश\nचतुर्थांश | धनात्मक फलन\nI (0 – π/2) | सभी\nII (π/2 – π) | sin, cosec\nIII (π – 3π/2) | tan, cot\nIV (3π/2 – 2π) | cos, sec\nआवर्त काल | sin, cos: 2π · tan, cot: π\n\nयोग और अंतर सूत्र:\nदो कोण x, y · sin(x ± y) = sin x cos y ± cos x sin y · cos(x ± y) = cos x cos y ∓ sin x sin y · tan(x + y) = (tan x + tan y) / (1 − tan x tan y)\n\nद्विगुण और त्रिगुण कोण:\n• sin 2x = 2 sin x cos x\n• cos 2x = cos²x − sin²x = 1 − 2sin²x = 2cos²x − 1\n• tan 2x = 2 tan x / (1 − tan²x)\n• sin 3x = 3 sin x − 4 sin³x\n• cos 3x = 4 cos³x − 3 cos x\n\nअभ्यास प्रश्न:\n1. 60° = ? रेडियन → π/3\n2. sin 75° = ? (45° + 30°) → (√3 + 1) / 2√2"
+ },
+ {
   "id": "c11_maths_04",
   "class": "11",
   "subject": "maths",
