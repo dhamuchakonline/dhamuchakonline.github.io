@@ -137,12 +137,34 @@ export async function logout() {
   await F.authM.signOut(F.auth);
 }
 
+// साइट में पहले से रखे चैप्टर + वीडियो (chapters.json, Claude/अंकुश सर इसे अपडेट करते हैं)
+let staticCache = null;
+async function staticChapters() {
+  if (staticCache) return staticCache;
+  try {
+    const r = await fetch("chapters.json?v=" + Math.floor(Date.now() / 600000), { cache: "no-cache" });
+    staticCache = r.ok ? await r.json() : [];
+  } catch { staticCache = []; }
+  return staticCache;
+}
+
 export async function getClassChapters(cls) {
-  if (DEMO) return demo.getClassChapters(cls);
-  const F = await fb();
-  const { collection, query, where, getDocs } = F.fsM;
-  const snap = await getDocs(query(collection(F.db, "chapters"), where("class", "==", cls)));
-  return snap.docs.map((d) => ({ id: d.id, ...d.data() })).sort((a, b) => (a.number || 0) - (b.number || 0));
+  const st = (await staticChapters()).filter((c) => c.class === cls).map((c) => ({ ...c, static: true }));
+  let fs = [];
+  if (DEMO) fs = await demo.getClassChapters(cls);
+  else {
+    const F = await fb();
+    const { collection, query, where, getDocs } = F.fsM;
+    const snap = await getDocs(query(collection(F.db, "chapters"), where("class", "==", cls)));
+    fs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+  }
+  // टीचर पैनल से उसी विषय+नंबर का चैप्टर डाला हो तो उसके नोट्स/link जोड़ दो
+  const out = st.map((c) => {
+    const t = fs.find((f) => f.subject === c.subject && Number(f.number) === Number(c.number));
+    return t ? { ...c, notes: t.notes || c.notes, youtubeId: t.youtubeId || "", fsId: t.id } : c;
+  });
+  fs.forEach((f) => { if (!out.some((c) => c.fsId === f.id)) out.push(f); });
+  return out.sort((a, b) => (a.number || 0) - (b.number || 0));
 }
 
 // ===================== टीचर (Teacher) =====================

@@ -200,3 +200,5 @@ html,body{height:100%}
 .sp-credit b{color:#fde68a}
 .credit{text-align:center;font-size:12.5px;color:#6b7280;margin:18px 0 0}
 .credit b{color:#3f5f8f}
+.player video{position:absolute;inset:0;width:100%;height:100%;background:#000}
+.player .fsbtn{bottom:56px}

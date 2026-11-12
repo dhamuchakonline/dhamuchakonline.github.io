@@ -139,9 +139,9 @@ async function chaptersTab() {
   <section class="section"><h3>कक्षा ${esc(ui.chCls)} — ${esc(subjLabel(subs.find((s) => s.id === ui.chSub)))} (${list.length} चैप्टर)</h3>
     ${list.length ? list.map((c) => `<div class="st" data-id="${esc(c.id)}">
       <div class="t">${esc(c.number)}. ${esc(c.title)}</div>
-      <div class="chips">${c.youtubeId ? `<span class="chip ok">▶ वीडियो जुड़ा</span>` : `<span class="chip">वीडियो नहीं</span>`}
+      <div class="chips">${c.video ? `<span class="chip ok">🎬 साइट पर वीडियो${c.minutes ? " · " + esc(c.minutes) + " मिनट" : ""}</span>` : c.youtubeId ? `<span class="chip ok">▶ वीडियो जुड़ा</span>` : `<span class="chip">वीडियो नहीं</span>`}
         ${c.notes ? `<span class="chip">📝 नोट्स</span>` : ""}</div>
-      <div class="acts"><button class="btn" data-a="edit">✏️ बदलें</button><button class="btn red" data-a="del">🗑 हटाएँ</button></div>
+      ${c.static ? `<div class="muted" style="font-size:12.5px">ये चैप्टर साइट में पहले से जुड़ा है (बदलने के लिए Claude से कहें)</div>` : `<div class="acts"><button class="btn" data-a="edit">✏️ बदलें</button><button class="btn red" data-a="del">🗑 हटाएँ</button></div>`}
     </div>`).join("") : `<div class="empty">अभी कोई चैप्टर नहीं है।</div>`}
   </section>`);
   bindTabs();
@@ -166,6 +166,7 @@ async function chaptersTab() {
 
   app.querySelectorAll(".st[data-id]").forEach((card) => {
     const ch = list.find((x) => x.id === card.dataset.id);
+    if (ch.static) return;
     card.querySelector('[data-a="edit"]').onclick = () => { ui.edit = { ...ch }; chaptersTab(); };
     card.querySelector('[data-a="del"]').onclick = async () => {
       if (!(await ask(`"${ch.title}" चैप्टर हटाएँ?`))) return;

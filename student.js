@@ -149,7 +149,7 @@ async function chapterListView(cls, stream, sid) {
   <div class="chlist">
   ${list.length ? list.map((c) => `<a class="row" href="#c${cls}-${stream}-${sid}-${encodeURIComponent(c.id)}">
       <div class="num">${esc(c.number)}</div>
-      <div><div class="t">${esc(c.title)}</div><div class="c">${c.youtubeId ? "▶ वीडियो उपलब्ध" : "📝 सिर्फ नोट्स"}</div></div>
+      <div><div class="t">${esc(c.title)}</div><div class="c">${c.video || c.youtubeId ? "▶ वीडियो उपलब्ध" + (c.minutes ? ` · ${esc(c.minutes)} मिनट` : "") : "📝 सिर्फ नोट्स"}</div></div>
       <div class="go">›</div></a>`).join("")
     : `<div class="empty">इस विषय के चैप्टर अभी नहीं जुड़े हैं।<br>टीचर जल्द ही जोड़ेंगे।</div>`}
   </div>`);
@@ -171,7 +171,9 @@ async function chapterView(cls, stream, sid, id) {
   render(`<div class="crumb">कक्षा ${esc(cls)}${st ? " › " + st.name : ""} › ${esc(sub ? subjLabel(sub) : sid)}</div>
   <h2>अध्याय ${esc(c.number)}: ${esc(c.title)}</h2>
   <div class="player" id="player">
-    ${c.youtubeId
+    ${c.video
+      ? `<video src="${esc(c.video)}" controls controlsList="nodownload nofullscreen noplaybackrate" disablepictureinpicture playsinline preload="metadata" oncontextmenu="return false"></video>`
+      : c.youtubeId
       ? `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(c.youtubeId)}?rel=0&modestbranding=1&playsinline=1&fs=0"
           title="${esc(c.title)}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>`
       : `<div class="novideo">इस चैप्टर का वीडियो जल्द आएगा।<br>तब तक नीचे के नोट्स पढ़ें।</div>`}
