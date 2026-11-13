@@ -52,3 +52,7 @@
 ## 6. 13 नवंबर 2026 (दिन) — हो गया
 - ✅ काम 2: c11/c12 वीडियो class-11/class-12 में, chapters.json के 177 paths बदले, class-9 से हटाए।
 - ✅ काम 3: publish.py का नया repo-नियम (पुराना वीडियो दूसरी जगह हो तो वहाँ से अपने-आप हटता है; push 3 बार कोशिश)।
+- ✅ काम 4: नमूना वीडियो c9_maths_01 (24 मिनट, 58 scenes, ~2650 शब्द, 17.5 MB) → /class-9-a/maths/ch01.mp4। पुराना class-9 से हटा।
+- सबक़: gTTS हिंदी ≈ 116 शब्द/मिनट (pause समेत)। 20–25 मिनट = ~2500–2800 शब्द narration।
+- build चलाते समय: `PYTHONPATH=/home/claude/videos/scripts bash run.sh <name> <subj> <n>`
+- अगला: सर की हाँ/सुधार का इंतज़ार, फिर काम 5।
