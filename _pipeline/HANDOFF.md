@@ -86,3 +86,4 @@
 - लिमिट अब रात 11:39 PM पर रिसेट होती दिख रही (सर का स्क्रीनशॉट) → 11:41 PM का रिज़्यूम भी लगाया। रिज़्यूम पर: jobs.txt बचा है, अधूरे jobs (log में EXIT 0 नहीं) आगे डालकर 3 worker चालू करो।
 - 20:30: class-10 repo बना (सर), /home/claude/class-10 में clone। publish.py: कक्षा 10 → class-10। रिज़्यूम पर class-10 को भी clone करना (git clone --depth 1 https://github.com/dhamuchakonline/class-10 /home/claude/class-10)।
 - 00:00: English 9, 10 लंबे ✅ queue में (jobs_c10.txt में जोड़े)। watchdog चल रहा (run_in_background, ~115 मिनट); सुबह 4:42 का रिज़्यूम लगा।
+- 14 नवंबर 3:30 AM: queue पूरी — 80 वीडियो बने। कक्षा 10: 57 लंबे class-10 में (गणित 14, विज्ञान 13, SST 26, English 3/8/9/10)। बाक़ी: कक्षा 10 English के 11 पाठ, हिंदी 24, संस्कृत 14 — लंबे स्क्रिप्ट लिखने हैं। कक्षा 9 हिंदी 10, 11, 14, 16, 23 अभी छोटे ही।
