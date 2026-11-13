@@ -53,3 +53,5 @@ c10_sst_ch25 social 25
 c10_sst_ch26 social 26
 c10_eng_ch3 english 3
 c10_eng_ch8 english 8
+c10_eng_ch10 english 10
+c10_eng_ch9 english 9

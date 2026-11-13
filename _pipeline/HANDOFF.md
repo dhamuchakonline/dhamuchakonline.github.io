@@ -85,3 +85,4 @@
 - 20:25: English 3 (Gillu), 8 (Little Girls) लंबे ✅ queue में। English में केवल वे पाठ लिखो जिनकी सामग्री पक्की हो (Me and the Ecology Bit, Indian Films, Unity of Indian Culture, God Made the Country, Ode on Solitude, Martha); बाक़ी (Pace for Living, Acceptance Speech, Polythene Bag, Thinner Than a Crescent, Empty Heart, Koel, Sleeping Porter) पर पहले भरोसेमंद जानकारी देखो।
 - लिमिट अब रात 11:39 PM पर रिसेट होती दिख रही (सर का स्क्रीनशॉट) → 11:41 PM का रिज़्यूम भी लगाया। रिज़्यूम पर: jobs.txt बचा है, अधूरे jobs (log में EXIT 0 नहीं) आगे डालकर 3 worker चालू करो।
 - 20:30: class-10 repo बना (सर), /home/claude/class-10 में clone। publish.py: कक्षा 10 → class-10। रिज़्यूम पर class-10 को भी clone करना (git clone --depth 1 https://github.com/dhamuchakonline/class-10 /home/claude/class-10)।
+- 00:00: English 9, 10 लंबे ✅ queue में (jobs_c10.txt में जोड़े)। watchdog चल रहा (run_in_background, ~115 मिनट); सुबह 4:42 का रिज़्यूम लगा।
