@@ -55,3 +55,5 @@ c10_eng_ch3 english 3
 c10_eng_ch8 english 8
 c10_eng_ch10 english 10
 c10_eng_ch9 english 9
+c10_eng_ch4 english 4
+c10_eng_ch7 english 7
