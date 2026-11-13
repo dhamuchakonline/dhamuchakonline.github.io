@@ -56,3 +56,11 @@
 - सबक़: gTTS हिंदी ≈ 116 शब्द/मिनट (pause समेत)। 20–25 मिनट = ~2500–2800 शब्द narration।
 - build चलाते समय: `PYTHONPATH=/home/claude/videos/scripts bash run.sh <name> <subj> <n>`
 - अगला: सर की हाँ/सुधार का इंतज़ार, फिर काम 5।
+
+## 7. 13 नवंबर 2026, सुबह 8:50 — लंबे वीडियो का काम (सर ने नमूने पर "हाँ" कह दी)
+- ✅ कक्षा 9 गणित 1–15 लंबे (17–24 मिनट) class-9-a में publish। विज्ञान 12–15 और SST 1–10 के लंबे स्क्रिप्ट लिखे जा चुके (scripts/ में), build/publish queue में।
+- बाक़ी (इसी क्रम में): SST 11–26 → English 1–17 → हिंदी → संस्कृत → फिर कक्षा 10, 11, 12। विज्ञान 1–11 पहले से 9–16 मिनट हैं (बाद में चाहें तो बढ़ाएँ)।
+- तरीक़ा: स्क्रिप्ट लिखो (~2000–2400 शब्द, कहानी + हल उदाहरण + सार + 5–6 अभ्यास) → `python3 chk.py <name>` (शब्द गिनती; अक्षर के तुरंत बाद अंक हो तो build उसे subscript बना देता है — CO2 ठीक, P5 ग़लत) → `echo "<name> <subject_id> <n>" >> /home/claude/videos/jobs.txt`।
+- worker: `cd /home/claude/videos; for i in 1 2 3; do PYTHONPATH=/home/claude/videos/scripts nohup bash worker.sh >/dev/null 2>&1 & done`। टर्न रुकने/लिमिट पर worker मर जाते हैं → अधूरे jobs को jobs.txt के आगे जोड़कर फिर चालू करो (build वहीं से आगे बढ़ता है)।
+- सर की लिमिट 1:40 PM पर रिसेट होती है; 1:41 PM का अपने-आप रिज़्यूम लगा है। लिमिट ख़त्म होने से पहले अगला रिज़्यूम (send_later) लगाकर रखो।
+- class-9 के वीडियो c9 के लिए crf 30 / 40k audio (≈11–13 MB प्रति 18 मिनट)। class-9-a में 850 MB तक, फिर अपने-आप class-9-b।

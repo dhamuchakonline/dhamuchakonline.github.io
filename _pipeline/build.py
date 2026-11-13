@@ -184,6 +184,6 @@ final = Path(f"/home/claude/videos/{name}.mp4")
 run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(OUT / "list.txt"), "-c", "copy", "-movflags", "+faststart", str(final)])
 print(f"done {final} {total/60:.1f} min, {final.stat().st_size/1e6:.1f} MB")
 small = Path(f"/home/claude/videos/{name}_web.mp4")
-run(["ffmpeg", "-y", "-v", "error", "-i", str(final), "-c:v", "libx264", "-crf", ("30" if name.startswith(("c11", "c12")) else "28"), "-preset", "veryfast", "-tune", "stillimage",
-     "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", ("40k" if name.startswith(("c11", "c12")) else "48k"), "-ac", "1", "-movflags", "+faststart", str(small)])
+run(["ffmpeg", "-y", "-v", "error", "-i", str(final), "-c:v", "libx264", "-crf", ("30" if name.startswith(("c9", "c11", "c12")) else "28"), "-preset", "veryfast", "-tune", "stillimage",
+     "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", ("40k" if name.startswith(("c9", "c11", "c12")) else "48k"), "-ac", "1", "-movflags", "+faststart", str(small)])
 print(f"web {small} {small.stat().st_size/1e6:.1f} MB")
