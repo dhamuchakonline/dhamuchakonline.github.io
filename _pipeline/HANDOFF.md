@@ -82,3 +82,5 @@
 - ध्यान: कक्षा 10 के ये स्क्रिप्ट ~1400–1700 शब्द (~12–15 मिनट) के हैं, लक्ष्य से थोड़े छोटे। बाद में चाहें तो बढ़ाएँ।
 - gTTS शाम को धीमा (~1 scene/मिनट/worker) → एक वीडियो ≈ 30–35 मिनट।
 - अगला रिज़्यूम: 14 नवंबर 1:41 PM (send_later लगा है)।
+- 20:25: English 3 (Gillu), 8 (Little Girls) लंबे ✅ queue में। English में केवल वे पाठ लिखो जिनकी सामग्री पक्की हो (Me and the Ecology Bit, Indian Films, Unity of Indian Culture, God Made the Country, Ode on Solitude, Martha); बाक़ी (Pace for Living, Acceptance Speech, Polythene Bag, Thinner Than a Crescent, Empty Heart, Koel, Sleeping Porter) पर पहले भरोसेमंद जानकारी देखो।
+- लिमिट अब रात 11:39 PM पर रिसेट होती दिख रही (सर का स्क्रीनशॉट) → 11:41 PM का रिज़्यूम भी लगाया। रिज़्यूम पर: jobs.txt बचा है, अधूरे jobs (log में EXIT 0 नहीं) आगे डालकर 3 worker चालू करो।
