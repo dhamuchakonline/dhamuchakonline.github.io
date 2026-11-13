@@ -63,10 +63,8 @@ if cls == "9":
         vrepo = H / "class-9-a"
     else:
         vrepo = H / "class-9-b"
-elif cls == "10" and oldvid.startswith("/class-9-b/"):
-    vrepo = H / "class-9-b"
-elif cls == "10" and mb(H / "class-9-b") + new_mb < 900:
-    vrepo = H / "class-9-b"                              # कक्षा 10 के लंबे वीडियो: मुख्य repo भर न जाए (14 नवंबर)
+elif cls == "10":
+    vrepo = H / "class-10"                               # 13 नवंबर रात: सर ने class-10 repo बनाया
 elif cls == "11":
     vrepo = H / "class-11"
 elif cls == "12" and subject in ("physics", "chemistry", "biology", "maths"):
