@@ -100,7 +100,7 @@ def git(r, *a):
     x = subprocess.run(["git", "-C", str(r), *a], capture_output=True, text=True)
     if x.returncode: print(x.stdout, x.stderr); raise SystemExit(1)
     return x.stdout
-msg = (f"Add {M['cls']} {M['subject']} {M['chapter']} video\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n"
+msg = (f"Add {M['cls']} {M['subject']} {M['chapter']} video\n\nCo-Authored-By: Claude Fable 5.2 <noreply@anthropic.com>\n"
        "Claude-Session: https://claude.ai/code/session_01JquLfAaPncL65Xbbyr2mSH")
 for r in [x for x in (vrepo, repo, oldrepo) if x] if oldrepo != repo else [vrepo, repo]:   # नया वीडियो → chapters.json → पुराना हटाना
     if r is None: continue
