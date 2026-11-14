@@ -13,3 +13,8 @@
 2. `bash /home/claude/dco/_pipeline/resume.sh` — बाकी repos clone, सामान install, queue और 3 worker यही चालू करता है।
 3. worker 0 हो जाएँ तो resume.sh फिर चलाओ (2 घंटे वाला watchdog लूप भी लगा दो)।
 4. पूरी जानकारी चाहिए तभी `HANDOFF.md` खोलो (बड़ी फ़ाइल है)।
+
+## कहाँ तक हुआ — सर को बताने की ज़रूरत नहीं, खुद पता करो
+- resume.sh खुद `chapters.json` देखकर बने हुए वीडियो छोड़ देता है और सिर्फ़ बचे हुए queue में डालता है।
+- बचे वीडियो: `cat /home/claude/videos/jobs.txt` · स्क्रिप्ट कौन सी बनी: `ls _pipeline/scripts/`
+- नया काम (जैसे अंग्रेज़ी के रुके चैप्टर) तभी जब सर कहें; वरना बस queue पूरा करो।
