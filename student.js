@@ -138,6 +138,7 @@ async function chaptersFor(cls) {
   return cache[cls];
 }
 
+const subT = (c) => { const e = String(c.title_en || "").split(" · ")[0].trim(); return e && e !== c.title ? `<small style="display:block;font-weight:500;opacity:.7;font-size:.85em">${esc(e)}</small>` : ""; };
 const countLabel = (n) => (n ? `${n} चैप्टर` : "जल्द आ रहा है");
 
 // ---------- पन्ने ----------
@@ -204,7 +205,7 @@ async function chapterListView(cls, stream, sid) {
     const p = pctOf(c.id), hasV = c.video || c.youtubeId;
     return `<a class="row${p >= 100 ? " done" : ""}" href="#c${cls}-${stream}-${sid}-${encodeURIComponent(c.id)}">
       <div class="num">${esc(c.number)}</div>
-      <div style="min-width:0"><div class="t">${esc(c.title)}</div><div class="meta">
+      <div style="min-width:0"><div class="t">${esc(c.title)}${subT(c)}</div><div class="meta">
         ${hasV ? `<span class="chip v">▶ वीडियो${c.minutes ? ` · ${esc(c.minutes)} मिनट` : ""}</span>` : `<span class="chip">📝 नोट्स</span>`}
         ${p >= 100 ? `<span class="chip ok">✓ पूरा</span>` : p > 0 ? `<span class="chip">जारी है</span>` : `<span class="chip new">नया</span>`}</div></div>
       <div class="rcol">${ring(p, 44, 5)}${p >= 100 ? "" : `<small>${p ? p + "% पढ़ा" : "शुरू करें"}</small>`}</div></a>`;
@@ -233,7 +234,7 @@ async function chapterView(cls, stream, sid, id) {
   // अगला/पिछला चैप्टर history में नया पन्ना नहीं जोड़ता, ताकि Back सीधे चैप्टर लिस्ट पर जाए
   const p0 = pctOf(c.id);
   render(`<div style="${cvars(sid)}"><div class="crumb">कक्षा ${esc(cls)}${st ? " › " + st.name : ""} › ${esc(sub ? subjLabel(sub) : sid)}</div>
-  <div class="chhead"><div class="num">${esc(c.number)}</div><div><h2>${esc(c.title)}</h2><div class="s">अध्याय ${esc(c.number)}${c.minutes ? ` · ${esc(c.minutes)} मिनट` : ""}</div></div></div>
+  <div class="chhead"><div class="num">${esc(c.number)}</div><div><h2>${esc(c.title)}${subT(c)}</h2><div class="s">अध्याय ${esc(c.number)}${c.minutes ? ` · ${esc(c.minutes)} मिनट` : ""}</div></div></div>
   <div class="player" id="player">
     ${c.video
       ? `<video src="${esc(c.video)}" controls controlsList="nodownload nofullscreen" disablepictureinpicture playsinline preload="metadata" oncontextmenu="return false"></video>`
