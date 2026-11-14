@@ -64,7 +64,14 @@ if cls == "9":
     else:
         vrepo = H / "class-9-b"
 elif cls == "10":
-    vrepo = H / "class-10"                               # 13 नवंबर रात: सर ने class-10 repo बनाया
+    # class-10 (≈950 MB तक; GitHub Pages की सीमा 1 GB), फिर class-10-b (अगर सर ने बना दिया हो)
+    same = next((r for r in ("class-10", "class-10-b") if oldvid.startswith(f"/{r}/")), None)
+    if same:
+        vrepo = H / same
+    elif mb(H / "class-10") + new_mb < 950 or not (H / "class-10-b").exists():
+        vrepo = H / "class-10"
+    else:
+        vrepo = H / "class-10-b"
 elif cls == "11":
     vrepo = H / "class-11"
 elif cls == "12" and subject in ("physics", "chemistry", "biology", "maths"):

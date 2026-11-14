@@ -2,7 +2,7 @@
 # रिज़्यूम: repos, कार्यस्थल, jobs.txt फिर से बनाओ, 3 worker चालू करो
 H=/home/claude
 [ -d $H/dco/.git ] || git clone -q --depth 1 https://github.com/dhamuchakonline/dhamuchakonline.github.io $H/dco
-for r in class-9 class-9-a class-9-b class-10 class-11 class-12; do
+for r in class-9 class-9-a class-9-b class-10 class-10-b class-11 class-12; do
   [ -d $H/$r/.git ] || git clone -q --depth 1 https://github.com/dhamuchakonline/$r $H/$r
   git -C $H/$r pull -q --rebase 2>/dev/null
 done
@@ -14,7 +14,7 @@ pkill -f worker.sh; pkill -f build.py; sleep 1
 python3 - <<'PY'
 import json
 d=json.load(open('/home/claude/dco/chapters.json'))
-done={x['id'] for x in d if any(r in x['video'] for r in ('/class-9-a/','/class-9-b/','/class-10/'))}
+done={x['id'] for x in d if any(r in x['video'] for r in ('/class-9-a/','/class-9-b/','/class-10/','/class-10-b/'))}
 out=[]
 for f in ('/home/claude/dco/_pipeline/jobs_pending.txt','/home/claude/dco/_pipeline/jobs_c10.txt'):
     for l in open(f):
