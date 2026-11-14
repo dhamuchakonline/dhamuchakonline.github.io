@@ -198,3 +198,8 @@ body.stu{
 #splash .sp-bar{animation:spUp .4s 1.4s forwards}
 #splash .sp-bar span{animation:spLoad 4.2s 1.5s ease-in-out forwards}
 #splash .sp-credit{animation:spUp .6s 2.2s forwards}
+
+/* शिक्षा विभाग लोगो */
+#splash .sp-logo{display:block;width:clamp(78px,20vw,110px);height:auto;margin:0 auto 14px;border-radius:50%;
+  box-shadow:0 0 0 4px rgba(255,255,255,.18),0 0 30px rgba(253,230,138,.45);opacity:0;animation:spPop .8s .05s forwards}
+.stu img.blogo{width:44px;height:44px;border-radius:50%;padding:0;background:#fef9c3;box-shadow:0 2px 8px rgba(30,58,138,.25)}

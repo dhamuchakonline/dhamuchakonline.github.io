@@ -59,7 +59,7 @@ function back() { history.back(); }
 function header(showBack) {
   return `<header class="top"><div class="top-in">
     ${showBack ? `<button class="back" id="backbtn" aria-label="पीछे">←</button>` : ""}
-    <div class="brand"><div class="brand-row"><div class="logo">🎓</div><div class="school">${esc(SCHOOL_NAME)}</div></div>
+    <div class="brand"><div class="brand-row"><img class="logo blogo" src="bihar-shiksha.png" alt="शिक्षा विभाग, बिहार सरकार"><div class="school">${esc(SCHOOL_NAME)}</div></div>
       <div class="sub">${esc(TAGLINE)}</div></div>
     ${me ? `<button class="ghost" id="logout" aria-label="Logout">🚪<span class="lbl"> Logout</span></button>` : ""}
   </div>${ticker()}</header>
