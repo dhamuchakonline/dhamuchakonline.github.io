@@ -111,7 +111,7 @@ function loginView(msg = "") {
       <div class="err">${esc(msg)}</div>
       <button class="primary" type="submit">पढ़ाई शुरू करें →</button>
     </form>
-    <div class="sir"><div class="av">👨‍🏫</div><p><b>अंकुश सर</b> का संदेश:<br>रोज़ थोड़ा पढ़ो, पर रोज़ पढ़ो। हर चैप्टर पूरा करो और गोला हरा करो! ✅</p></div>
+    <div class="sir"><div class="av">👨‍🏫</div><p><b>अंकुश सर</b> का संदेश:<br>रोज़ थोड़ा पढ़ो, पर रोज़ पढ़ो। मेहनत करते रहो, सफलता ज़रूर मिलेगी। 📚</p></div>
     ${DEMO ? `<p class="hint">डेमो के लिए: कोई भी नाम, कोई भी कक्षा, UDISE कोड 10010203040<br><a href="teacher.html">→ टीचर पैनल का डेमो देखें</a></p>` : ""}
   </section></div>
   <p class="credit">✨ Created by <b>Ankush Sir</b> · अंकुश सर द्वारा निर्मित</p>`, false);
@@ -241,7 +241,7 @@ async function chapterView(cls, stream, sid, id) {
     <div class="wm" id="wm">${esc(me.name)} · कक्षा ${esc(me.class)}</div>
     <button class="fsbtn" id="fs" aria-label="पूरी स्क्रीन">⛶</button>
   </div>
-  <div class="progline"><span id="pring">${ring(p0, 46, 5)}</span><div class="pl-t" id="ptxt">${p0 >= 100 ? "यह चैप्टर पूरा हो गया ✓" : p0 ? `आपने ${p0}% पढ़ लिया है` : "पढ़ना शुरू करें"}<small>${c.video ? "वीडियो देखते-देखते गोला अपने-आप भरेगा" : "पढ़ लेने पर नीचे का बटन दबाएँ"}</small></div></div>
+  <div class="progline"><span id="pring">${ring(p0, 46, 5)}</span><div class="pl-t" id="ptxt">${p0 >= 100 ? "यह चैप्टर पूरा हो गया ✓" : p0 ? `आपने ${p0}% पढ़ लिया है` : "पढ़ना शुरू करें"}<small>${c.video ? "वीडियो देखने के साथ आपकी प्रगति अपने-आप दर्ज होगी" : "पढ़ लेने पर नीचे का बटन दबाएँ"}</small></div></div>
   <div class="tools"><button class="btn" id="fs2">⛶ पूरी स्क्रीन में देखें</button>${p0 >= 100 ? "" : `<button class="btn okb" id="markdone">✓ पूरा पढ़ लिया</button>`}</div>
   ${notes ? `<section class="card notes"><h3>📝 चैप्टर को कहानी की तरह समझें</h3>${notes}</section>` : ""}
   <div class="pager">
