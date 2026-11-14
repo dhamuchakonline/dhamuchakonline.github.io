@@ -62,3 +62,4 @@ c10_hin_ch2 hindi 2
 c10_hin_ch3 hindi 3
 c10_hin_ch4 hindi 4
 c10_hin_ch5 hindi 5
+c10_hin_ch6 hindi 6
