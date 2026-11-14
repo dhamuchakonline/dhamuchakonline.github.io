@@ -57,3 +57,5 @@ c10_eng_ch10 english 10
 c10_eng_ch9 english 9
 c10_eng_ch4 english 4
 c10_eng_ch7 english 7
+c10_hin_ch1 hindi 1
+c10_hin_ch2 hindi 2
