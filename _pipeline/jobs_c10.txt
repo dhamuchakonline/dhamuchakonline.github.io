@@ -74,3 +74,4 @@ c10_hin_ch14 hindi 14
 c10_hin_ch15 hindi 15
 c10_hin_ch16 hindi 16
 c10_hin_ch17 hindi 17
+c10_hin_ch18 hindi 18
