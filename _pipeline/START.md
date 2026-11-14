@@ -9,6 +9,7 @@
 - स्टूडेंट साइट नया डिज़ाइन: student.css, student.js, school.jpg, नाम "SMART CLASSROOM"।
 
 ## वीडियो काम फिर से चालू करना
-1. repos clone करो (class-9-a, class-9-b, class-10, class-10-b, dco) /home/claude में।
-2. `bash /home/claude/dco/_pipeline/resume.sh` — बाकी सब यही करता है।
-3. पूरी जानकारी चाहिए तभी `HANDOFF.md` खोलो (बड़ी फ़ाइल है)।
+1. dco को /home/claude/dco में clone करो (push चाहिए तो add_repo से dhamuchakonline के repos जोड़ो)।
+2. `bash /home/claude/dco/_pipeline/resume.sh` — बाकी repos clone, सामान install, queue और 3 worker यही चालू करता है।
+3. worker 0 हो जाएँ तो resume.sh फिर चलाओ (2 घंटे वाला watchdog लूप भी लगा दो)।
+4. पूरी जानकारी चाहिए तभी `HANDOFF.md` खोलो (बड़ी फ़ाइल है)।
