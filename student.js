@@ -10,6 +10,39 @@ let wmTimer = null;
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const streamOf = (id) => STREAMS.find((s) => s.id === id);
+document.body.classList.add("stu");
+
+// ---------- रंग (हर विषय का अपना) ----------
+const PAL = [["#6366f1","#8b5cf6"],["#10b981","#34d399"],["#f97316","#fb923c"],["#ec4899","#f472b6"],["#0ea5e9","#38bdf8"],
+  ["#eab308","#f59e0b"],["#ef4444","#f87171"],["#14b8a6","#2dd4bf"],["#a855f7","#c084fc"],["#3b82f6","#60a5fa"]];
+const FIX = { maths: 0, science: 1, social: 2, english: 4, hindi: 6, sanskrit: 5, physics: 9, chemistry: 1, biology: 7, history: 2, geography: 7, polsci: 8, economics: 5 };
+function colorOf(id) {
+  let i = FIX[id];
+  if (i === undefined) { i = 0; for (const ch of String(id)) i = (i * 31 + ch.charCodeAt(0)) % PAL.length; }
+  return PAL[i];
+}
+const cvars = (id) => { const [a, b] = colorOf(id); return `--c1:${a};--c2:${b}`; };
+
+// ---------- पढ़ाई की प्रगति (इसी फ़ोन/कंप्यूटर में सहेजी जाती है) ----------
+const pkey = () => (me ? `dc-prog:${me.class}:${String(me.name).trim().toLowerCase()}` : "dc-prog");
+function loadProg() { try { return JSON.parse(localStorage.getItem(pkey())) || { p: {}, t: {} }; } catch { return { p: {}, t: {} }; } }
+function saveProg(o) { try { localStorage.setItem(pkey(), JSON.stringify(o)); } catch {} }
+const pctOf = (id) => Math.min(100, Math.max(0, Math.round(loadProg().p[id] || 0)));
+
+// गोल प्रगति: 0–99% पर % लिखा, 100% पर हरा ✓
+function ring(pct, size = 46, stroke = 5) {
+  const r = (size - stroke) / 2, c = 2 * Math.PI * r, done = pct >= 100;
+  const off = c * (1 - Math.min(pct, 100) / 100);
+  return `<span class="ring${done ? " done" : ""}" style="width:${size}px;height:${size}px;font-size:${Math.round(size / 3.6)}px">
+    <svg width="${size}" height="${size}"><circle class="bg" cx="${size / 2}" cy="${size / 2}" r="${r}" stroke-width="${stroke}"/>
+    <circle class="fg" cx="${size / 2}" cy="${size / 2}" r="${r}" stroke-width="${stroke}" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg>
+    <span class="rt">${done ? "✓" : pct + "%"}</span></span>`;
+}
+const avg = (arr) => (arr.length ? Math.round(arr.reduce((a, c) => a + pctOf(c.id), 0) / arr.length) : 0);
+
+const TICK = ["🎓 कक्षा 9 से 12 के लिए बिल्कुल फ्री क्लासेस", "✨ Free Classes for Class 9–12 Students · by Ankush Sir",
+  "📚 बिहार बोर्ड सिलेबस · हर चैप्टर का लंबा वीडियो", "🏫 उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक", "🔔 नए वीडियो लगातार जुड़ रहे हैं"];
+const ticker = () => { const t = TICK.map((x) => `<span>${x}</span>`).join(""); return `<div class="ticker" aria-hidden="true"><div class="tk-in">${t}${t}</div></div>`; };
 
 // ---------- Back बटन (फ़ोन का भी) ----------
 // History ऐसे बनती है: #root → #home → #c10 → ... ; फ़ोन से Back दबाने पर एक-एक पन्ना पीछे जाएगा।
@@ -26,10 +59,10 @@ function back() { history.back(); }
 function header(showBack) {
   return `<header class="top"><div class="top-in">
     ${showBack ? `<button class="back" id="backbtn" aria-label="पीछे">←</button>` : ""}
-    <div class="brand"><div class="logo">📚</div>
-      <div><div class="school">${esc(SCHOOL_NAME)}</div><div class="sub">${esc(TAGLINE)}</div></div></div>
+    <div class="brand"><div class="brand-row"><div class="logo">🎓</div><div class="school">${esc(SCHOOL_NAME)}</div></div>
+      <div class="sub">${esc(TAGLINE)}</div></div>
     ${me ? `<button class="ghost" id="logout" aria-label="Logout">🚪<span class="lbl"> Logout</span></button>` : ""}
-  </div></header>
+  </div>${ticker()}</header>
   ${DEMO ? `<div class="demo">डेमो मोड — Firebase जोड़ने पर असली साइट चालू होगी</div>` : ""}`;
 }
 
@@ -57,9 +90,14 @@ function render(html, showBack = true) {
 function loginView(msg = "") {
   render(`<div class="login-wrap">
   <section class="hero">
-    <div class="hero-badge">🎓 बिल्कुल मुफ़्त</div>
-    <h1>ऑनलाइन फ्री क्लास</h1>
-    <p>${esc(SCHOOL_NAME)} के बच्चों के लिए — कक्षा 9 से 12 तक (11–12 में Science, Arts, Commerce), हर विषय, हर चैप्टर, वीडियो और कहानी के साथ।</p>
+    <div><span class="hero-badge">🎓 100% फ्री · कक्षा 9–12</span></div>
+    <h1>पढ़ाई अब <em>आसान</em>,<br>अपनी भाषा में</h1>
+    <p>${esc(SCHOOL_NAME)} के बच्चों के लिए — कक्षा 9 से 12 तक (11–12 में Science, Arts, Commerce), हर विषय, हर चैप्टर, कहानी और उदाहरण के साथ।</p>
+    <div class="feats">
+      <div class="feat"><i>🎬</i>लंबी वीडियो क्लास</div><div class="feat"><i>📝</i>अभ्यास प्रश्न</div>
+      <div class="feat"><i>📘</i>बिहार बोर्ड सिलेबस</div><div class="feat"><i>📱</i>मोबाइल पर कहीं भी</div>
+    </div>
+    <div class="hstats"><div><b>4</b><small>कक्षाएँ</small></div><div><b>100%</b><small>मुफ़्त</small></div><div><b>हिंदी</b><small>में समझाया</small></div></div>
   </section>
   <section class="card login">
     <h2>स्वागत है 🙏</h2>
@@ -71,8 +109,9 @@ function loginView(msg = "") {
         ${CLASSES.map((c) => `<option value="${c}">कक्षा ${c}</option>`).join("")}</select></label>
       <label>स्कूल का UDISE कोड<input name="code" inputmode="numeric" required autocomplete="off"></label>
       <div class="err">${esc(msg)}</div>
-      <button class="primary" type="submit">पढ़ाई शुरू करें</button>
+      <button class="primary" type="submit">पढ़ाई शुरू करें →</button>
     </form>
+    <div class="sir"><div class="av">👨‍🏫</div><p><b>अंकुश सर</b> का संदेश:<br>रोज़ थोड़ा पढ़ो, पर रोज़ पढ़ो। हर चैप्टर पूरा करो और गोला हरा करो! ✅</p></div>
     ${DEMO ? `<p class="hint">डेमो के लिए: कोई भी नाम, कोई भी कक्षा, UDISE कोड 10010203040<br><a href="teacher.html">→ टीचर पैनल का डेमो देखें</a></p>` : ""}
   </section></div>
   <p class="credit">✨ Created by <b>Ankush Sir</b> · अंकुश सर द्वारा निर्मित</p>`, false);
@@ -108,10 +147,19 @@ function homeView() {
   return subjectsView(me.class, stream, true);
 }
 
-function greet() {
+function greet(list = []) {
   const st = streamOf(me.stream);
-  return `<div class="homehead"><p class="hello">नमस्ते <b>${esc(me.name)}</b> 👋<br>
-    <span class="muted">कक्षा ${esc(me.class)}${hasStreams(me.class) && st ? " · " + st.name + " (" + st.en + ")" : ""}</span></p></div>`;
+  const withV = list.filter((c) => c.video || c.youtubeId);
+  const done = list.filter((c) => pctOf(c.id) >= 100).length;
+  const started = list.filter((c) => { const p = pctOf(c.id); return p > 0 && p < 100; }).length;
+  const all = avg(list);
+  return `<section class="welcome"><div class="w-in"><div class="w-txt">
+      <div class="hi">नमस्ते, ${esc(me.name)} 👋</div>
+      <span class="cl">कक्षा ${esc(me.class)}${hasStreams(me.class) && st ? " · " + st.name : ""}</span>
+      <div class="msg">${all >= 100 ? "शाबाश! सब पूरा हो गया 🎉" : all > 0 ? "बढ़िया चल रहा है, आगे बढ़ते रहो! 💪" : "आज से पढ़ाई शुरू करो — पहला चैप्टर खोलो! 🚀"}</div>
+    </div>${list.length ? ring(all, 78, 8) : ""}</div></section>
+  ${list.length ? `<div class="stats"><div class="stat"><b>${withV.length}</b><small>वीडियो क्लास</small></div>
+    <div class="stat"><b>${done}</b><small>पूरे चैप्टर ✓</small></div><div class="stat"><b>${started}</b><small>चल रहे</small></div></div>` : ""}`;
 }
 
 function streamsView(cls) {
@@ -128,12 +176,16 @@ async function subjectsView(cls, stream, isHome = false) {
   let list;
   try { list = await chaptersFor(cls); } catch (e) { return errorView(e); }
   const st = streamOf(stream);
-  render(`${isHome ? greet() : `<div class="crumb">कक्षा ${esc(cls)}${st ? " › " + st.name + " (" + st.en + ")" : ""}</div>`}
+  const tile = (s) => {
+    const ch = list.filter((c) => c.subject === s.id), n = ch.length, p = avg(ch), d = ch.filter((c) => pctOf(c.id) >= 100).length;
+    return `<a class="tile${n ? "" : " soon"}" style="${cvars(s.id)}" href="#c${cls}-${stream}-${s.id}"><div class="ic">${s.icon}</div>
+      <div class="t">${esc(s.name)}</div><div class="en">${esc(s.en)}</div><div class="c">${countLabel(n)}</div>
+      ${n ? `<div class="bar"><i style="width:${p}%"></i></div><div class="pc"><span>${d}/${n} पूरे</span><span>${p >= 100 ? "✓ पूरा" : p + "%"}</span></div>` : ""}</a>`;
+  };
+  render(`${isHome ? greet(list) : `<div class="crumb">कक्षा ${esc(cls)}${st ? " › " + st.name + " (" + st.en + ")" : ""}</div>`}
   <h2>📚 कौन सा विषय पढ़ना है?</h2>
   ${subjectGroups(cls, stream).map((g) => `<h3 class="gtitle">${esc(g.title)}</h3>
-    <div class="grid">${g.items.map((s) => `<a class="tile" href="#c${cls}-${stream}-${s.id}"><div class="ic">${s.icon}</div>
-      <div class="t">${esc(s.name)}</div><div class="en">(${esc(s.en)})</div><div class="c">${countLabel(list.filter((c) => c.subject === s.id).length)}</div></a>`).join("")}
-    </div>`).join("")}
+    <div class="grid">${g.items.map(tile).join("")}</div>`).join("")}
   ${isHome ? `<div class="logout-row"><button class="btn red" data-logout>🚪 Logout करें</button></div>` : ""}`, !isHome);
 }
 
@@ -144,13 +196,21 @@ async function chapterListView(cls, stream, sid) {
   let list;
   try { list = (await chaptersFor(cls)).filter((c) => c.subject === sid); } catch (e) { return errorView(e); }
   const st = streamOf(stream);
-  render(`<div class="crumb">कक्षा ${esc(cls)}${st ? " › " + st.name : ""} › ${esc(subjLabel(sub))}</div>
-  <h2>${sub.icon} ${esc(subjLabel(sub))} — चैप्टर चुनें</h2>
-  <div class="chlist">
-  ${list.length ? list.map((c) => `<a class="row" href="#c${cls}-${stream}-${sid}-${encodeURIComponent(c.id)}">
+  const sp = avg(list), sd = list.filter((c) => pctOf(c.id) >= 100).length;
+  const row = (c) => {
+    const p = pctOf(c.id), hasV = c.video || c.youtubeId;
+    return `<a class="row${p >= 100 ? " done" : ""}" href="#c${cls}-${stream}-${sid}-${encodeURIComponent(c.id)}">
       <div class="num">${esc(c.number)}</div>
-      <div><div class="t">${esc(c.title)}</div><div class="c">${c.video || c.youtubeId ? "▶ वीडियो उपलब्ध" + (c.minutes ? ` · ${esc(c.minutes)} मिनट` : "") : "📝 सिर्फ नोट्स"}</div></div>
-      <div class="go">›</div></a>`).join("")
+      <div style="min-width:0"><div class="t">${esc(c.title)}</div><div class="meta">
+        ${hasV ? `<span class="chip v">▶ वीडियो${c.minutes ? ` · ${esc(c.minutes)} मिनट` : ""}</span>` : `<span class="chip">📝 नोट्स</span>`}
+        ${p >= 100 ? `<span class="chip ok">✓ पूरा</span>` : p > 0 ? `<span class="chip">जारी है</span>` : `<span class="chip new">नया</span>`}</div></div>
+      <div class="rcol">${ring(p, 44, 5)}${p >= 100 ? "" : `<small>${p ? p + "% पढ़ा" : "शुरू करें"}</small>`}</div></a>`;
+  };
+  render(`<div class="crumb">कक्षा ${esc(cls)}${st ? " › " + st.name : ""} › ${esc(subjLabel(sub))}</div>
+  <section class="subhead" style="${cvars(sid)}"><div class="ic">${sub.icon}</div>
+    <div class="tx"><div class="t">${esc(subjLabel(sub))}</div><div class="s">${list.length} चैप्टर · ${sd} पूरे</div></div>${list.length ? ring(sp, 62, 7) : ""}</section>
+  <div class="chlist" style="${cvars(sid)}">
+  ${list.length ? list.map(row).join("")
     : `<div class="empty">इस विषय के चैप्टर अभी नहीं जुड़े हैं।<br>टीचर जल्द ही जोड़ेंगे।</div>`}
   </div>`);
 }
@@ -168,8 +228,9 @@ async function chapterView(cls, stream, sid, id) {
     .map((p) => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`).join("");
   const st = streamOf(stream);
   // अगला/पिछला चैप्टर history में नया पन्ना नहीं जोड़ता, ताकि Back सीधे चैप्टर लिस्ट पर जाए
-  render(`<div class="crumb">कक्षा ${esc(cls)}${st ? " › " + st.name : ""} › ${esc(sub ? subjLabel(sub) : sid)}</div>
-  <h2>अध्याय ${esc(c.number)}: ${esc(c.title)}</h2>
+  const p0 = pctOf(c.id);
+  render(`<div style="${cvars(sid)}"><div class="crumb">कक्षा ${esc(cls)}${st ? " › " + st.name : ""} › ${esc(sub ? subjLabel(sub) : sid)}</div>
+  <div class="chhead"><div class="num">${esc(c.number)}</div><div><h2>${esc(c.title)}</h2><div class="s">अध्याय ${esc(c.number)}${c.minutes ? ` · ${esc(c.minutes)} मिनट` : ""}</div></div></div>
   <div class="player" id="player">
     ${c.video
       ? `<video src="${esc(c.video)}" controls controlsList="nodownload nofullscreen noplaybackrate" disablepictureinpicture playsinline preload="metadata" oncontextmenu="return false"></video>`
@@ -180,12 +241,40 @@ async function chapterView(cls, stream, sid, id) {
     <div class="wm" id="wm">${esc(me.name)} · कक्षा ${esc(me.class)}</div>
     <button class="fsbtn" id="fs" aria-label="पूरी स्क्रीन">⛶</button>
   </div>
-  <div class="tools"><button class="btn" id="fs2">⛶ पूरी स्क्रीन में देखें</button></div>
+  <div class="progline"><span id="pring">${ring(p0, 46, 5)}</span><div class="pl-t" id="ptxt">${p0 >= 100 ? "यह चैप्टर पूरा हो गया ✓" : p0 ? `आपने ${p0}% पढ़ लिया है` : "पढ़ना शुरू करें"}<small>${c.video ? "वीडियो देखते-देखते गोला अपने-आप भरेगा" : "पढ़ लेने पर नीचे का बटन दबाएँ"}</small></div></div>
+  <div class="tools"><button class="btn" id="fs2">⛶ पूरी स्क्रीन में देखें</button>${p0 >= 100 ? "" : `<button class="btn okb" id="markdone">✓ पूरा पढ़ लिया</button>`}</div>
   ${notes ? `<section class="card notes"><h3>📝 चैप्टर को कहानी की तरह समझें</h3>${notes}</section>` : ""}
   <div class="pager">
     ${prev ? `<button class="btn" data-swap="${esc(base + encodeURIComponent(prev.id))}">← पिछला चैप्टर</button>` : "<span></span>"}
     ${next ? `<button class="btn dark" data-swap="${esc(base + encodeURIComponent(next.id))}">अगला चैप्टर →</button>` : "<span></span>"}
-  </div>`);
+  </div></div>`);
+  // प्रगति: वीडियो जितना देखा, उतना % (और जहाँ छोड़ा वहीं से फिर शुरू)
+  const setP = (pct) => {
+    const o = loadProg(); const old = o.p[c.id] || 0; if (pct <= old && pct < 100) return;
+    o.p[c.id] = Math.max(old, pct); saveProg(o);
+    const p = Math.min(100, Math.round(o.p[c.id]));
+    document.getElementById("pring").innerHTML = ring(p, 46, 5);
+    document.getElementById("ptxt").firstChild.textContent = p >= 100 ? "यह चैप्टर पूरा हो गया ✓" : `आपने ${p}% पढ़ लिया है`;
+    if (p >= 100) document.getElementById("markdone")?.remove();
+  };
+  const md = document.getElementById("markdone");
+  if (md) md.onclick = () => setP(100);
+  const vid = app.querySelector(".player video");
+  if (vid) {
+    let last = 0;
+    vid.addEventListener("loadedmetadata", () => {
+      const t = loadProg().t[c.id] || 0;
+      if (t > 15 && t < vid.duration - 20) vid.currentTime = t;
+    });
+    vid.addEventListener("timeupdate", () => {
+      if (!vid.duration || Date.now() - last < 4000) return;
+      last = Date.now();
+      const o = loadProg(); o.t[c.id] = vid.currentTime; saveProg(o);
+      const pct = vid.currentTime / vid.duration * 100;
+      setP(pct >= 95 ? 100 : Math.floor(pct));
+    });
+    vid.addEventListener("ended", () => setP(100));
+  }
   app.querySelectorAll("[data-swap]").forEach((b) => (b.onclick = () => { history.replaceState(null, "", b.dataset.swap); route(); }));
 
   // नाम वाला निशान वीडियो पर घूमता रहेगा (screen record करने वाले की पहचान के लिए)
