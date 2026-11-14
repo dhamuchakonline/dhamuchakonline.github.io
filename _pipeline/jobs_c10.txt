@@ -87,3 +87,4 @@ c10_san_ch3 sanskrit 3
 c10_san_ch4 sanskrit 4
 c10_san_ch5 sanskrit 5
 c10_san_ch6 sanskrit 6
+c10_san_ch7 sanskrit 7
