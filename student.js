@@ -86,9 +86,14 @@ function render(html, showBack = true) {
   window.scrollTo(0, 0);
 }
 
+// ---------- स्कूल फोटो ----------
+const schoolPic = (small) => `<figure class="schoolpic${small ? " sm" : ""}"><img src="school.jpg" alt="उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक" loading="lazy" decoding="async">
+  <figcaption><b>उत्क्रमित उच्च माध्यमिक (+2) विद्यालय, धामुचक</b><span>अंचल रजौली · जिला नवादा · बिहार</span></figcaption></figure>`;
+
 // ---------- Login ----------
 function loginView(msg = "") {
   render(`<div class="login-wrap">
+  ${schoolPic()}
   <section class="hero">
     <div><span class="hero-badge">🎓 100% फ्री · कक्षा 9–12</span></div>
     <h1>पढ़ाई अब <em>आसान</em>,<br>अपनी भाषा में</h1>
@@ -186,7 +191,7 @@ async function subjectsView(cls, stream, isHome = false) {
   <h2>📚 कौन सा विषय पढ़ना है?</h2>
   ${subjectGroups(cls, stream).map((g) => `<h3 class="gtitle">${esc(g.title)}</h3>
     <div class="grid">${g.items.map(tile).join("")}</div>`).join("")}
-  ${isHome ? `<div class="logout-row"><button class="btn red" data-logout>🚪 Logout करें</button></div>` : ""}`, !isHome);
+  ${isHome ? `${schoolPic(true)}<div class="logout-row"><button class="btn red" data-logout>🚪 Logout करें</button></div>` : ""}`, !isHome);
 }
 
 async function chapterListView(cls, stream, sid) {
