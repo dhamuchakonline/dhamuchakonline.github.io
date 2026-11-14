@@ -82,3 +82,4 @@ c10_hin_ch22 hindi 22
 c10_hin_ch23 hindi 23
 c10_hin_ch24 hindi 24
 c10_san_ch1 sanskrit 1
+c10_san_ch2 sanskrit 2
