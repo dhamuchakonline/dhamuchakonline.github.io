@@ -116,7 +116,7 @@ function loginView(msg = "") {
       <div class="err">${esc(msg)}</div>
       <button class="primary" type="submit">पढ़ाई शुरू करें →</button>
     </form>
-    <div class="sir"><div class="av">👨‍🏫</div><p><b>अंकुश सर</b> (अंग्रेज़ी शिक्षक) का संदेश:<br>रोज़ थोड़ा पढ़ो, पर रोज़ पढ़ो। मेहनत करते रहो, सफलता ज़रूर मिलेगी। 📚</p></div>
+    <div class="sir"><div class="av">👨‍🏫</div><p><b>पंकज सर</b> (प्रधानाध्यापक) का संदेश:<br>रोज़ थोड़ा पढ़ो, पर रोज़ पढ़ो। मेहनत करते रहो, सफलता ज़रूर मिलेगी। 📚</p></div>
     ${DEMO ? `<p class="hint">डेमो के लिए: कोई भी नाम, कोई भी कक्षा, UDISE कोड 10010203040<br><a href="teacher.html">→ टीचर पैनल का डेमो देखें</a></p>` : ""}
   </section></div>
   <p class="credit">🏫 प्रस्तुति: <b>उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</b><br>💻 वेबसाइट: अंकुश सर (अंग्रेज़ी शिक्षक)</p>`, false);
