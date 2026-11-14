@@ -1,27 +1,27 @@
 /* ===== बच्चों वाली साइट का नया रूप (14 नवंबर 2026) — सिर्फ़ index.html में लगता है, टीचर पैनल पर असर नहीं ===== */
 body.stu{
-  --p:#5b4bdb;--p2:#8b5cf6;--acc:#ff8a3d;--ok:#16a34a;--ink:#1e1b3a;--mut:#6b6a85;--line:#ebe8f7;
+  --p:#4338ca;--p2:#2563eb;--acc:#ff8a3d;--ok:#16a34a;--ink:#1e1b3a;--mut:#6b6a85;--line:#ebe8f7;
   font-family:"Poppins","Noto Sans Devanagari",system-ui,sans-serif;color:var(--ink);
-  background:radial-gradient(1200px 500px at 10% -10%,#efe9ff 0%,transparent 60%),radial-gradient(900px 500px at 110% 0%,#ffeede 0%,transparent 55%),#f7f6fd;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520'%3E%3Cg fill='none' stroke='%234338ca' stroke-opacity='.07' stroke-width='1.5'%3E%3Cpath d='M0 120 L120 0 M0 260 L260 0 M260 520 L520 260 M400 520 L520 400'/%3E%3Ccircle cx='430' cy='90' r='46'/%3E%3Crect x='60' y='360' width='70' height='70' rx='14' transform='rotate(18 95 395)'/%3E%3Cpath d='M300 200 l24 -40 l24 40 z'/%3E%3C/g%3E%3Cg fill='%230d9488' fill-opacity='.06'%3E%3Cpolygon points='520,0 520,150 380,0'/%3E%3Cpolygon points='0,520 0,400 130,520'/%3E%3C/g%3E%3C/svg%3E"),radial-gradient(circle,rgba(67,56,202,.10) 1px,transparent 1.4px) 0 0/22px 22px,radial-gradient(1100px 520px at 0% -10%,#e0e7ff 0%,transparent 60%),radial-gradient(900px 520px at 105% 0%,#ccfbf1 0%,transparent 55%),radial-gradient(800px 500px at 50% 110%,#fef3c7 0%,transparent 60%),#f5f7ff;
   background-attachment:fixed;min-height:100vh}
 
 /* --- ऊपर की पट्टी: स्कूल का नाम बीच में --- */
 .stu .top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  box-shadow:0 1px 0 var(--line),0 6px 20px rgba(91,75,219,.08);color:var(--ink);padding:0}
+  box-shadow:0 1px 0 var(--line),0 6px 20px rgba(67,56,202,.08);color:var(--ink);padding:0}
 .stu .top-in{display:grid;grid-template-columns:48px 1fr 48px;align-items:center;gap:8px;padding:10px 12px;max-width:1180px;margin:0 auto}
 .stu .brand{grid-column:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px;min-width:0}
 .stu .brand-row{display:flex;align-items:center;justify-content:center;gap:10px;min-width:0}
 .stu .logo{width:38px;height:38px;flex:none;border-radius:12px;font-size:19px;display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--p),var(--p2));box-shadow:0 4px 12px rgba(91,75,219,.35)}
+  background:linear-gradient(135deg,var(--p),var(--p2));box-shadow:0 4px 12px rgba(67,56,202,.35)}
 .stu .school{font-weight:800;font-size:clamp(15px,3.6vw,22px);line-height:1.25;
-  background:linear-gradient(90deg,#4338ca,#7c3aed 55%,#db2777);-webkit-background-clip:text;background-clip:text;color:transparent}
+  background:linear-gradient(90deg,#4338ca,#2563eb 55%,#0d9488);-webkit-background-clip:text;background-clip:text;color:transparent}
 .stu .sub{font-size:clamp(11px,2.6vw,13px);color:var(--mut);opacity:1;font-weight:600}
 .stu .back{grid-column:1;width:40px;height:40px;border-radius:12px;border:0;background:#f1eefe;color:var(--p);font-size:20px;font-weight:700}
 .stu .ghost{grid-column:3;justify-self:end;width:40px;height:40px;padding:0;border-radius:12px;border:0;background:#fff1e8;color:#c2410c;font-size:17px}
 .stu .ghost .lbl{display:none}
 
 /* --- चलती पट्टी (ticker) --- */
-.ticker{position:relative;overflow:hidden;background:linear-gradient(90deg,#4f46e5,#7c3aed 50%,#db2777);color:#fff;font-size:13.5px;font-weight:700;white-space:nowrap}
+.ticker{position:relative;overflow:hidden;background:linear-gradient(90deg,#4f46e5,#2563eb 50%,#0d9488);color:#fff;font-size:13.5px;font-weight:700;white-space:nowrap}
 .ticker .tk-in{display:inline-flex;gap:48px;padding:7px 0;animation:tk 28s linear infinite;will-change:transform}
 .ticker span{display:inline-flex;align-items:center;gap:8px}
 @keyframes tk{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -31,11 +31,11 @@ body.stu{
 .stu h2{font-size:clamp(19px,4.4vw,24px);font-weight:800;margin:10px 0 14px}
 .stu .crumb{display:inline-flex;flex-wrap:wrap;gap:4px;font-size:12.5px;font-weight:700;color:var(--p);background:#efecff;padding:4px 12px;border-radius:99px;margin-bottom:6px}
 .stu .loading{color:var(--mut)}
-.stu .card{border:1px solid var(--line);border-radius:20px;box-shadow:0 8px 30px rgba(91,75,219,.08);background:#fff}
+.stu .card{border:1px solid var(--line);border-radius:20px;box-shadow:0 8px 30px rgba(67,56,202,.08);background:#fff}
 
 /* --- नमस्ते + प्रगति वाला कार्ड --- */
 .welcome{position:relative;overflow:hidden;border-radius:22px;padding:20px;color:#fff;margin:4px 0 18px;
-  background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#c026d3 100%);box-shadow:0 14px 34px rgba(91,75,219,.32)}
+  background:linear-gradient(135deg,#4f46e5 0%,#2563eb 55%,#0891b2 100%);box-shadow:0 14px 34px rgba(67,56,202,.32)}
 .welcome:before,.welcome:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.12)}
 .welcome:before{width:220px;height:220px;right:-60px;top:-80px}
 .welcome:after{width:140px;height:140px;right:90px;bottom:-70px;background:rgba(255,255,255,.08)}
@@ -48,7 +48,7 @@ body.stu{
 .welcome .ring circle.bg{stroke:rgba(255,255,255,.25)}
 .welcome .ring circle.fg{stroke:#fde047}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 20px}
-.stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px 10px;text-align:center;box-shadow:0 4px 16px rgba(91,75,219,.06)}
+.stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px 10px;text-align:center;box-shadow:0 4px 16px rgba(67,56,202,.06)}
 .stat b{display:block;font-size:22px;font-weight:800;line-height:1.2}
 .stat small{font-size:12px;color:var(--mut);font-weight:600}
 .stat:nth-child(1) b{color:#4f46e5}.stat:nth-child(2) b{color:var(--ok)}.stat:nth-child(3) b{color:#ea580c}
@@ -67,7 +67,7 @@ body.stu{
 
 /* --- विषय के कार्ड --- */
 .stu .gtitle{display:flex;align-items:center;gap:8px;border:0;padding:0;margin:22px 0 12px;font-size:15px;font-weight:800;color:#3b3663}
-.stu .gtitle:before{content:"";width:6px;height:20px;border-radius:6px;background:linear-gradient(180deg,var(--p),#db2777)}
+.stu .gtitle:before{content:"";width:6px;height:20px;border-radius:6px;background:linear-gradient(180deg,var(--p),#0d9488)}
 .stu .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
 .stu .tile{background:#fff!important;border:1px solid var(--line);border-radius:20px;padding:16px 14px 14px;overflow:hidden;
   box-shadow:0 6px 22px rgba(30,27,58,.06);transition:transform .18s ease,box-shadow .18s ease}
@@ -100,7 +100,7 @@ body.stu{
 .stu .chlist{display:grid;grid-template-columns:1fr;gap:10px}
 .stu .row{margin:0;border:1px solid var(--line);border-radius:18px;padding:12px 14px;background:#fff;box-shadow:0 4px 16px rgba(30,27,58,.05);transition:transform .15s,box-shadow .15s}
 .stu .row:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(30,27,58,.1)}
-.stu .row .num{width:42px;height:42px;border-radius:14px;color:#fff;font-size:16px;background:linear-gradient(135deg,var(--c1,#6366f1),var(--c2,#8b5cf6))}
+.stu .row .num{width:42px;height:42px;border-radius:14px;color:#fff;font-size:16px;background:linear-gradient(135deg,var(--c1,#6366f1),var(--c2,#2563eb))}
 .stu .row .t{font-weight:700;font-size:15px}
 .stu .row .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
 .chip{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:99px;background:#f2f0fb;color:#5a557a}
@@ -131,7 +131,7 @@ body.stu{
 /* --- Login / स्वागत पन्ना --- */
 .stu .login-wrap{display:grid;gap:18px;margin-top:6px}
 .stu .hero{position:relative;overflow:hidden;margin:0;border:0;border-radius:24px;padding:24px 20px;color:#fff;
-  background:linear-gradient(140deg,#312e81 0%,#5b21b6 45%,#be185d 100%);box-shadow:0 18px 40px rgba(76,29,149,.35)}
+  background:linear-gradient(140deg,#312e81 0%,#1d4ed8 45%,#0f766e 100%);box-shadow:0 18px 40px rgba(30,58,138,.35)}
 .stu .hero:before{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-110px;top:-120px;background:rgba(255,255,255,.1)}
 .stu .hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;left:-60px;bottom:-90px;background:rgba(253,224,71,.15)}
 .stu .hero>*{position:relative}
@@ -150,7 +150,7 @@ body.stu{
 .stu label{color:#3b3663}
 .stu input,.stu select{border:1.5px solid #e4e0f5;border-radius:14px;background:#faf9ff;padding:13px 14px}
 .stu input:focus,.stu select:focus{outline:3px solid #ddd6fe;border-color:var(--p);background:#fff}
-.stu .primary{border-radius:16px;padding:15px;font-size:17px;background:linear-gradient(135deg,#4f46e5,#7c3aed 60%,#db2777);box-shadow:0 12px 24px -8px #7c3aed}
+.stu .primary{border-radius:16px;padding:15px;font-size:17px;background:linear-gradient(135deg,#4f46e5,#2563eb 60%,#0d9488);box-shadow:0 12px 24px -8px #2563eb}
 .stu .credit{color:var(--mut)}
 .stu .credit b{color:var(--p)}
 .sir{display:flex;align-items:center;gap:12px;margin-top:14px;padding:12px;border-radius:16px;background:#faf8ff;border:1px dashed #d8d1f5}
@@ -167,3 +167,14 @@ body.stu{
 .stu .demo{background:#fff7ed;color:#9a3412}
 .foot{text-align:center;margin-top:30px;font-size:12.5px;color:var(--mut)}
 .foot b{color:var(--p)}
+
+/* splash — नया रंग */
+#splash{background:radial-gradient(circle at 18% 12%,#1e3a8a 0%,transparent 55%),radial-gradient(circle at 85% 88%,#115e59 0%,transparent 55%),linear-gradient(160deg,#0b1437,#0a1a3a 55%,#062a2e)}
+#splash .b1{background:#4338ca;opacity:.4}#splash .b2{background:#0d9488;opacity:.38}#splash .b3{background:#f59e0b;opacity:.22}
+#splash .sp-grid{background-image:linear-gradient(rgba(147,197,253,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(147,197,253,.07) 1px,transparent 1px)}
+#splash .sp-title{background:linear-gradient(90deg,#93c5fd,#5eead4,#fcd34d,#93c5fd);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 2px 10px rgba(94,234,212,.35));animation:spUp .7s .25s forwards, spShine 3s linear infinite}
+#splash .sp-uhs{text-shadow:0 0 14px rgba(94,234,212,.55),0 0 36px rgba(37,99,235,.5);animation:spPop .7s .85s forwards}
+#splash .sp-by{color:#a5b4fc}#splash .sp-for{color:#99f6e4}
+#splash .sp-bar span{background:linear-gradient(90deg,#60a5fa,#2dd4bf,#fbbf24);box-shadow:0 0 10px rgba(45,212,191,.6)}
+#splash .sp-credit{color:#cbd5e1}#splash .sp-credit b{color:#fcd34d}

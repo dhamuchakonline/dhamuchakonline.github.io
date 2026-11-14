@@ -40,7 +40,7 @@ function ring(pct, size = 46, stroke = 5) {
 }
 const avg = (arr) => (arr.length ? Math.round(arr.reduce((a, c) => a + pctOf(c.id), 0) / arr.length) : 0);
 
-const TICK = ["🎓 कक्षा 9 से 12 के लिए बिल्कुल फ्री क्लासेस", "✨ Free Classes for Class 9–12 Students · by Ankush Sir",
+const TICK = ["🎓 कक्षा 9 से 12 के लिए बिल्कुल फ्री क्लासेस", "✨ Free Classes for Class 9–12 Students", "💻 वेबसाइट: अंकुश सर (अंग्रेज़ी शिक्षक)",
   "📚 बिहार बोर्ड सिलेबस · हर चैप्टर का लंबा वीडियो", "🏫 उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक", "🔔 नए वीडियो लगातार जुड़ रहे हैं"];
 const ticker = () => { const t = TICK.map((x) => `<span>${x}</span>`).join(""); return `<div class="ticker" aria-hidden="true"><div class="tk-in">${t}${t}</div></div>`; };
 
@@ -111,10 +111,10 @@ function loginView(msg = "") {
       <div class="err">${esc(msg)}</div>
       <button class="primary" type="submit">पढ़ाई शुरू करें →</button>
     </form>
-    <div class="sir"><div class="av">👨‍🏫</div><p><b>अंकुश सर</b> का संदेश:<br>रोज़ थोड़ा पढ़ो, पर रोज़ पढ़ो। मेहनत करते रहो, सफलता ज़रूर मिलेगी। 📚</p></div>
+    <div class="sir"><div class="av">👨‍🏫</div><p><b>अंकुश सर</b> (अंग्रेज़ी शिक्षक) का संदेश:<br>रोज़ थोड़ा पढ़ो, पर रोज़ पढ़ो। मेहनत करते रहो, सफलता ज़रूर मिलेगी। 📚</p></div>
     ${DEMO ? `<p class="hint">डेमो के लिए: कोई भी नाम, कोई भी कक्षा, UDISE कोड 10010203040<br><a href="teacher.html">→ टीचर पैनल का डेमो देखें</a></p>` : ""}
   </section></div>
-  <p class="credit">✨ Created by <b>Ankush Sir</b> · अंकुश सर द्वारा निर्मित</p>`, false);
+  <p class="credit">🏫 प्रस्तुति: <b>उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</b><br>💻 वेबसाइट: अंकुश सर (अंग्रेज़ी शिक्षक)</p>`, false);
   const f = document.getElementById("f");
   f.onsubmit = async (e) => {
     e.preventDefault();
@@ -154,7 +154,7 @@ function greet(list = []) {
   const started = list.filter((c) => { const p = pctOf(c.id); return p > 0 && p < 100; }).length;
   const all = avg(list);
   return `<section class="welcome"><div class="w-in"><div class="w-txt">
-      <div class="hi">नमस्ते, ${esc(me.name)} 👋</div>
+      <div class="hi">आज क्या पढ़ेंगे, ${esc(me.name)}? 📖</div>
       <span class="cl">कक्षा ${esc(me.class)}${hasStreams(me.class) && st ? " · " + st.name : ""}</span>
       <div class="msg">${all >= 100 ? "शाबाश! सब पूरा हो गया 🎉" : all > 0 ? "बढ़िया चल रहा है, आगे बढ़ते रहो! 💪" : "आज से पढ़ाई शुरू करो — पहला चैप्टर खोलो! 🚀"}</div>
     </div>${list.length ? ring(all, 78, 8) : ""}</div></section>
