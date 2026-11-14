@@ -40,8 +40,8 @@ function ring(pct, size = 46, stroke = 5) {
 }
 const avg = (arr) => (arr.length ? Math.round(arr.reduce((a, c) => a + pctOf(c.id), 0) / arr.length) : 0);
 
-const TICK = ["🎓 कक्षा 9 से 12 के लिए बिल्कुल फ्री क्लासेस", "✨ Free Classes for Class 9–12 Students", "💻 वेबसाइट: अंकुश सर (अंग्रेज़ी शिक्षक)",
-  "📚 बिहार बोर्ड सिलेबस · हर चैप्टर का लंबा वीडियो", "🏫 उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक", "🔔 नए वीडियो लगातार जुड़ रहे हैं"];
+const TICK = ["🎓 Class 9–12 · एकदम फ्री, कोई टेंशन नहीं", "✨ Free Classes · Zero Fees · Full Vibes", "💻 Built with 💙 by Ankush Sir",
+  "📚 Bihar Board · हर चैप्टर की लंबी वीडियो क्लास", "🏫 Presented by UHS Dhamuchak", "🔥 नए वीडियो रोज़ आ रहे हैं — जुड़े रहो"];
 const ticker = () => { const t = TICK.map((x) => `<span>${x}</span>`).join(""); return `<div class="ticker" aria-hidden="true"><div class="tk-in">${t}${t}</div></div>`; };
 
 // ---------- Back बटन (फ़ोन का भी) ----------
@@ -119,7 +119,7 @@ function loginView(msg = "") {
     <div class="sir"><div class="av">👨‍🏫</div><p><b>पंकज सर</b> (प्रधानाध्यापक) का संदेश:<br>रोज़ थोड़ा पढ़ो, पर रोज़ पढ़ो। मेहनत करते रहो, सफलता ज़रूर मिलेगी। 📚</p></div>
     ${DEMO ? `<p class="hint">डेमो के लिए: कोई भी नाम, कोई भी कक्षा, UDISE कोड 10010203040<br><a href="teacher.html">→ टीचर पैनल का डेमो देखें</a></p>` : ""}
   </section></div>
-  <p class="credit">🏫 प्रस्तुति: <b>उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</b><br>💻 वेबसाइट: अंकुश सर (अंग्रेज़ी शिक्षक)</p>`, false);
+  <p class="credit">🏫 प्रस्तुति: <b>उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</b><br>💻 Built with 💙 by <b>Ankush Sir</b></p>`, false);
   const f = document.getElementById("f");
   f.onsubmit = async (e) => {
     e.preventDefault();
@@ -238,7 +238,7 @@ async function chapterView(cls, stream, sid, id) {
   <div class="chhead"><div class="num">${esc(c.number)}</div><div><h2>${esc(c.title)}</h2><div class="s">अध्याय ${esc(c.number)}${c.minutes ? ` · ${esc(c.minutes)} मिनट` : ""}</div></div></div>
   <div class="player" id="player">
     ${c.video
-      ? `<video src="${esc(c.video)}" controls controlsList="nodownload nofullscreen noplaybackrate" disablepictureinpicture playsinline preload="metadata" oncontextmenu="return false"></video>`
+      ? `<video src="${esc(c.video)}" controls controlsList="nodownload nofullscreen" disablepictureinpicture playsinline preload="metadata" oncontextmenu="return false"></video>`
       : c.youtubeId
       ? `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(c.youtubeId)}?rel=0&modestbranding=1&playsinline=1&fs=0"
           title="${esc(c.title)}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>`
@@ -246,6 +246,7 @@ async function chapterView(cls, stream, sid, id) {
     <div class="wm" id="wm">${esc(me.name)} · कक्षा ${esc(me.class)}</div>
     <button class="fsbtn" id="fs" aria-label="पूरी स्क्रीन">⛶</button>
   </div>
+  ${c.video ? `<div class="speeds" id="speeds"><span>⚡ Speed</span>${[0.5,0.75,1,1.25,1.5,2,3].map((x) => `<button class="sp${x === 1 ? " on" : ""}" data-r="${x}">${x}×</button>`).join("")}</div>` : ""}
   <div class="progline"><span id="pring">${ring(p0, 46, 5)}</span><div class="pl-t" id="ptxt">${p0 >= 100 ? "यह चैप्टर पूरा हो गया ✓" : p0 ? `आपने ${p0}% पढ़ लिया है` : "पढ़ना शुरू करें"}<small>${c.video ? "वीडियो देखने के साथ आपकी प्रगति अपने-आप दर्ज होगी" : "पढ़ लेने पर नीचे का बटन दबाएँ"}</small></div></div>
   <div class="tools"><button class="btn" id="fs2">⛶ पूरी स्क्रीन में देखें</button>${p0 >= 100 ? "" : `<button class="btn okb" id="markdone">✓ पूरा पढ़ लिया</button>`}</div>
   ${notes ? `<section class="card notes"><h3>📝 चैप्टर को कहानी की तरह समझें</h3>${notes}</section>` : ""}
@@ -279,7 +280,17 @@ async function chapterView(cls, stream, sid, id) {
       setP(pct >= 95 ? 100 : Math.floor(pct));
     });
     vid.addEventListener("ended", () => setP(100));
+    // स्पीड बटन (0.5× से 3×)
+    const sb = document.getElementById("speeds");
+    const setR = (r) => { vid.playbackRate = r; sb.querySelectorAll("button").forEach((b) => b.classList.toggle("on", +b.dataset.r === r)); };
+    sb.querySelectorAll("button").forEach((b) => (b.onclick = () => setR(+b.dataset.r)));
+    vid.addEventListener("ratechange", () => sb.querySelectorAll("button").forEach((b) => b.classList.toggle("on", +b.dataset.r === vid.playbackRate)));
+    // वीडियो चलते ही ऊपर की चलती पट्टी हट जाए, रुकने पर लौट आए
+    vid.addEventListener("play", () => document.body.classList.add("vplay"));
+    vid.addEventListener("pause", () => document.body.classList.remove("vplay"));
+    vid.addEventListener("ended", () => document.body.classList.remove("vplay"));
   }
+  if (!vid) document.body.classList.remove("vplay");
   app.querySelectorAll("[data-swap]").forEach((b) => (b.onclick = () => { history.replaceState(null, "", b.dataset.swap); route(); }));
 
   // नाम वाला निशान वीडियो पर घूमता रहेगा (screen record करने वाले की पहचान के लिए)
