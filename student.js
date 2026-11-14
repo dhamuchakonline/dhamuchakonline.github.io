@@ -96,17 +96,15 @@ function loginView(msg = "") {
   ${schoolPic()}
   <section class="hero">
     <div><span class="hero-badge">🎓 100% फ्री · कक्षा 9–12</span></div>
-    <h1>पढ़ाई अब <em>आसान</em>,<br>अपनी भाषा में</h1>
-    <p>${esc(SCHOOL_NAME)} के बच्चों के लिए — कक्षा 9 से 12 तक (11–12 में Science, Arts, Commerce), हर विषय, हर चैप्टर, कहानी और उदाहरण के साथ।</p>
+    <h1>स्मार्ट क्लास,<br><em>पूरी फ्री</em></h1>
+    <p>कक्षा 9 से 12 · हर विषय की वीडियो क्लास</p>
     <div class="feats">
-      <div class="feat"><i>🎬</i>लंबी वीडियो क्लास</div><div class="feat"><i>📝</i>अभ्यास प्रश्न</div>
-      <div class="feat"><i>📘</i>बिहार बोर्ड सिलेबस</div><div class="feat"><i>📱</i>मोबाइल पर कहीं भी</div>
+      <div class="feat"><i>🎬</i>वीडियो क्लास</div><div class="feat"><i>📝</i>अभ्यास</div>
     </div>
-    <div class="hstats"><div><b>4</b><small>कक्षाएँ</small></div><div><b>100%</b><small>मुफ़्त</small></div><div><b>हिंदी</b><small>में समझाया</small></div></div>
   </section>
   <section class="card login">
     <h2>स्वागत है 🙏</h2>
-    <p class="muted">अपना नाम, कक्षा और स्कूल का UDISE कोड डालें।</p>
+    <p class="muted">नाम, कक्षा और UDISE कोड डालें।</p>
     <form id="f">
       <label>आपका नाम<input name="sname" required autocomplete="name" maxlength="50"></label>
       <label>कक्षा
@@ -116,7 +114,7 @@ function loginView(msg = "") {
       <div class="err">${esc(msg)}</div>
       <button class="primary" type="submit">पढ़ाई शुरू करें →</button>
     </form>
-    <div class="sir"><div class="av">👨‍🏫</div><p><b>पंकज सर</b> (प्रधानाध्यापक) का संदेश:<br>रोज़ थोड़ा पढ़ो, पर रोज़ पढ़ो। मेहनत करते रहो, सफलता ज़रूर मिलेगी। 📚</p></div>
+    <div class="sir"><div class="av">👨‍🏫</div><p><b>पंकज सर</b> (प्रधानाध्यापक):<br>रोज़ थोड़ा पढ़ो, सफलता ज़रूर मिलेगी। 📚</p></div>
     ${DEMO ? `<p class="hint">डेमो के लिए: कोई भी नाम, कोई भी कक्षा, UDISE कोड 10010203040<br><a href="teacher.html">→ टीचर पैनल का डेमो देखें</a></p>` : ""}
   </section></div>
   <p class="credit">🏫 प्रस्तुति: <b>उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</b><br>💻 Built with 💙 by <b>Ankush Sir</b></p>`, false);
