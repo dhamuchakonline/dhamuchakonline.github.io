@@ -92,3 +92,4 @@ c10_san_ch8 sanskrit 8
 c10_san_ch9 sanskrit 9
 c10_san_ch10 sanskrit 10
 c10_san_ch11 sanskrit 11
+c10_san_ch12 sanskrit 12
