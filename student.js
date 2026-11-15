@@ -76,7 +76,7 @@ async function doLogout() {
 
 function render(html, showBack = true) {
   clearInterval(wmTimer);
-  app.innerHTML = header(showBack) + `<main class="wrap">${html}</main>${showBack ? `<footer class="sitefoot">© कॉपीराइट उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक · सर्वाधिकार सुरक्षित<br>वेबसाइट मैनेज्ड बाय: <b>अंकुश सर</b></footer>` : ""}`;
+  app.innerHTML = header(showBack) + `<main class="wrap">${html}</main>${showBack ? `<footer class="sitefoot">© कॉपीराइट उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक · सर्वाधिकार सुरक्षित<br>Website Created &amp; Managed by: <b>Ankush Sir</b></footer>` : ""}`;
   const lo = document.getElementById("logout");
   if (lo) lo.onclick = doLogout;
   app.querySelectorAll("[data-logout]").forEach((b) => (b.onclick = doLogout));
@@ -117,7 +117,7 @@ function loginView(msg = "") {
     <div class="sir"><div class="av">👨‍🏫</div><p><b>पंकज सर</b> (प्रधानाध्यापक):<br>विद्या सबसे बड़ा धन है। हर दिन थोड़ा सीखिए, कल आप खुद पर गर्व करेंगे। 🌟</p></div>
     ${DEMO ? `<p class="hint">डेमो के लिए: कोई भी नाम, कोई भी कक्षा, UDISE कोड 10010203040<br><a href="teacher.html">→ टीचर पैनल का डेमो देखें</a></p>` : ""}
   </section></div>
-  <p class="credit">🏫 प्रस्तुति: <b>उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</b><br>💻 वेबसाइट मैनेज्ड बाय: <b>अंकुश सर</b></p>`, false);
+  <p class="credit">🏫 प्रस्तुति: <b>उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</b><br>💻 Website Created &amp; Managed by: <b>Ankush Sir</b></p>`, false);
   const f = document.getElementById("f");
   f.onsubmit = async (e) => {
     e.preventDefault();
