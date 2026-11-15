@@ -18,6 +18,11 @@
 - कक्षा 11/12 के लंबे वीडियो ~11 MB (crf 30) — जगह की चिंता कम।
 - स्वागत पेज सादा कर दिया (बड़ा लोगो, कम लिखावट, नीचे © और 'Website made by Ankush Sir')।
 
+## 15 नवंबर दोपहर — स्थिति
+- कक्षा 11–12 के सब छोटे चैप्टर बढ़ाकर queue में (ext तरीका: /tmp/ext.py जैसा — नए scenes "अभ्यास…" प्रश्न से पहले, ext=1/2/3)।
+- 10 English 1,2,5,11–16 बढ़ा दिए। 9 विज्ञान 3–11, 9 संस्कृत 5,7–11 बढ़ा दिए।
+- लॉगिन पेज: नीले बॉक्स में लोगो + 👉 (बड़ी स्क्रीन) / 👇 (मोबाइल) वाला हाथ।
+- workers हमेशा PYTHONPATH=/home/claude/videos/scripts के साथ चलाओ (q.sh वाला तरीका), वरना "No module named" से EXIT 1।
 ## वीडियो काम फिर से चालू करना
 1. dco को /home/claude/dco में clone करो (push चाहिए तो add_repo से dhamuchakonline के repos जोड़ो)।
 2. `bash /home/claude/dco/_pipeline/resume.sh` — बाकी repos clone, सामान install, queue और 3 worker यही चालू करता है।
