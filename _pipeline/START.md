@@ -43,3 +43,21 @@
 - compare scene: `"left": {"icon":"👉","t":"शीर्षक","d":"पंक्ति1<br>पंक्ति2"}` (points/title नहीं चलता — KeyError 'icon')
 - title/end में icon नहीं; eq में words+eq+note; table में eq+rows; question में q, a, pause।
 - हर नई स्क्रिप्ट के बाद `q.sh` से कतार में डालें; रुके workers `q.sh` फिर चला देता है; log में "EXIT 0" देखें।
+
+## 15 नवंबर शाम — हैंडओवर (अगले हफ़्ते यहीं से शुरू)
+**पहला कदम:** `bash /home/claude/dco/_pipeline/resume.sh` (repo clone/pull, tools को /tmp में कॉपी, बचे jobs कतार में, 3 worker PYTHONPATH के साथ)। फिर `/tmp/mon.sh 1` से जाँच।
+- tools: `_pipeline/tools/` — new.py (नई स्क्रिप्ट mk()), ext.py (ext(name,scenes,lv) से लंबा करना), qh.sh (`/tmp/qh.sh <name> <subject> <n>` कतार में सबसे आगे), mon.sh।
+- बचा कतार: `tools/pending_jobs.txt` (~257); resume.sh बने हुए वीडियो (chapters.json में video) छोड़ देता है।
+- **हर अध्याय ~20 मिनट (≈2000 शब्द, 35–40 scene)** — सर का पक्का नियम। अभी ज़्यादातर नए ~13–16 मिनट हैं।
+
+### हो चुका (स्क्रिप्ट लिखी + कतार में)
+- c11 अंग्रेज़ी ch1–25 · c9 कंप्यूटर ch1–8 · c9 नृत्य ch1–8 · c9 संगीत ch1–8 · c9 योग ch1–3 (ch3 ~10 मिनट, ext से लंबा करना है)
+
+### बचा काम (इसी क्रम में)
+1. c9 योग ch3 लंबा करो; फिर ch4 सूर्य नमस्कार, ch5 शारीरिक शिक्षा-फ़िटनेस, ch6 स्वास्थ्य-पोषण-स्वच्छता, ch7 खेल व नियम, ch8 प्राथमिक चिकित्सा-सुरक्षा (subject: yoga)।
+2. c9 ललित कला (finearts) और गृह विज्ञान (homescience) — 6–8 अध्याय।
+3. c11 अंग्रेज़ी ch26–31 (Lankapuri, Letter to Martha, Of Remembering God, Letter to Cork, I Am the Daughter of the Land of Dravida – Amrita Pritam, Spring) — लेखक/सामग्री पक्की करके ही लिखो (evidyarthi important-questions पेज WebSearch से)।
+4. c10 कंप्यूटर (इंटरनेट, HTML5, XML, JavaScript) और c10 बाक़ी extra विषय; फिर c11/c12 extra (computer, multimedia, yoga)।
+5. c11 हिंदी (पूरी किताब) — अभी नहीं है।
+6. छोटे (<15 मिनट) अध्याय ext से ~20 मिनट तक बढ़ाना।
+7. class-11 वीडियो repo ~720MB+ है, 1GB के पास पहुँचे तो सर को बताना (नया repo चाहिए)।
