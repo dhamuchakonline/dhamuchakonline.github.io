@@ -40,8 +40,7 @@ function ring(pct, size = 46, stroke = 5) {
 }
 const avg = (arr) => (arr.length ? Math.round(arr.reduce((a, c) => a + pctOf(c.id), 0) / arr.length) : 0);
 
-const TICK = ["🎓 Class 9–12 · एकदम फ्री, कोई टेंशन नहीं", "✨ Free Classes · Zero Fees · Full Vibes", "💻 Built with 💙 by Ankush Sir",
-  "📚 Bihar Board · हर चैप्टर की लंबी वीडियो क्लास", "🏫 Presented by UHS Dhamuchak", "🔥 नए वीडियो रोज़ आ रहे हैं — जुड़े रहो"];
+const TICK = ["🎓 कक्षा 9–12 · हर विषय की वीडियो क्लास", "📚 Bihar Board · हर चैप्टर की लंबी क्लास", "🏫 UHS Dhamuchak", "🔥 नए वीडियो रोज़ आ रहे हैं — जुड़े रहो"];
 const ticker = () => { const t = TICK.map((x) => `<span>${x}</span>`).join(""); return `<div class="ticker" aria-hidden="true"><div class="tk-in">${t}${t}</div></div>`; };
 
 // ---------- Back बटन (फ़ोन का भी) ----------
@@ -96,11 +95,7 @@ function loginView(msg = "") {
   ${schoolPic()}
   <section class="hero">
     <div><span class="hero-badge">🎓 100% फ्री · कक्षा 9–12</span></div>
-    <h1>स्मार्ट क्लास,<br><em>पूरी फ्री</em></h1>
-    <p>कक्षा 9 से 12 · हर विषय की वीडियो क्लास</p>
-    <div class="feats">
-      <div class="feat"><i>🎬</i>वीडियो क्लास</div><div class="feat"><i>📝</i>अभ्यास</div>
-    </div>
+    <p class="hero-go">👇 नीचे लॉगिन कीजिए और अपनी क्लास शुरू कीजिए</p>
   </section>
   <section class="card login">
     <h2>स्वागत है 🙏</h2>
@@ -114,10 +109,10 @@ function loginView(msg = "") {
       <div class="err">${esc(msg)}</div>
       <button class="primary" type="submit">पढ़ाई शुरू करें →</button>
     </form>
-    <div class="sir"><div class="av">👨‍🏫</div><p><b>पंकज सर</b> (प्रधानाध्यापक):<br>रोज़ थोड़ा पढ़ो, सफलता ज़रूर मिलेगी। 📚</p></div>
+    <div class="sir"><div class="av">👨‍🏫</div><p><b>पंकज सर</b> (प्रधानाध्यापक):<br>विद्या सबसे बड़ा धन है। हर दिन थोड़ा सीखिए, कल आप खुद पर गर्व करेंगे। 🌟</p></div>
     ${DEMO ? `<p class="hint">डेमो के लिए: कोई भी नाम, कोई भी कक्षा, UDISE कोड 10010203040<br><a href="teacher.html">→ टीचर पैनल का डेमो देखें</a></p>` : ""}
   </section></div>
-  <p class="credit">🏫 प्रस्तुति: <b>उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</b><br>💻 Built with 💙 by <b>Ankush Sir</b></p>`, false);
+  <p class="credit">🏫 प्रस्तुति: <b>उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</b><br>💻 वेबसाइट: <b>Ankush Sir</b></p>`, false);
   const f = document.getElementById("f");
   f.onsubmit = async (e) => {
     e.preventDefault();
@@ -247,8 +242,8 @@ async function chapterView(cls, stream, sid, id) {
   </div>
   ${c.video ? `<div class="speeds" id="speeds"><span>⚡ Speed</span>${[0.5,0.75,1,1.25,1.5,2,3].map((x) => `<button class="sp${x === 1 ? " on" : ""}" data-r="${x}">${x}×</button>`).join("")}</div>` : ""}
   <div class="progline"><span id="pring">${ring(p0, 46, 5)}</span><div class="pl-t" id="ptxt">${p0 >= 100 ? "यह चैप्टर पूरा हो गया ✓" : p0 ? `आपने ${p0}% पढ़ लिया है` : "पढ़ना शुरू करें"}<small>${c.video ? "वीडियो देखने के साथ आपकी प्रगति अपने-आप दर्ज होगी" : "पढ़ लेने पर नीचे का बटन दबाएँ"}</small></div></div>
-  <div class="tools"><button class="btn" id="fs2">⛶ पूरी स्क्रीन में देखें</button>${p0 >= 100 ? "" : `<button class="btn okb" id="markdone">✓ पूरा पढ़ लिया</button>`}</div>
-  ${notes ? `<section class="card notes"><h3>📝 चैप्टर को कहानी की तरह समझें</h3>${notes}</section>` : ""}
+  <div class="tools"><button class="btn" id="fs2">⛶ पूरी स्क्रीन में देखें</button>${notes ? `<button class="btn" id="pdfbtn">📄 पूरी क्लास PDF में डाउनलोड करें</button>` : ""}${p0 >= 100 ? "" : `<button class="btn okb" id="markdone">✓ पूरा पढ़ लिया</button>`}</div>
+  ${notes ? `<section class="card notes"><div class="pdf-head">कक्षा ${esc(cls)} · ${esc(c.title)}</div><h3>📝 चैप्टर को कहानी की तरह समझें</h3>${notes}</section>` : ""}
   <div class="pager">
     ${prev ? `<button class="btn" data-swap="${esc(base + encodeURIComponent(prev.id))}">← पिछला चैप्टर</button>` : "<span></span>"}
     ${next ? `<button class="btn dark" data-swap="${esc(base + encodeURIComponent(next.id))}">अगला चैप्टर →</button>` : "<span></span>"}
@@ -261,6 +256,14 @@ async function chapterView(cls, stream, sid, id) {
     document.getElementById("pring").innerHTML = ring(p, 46, 5);
     document.getElementById("ptxt").firstChild.textContent = p >= 100 ? "यह चैप्टर पूरा हो गया ✓" : `आपने ${p}% पढ़ लिया है`;
     if (p >= 100) document.getElementById("markdone")?.remove();
+  };
+  const pb = document.getElementById("pdfbtn");
+  if (pb) pb.onclick = () => {
+    const old = document.title;
+    document.title = `कक्षा ${cls} - ${sub ? subjLabel(sub) : sid} - ${c.title}`.replace(/[\\/:*?"<>|]/g, " ");
+    document.body.classList.add("printnotes");
+    const done = () => { document.body.classList.remove("printnotes"); document.title = old; window.removeEventListener("afterprint", done); };
+    window.addEventListener("afterprint", done); window.print();
   };
   const md = document.getElementById("markdone");
   if (md) md.onclick = () => setP(100);
@@ -294,8 +297,7 @@ async function chapterView(cls, stream, sid, id) {
 
   // नाम वाला निशान वीडियो पर घूमता रहेगा (screen record करने वाले की पहचान के लिए)
   const wm = document.getElementById("wm");
-  const move = () => { wm.style.top = 6 + Math.random() * 78 + "%"; wm.style.left = 4 + Math.random() * 55 + "%"; };
-  move(); wmTimer = setInterval(move, 6000);
+  wm.style.top = "8px"; wm.style.left = "10px"; // एक कोने में टिका रहेगा, चलेगा नहीं
   // पूरी स्क्रीन हमारे बॉक्स की होगी (कंप्यूटर और फ़ोन दोनों), ताकि नाम वाला निशान दिखता रहे
   const fs = async () => {
     const p = document.getElementById("player");
