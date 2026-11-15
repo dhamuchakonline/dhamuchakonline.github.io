@@ -74,6 +74,28 @@ async function doLogout() {
   loginView();
 }
 
+// विज़िटर गिनती (सिर्फ़ login पेज पर; मुफ़्त counter सेवा, न चले तो चुपचाप छिप जाती है)
+function visitorStats() {
+  const B = "https://api.counterapi.dev/v1/uhsdhamuchak";
+  const get = (k, up) => fetch(`${B}/${k}${up ? "/up" : ""}`).then((r) => r.json()).then((j) => +j.count || 0);
+  const bucket = () => Math.floor(Date.now() / 300000); // 5 मिनट की खिड़की
+  const el = (id) => document.getElementById(id);
+  let tot = 0;
+  try { if (!sessionStorage.getItem("vcounted")) { sessionStorage.setItem("vcounted", "1"); tot = -1; } } catch {}
+  const run = async () => {
+    if (!el("visfoot")) { clearInterval(tm); return; }
+    try {
+      const b = bucket();
+      if (run.last !== b) { run.last = b; await get(`on${b}`, true); }
+      const [cur, prev] = await Promise.all([get(`on${b}`), get(`on${b - 1}`)]);
+      if (el("vOn")) el("vOn").textContent = Math.max(cur, prev, 1);
+      if (tot === -1) { tot = await get("total", true); } else if (!tot) { tot = await get("total"); }
+      if (el("vTot")) el("vTot").textContent = tot.toLocaleString("en-IN");
+    } catch { const f = el("visfoot"); if (f && !el("vTot").textContent.match(/\d/)) f.querySelector(".vf-row").style.display = "none"; }
+  };
+  const tm = setInterval(run, 60000); run();
+}
+
 function render(html, showBack = true) {
   clearInterval(wmTimer);
   app.innerHTML = header(showBack) + `<main class="wrap">${html}</main>${showBack ? `<footer class="sitefoot">© कॉपीराइट उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक · सर्वाधिकार सुरक्षित<br>Website Created &amp; Managed by: <b>Ankush Sir</b></footer>` : ""}`;
@@ -117,7 +139,10 @@ function loginView(msg = "") {
     <div class="sir"><div class="av">👨‍🏫</div><p><b>पंकज सर</b> (प्रधानाध्यापक):<br>विद्या सबसे बड़ा धन है। हर दिन थोड़ा सीखिए, कल आप खुद पर गर्व करेंगे। 🌟</p></div>
     ${DEMO ? `<p class="hint">डेमो के लिए: कोई भी नाम, कोई भी कक्षा, UDISE कोड 10010203040<br><a href="teacher.html">→ टीचर पैनल का डेमो देखें</a></p>` : ""}
   </section></div>
-  <p class="credit">🏫 प्रस्तुति: <b>उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</b><br>💻 Website Created &amp; Managed by: <b>Ankush Sir</b></p>`, false);
+  <p class="credit">🏫 प्रस्तुति: <b>उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</b><br>💻 Website Created &amp; Managed by: <b>Ankush Sir</b></p>
+  <div class="visfoot" id="visfoot"><div class="vf-row"><span class="vf-i"><b id="vOn">–</b><small>Online Now</small></span><span class="vf-i"><b id="vTot">–</b><small>Total Visitors</small></span></div>
+  <div class="vf-c">📧 Contact: <a href="mailto:uhsdhamuchak2000@gmail.com">uhsdhamuchak2000@gmail.com</a></div></div>`, false);
+  visitorStats();
   const f = document.getElementById("f");
   f.onsubmit = async (e) => {
     e.preventDefault();

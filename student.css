@@ -296,3 +296,11 @@ body.vplay .ticker{display:none}
 @keyframes ai-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
 @keyframes ai-flip{0%,100%{transform:perspective(200px) rotateY(0)}50%{transform:perspective(200px) rotateY(180deg)}}
 @media (prefers-reduced-motion:reduce){.ai{animation:none!important}}
+
+/* विज़िटर गिनती (login पेज) */
+.visfoot{margin:14px auto 6px;max-width:420px;text-align:center;padding:12px;border-radius:16px;background:rgba(255,255,255,.7);border:1px solid #e5e7eb;font-size:13px;color:#475569}
+.vf-row{display:flex;justify-content:center;gap:28px;margin-bottom:8px}
+.vf-i b{display:block;font-size:22px;color:#0f766e}
+.vf-i small{font-size:11px;letter-spacing:.04em;text-transform:uppercase}
+.vf-i:first-child b::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:#22c55e;margin-right:6px;vertical-align:middle;animation:blk 1.2s steps(1) infinite}
+.visfoot a{color:#0369a1;font-weight:600}
