@@ -60,7 +60,7 @@ function header(showBack) {
     ${showBack ? `<button class="back" id="backbtn" aria-label="पीछे">←</button>` : ""}
     <div class="brand"><div class="brand-row"><img class="logo blogo" src="bihar-shiksha.png" alt="शिक्षा विभाग, बिहार सरकार"><div class="school">${esc(SCHOOL_NAME)}</div></div>
       <div class="sub">${esc(TAGLINE)}</div></div>
-    ${me ? `<button class="ghost" id="logout" aria-label="Logout">🚪<span class="lbl"> Logout</span></button>` : ""}
+    ${me ? `<button class="ghost" id="logout" aria-label="Logout">Logout</button>` : ""}
   </div>${ticker()}</header>
   ${DEMO ? `<div class="demo">डेमो मोड — Firebase जोड़ने पर असली साइट चालू होगी</div>` : ""}`;
 }
@@ -170,9 +170,9 @@ function streamsView(cls) {
   render(`${greet()}<h2>अपना संकाय (Stream) चुनें</h2>
   <div class="grid streams">
     ${STREAMS.map((s) => `<a class="tile" href="#c${cls}-${s.id}">
-      <div class="ic">${s.icon}</div><div class="t">${s.name}</div><div class="c">${s.en}</div></a>`).join("")}
+      <div class="ic"><span class="ai" data-s="${s.id}">${s.icon}</span></div><div class="t">${s.name}</div><div class="c">${s.en}</div></a>`).join("")}
   </div>
-  <div class="logout-row"><button class="btn red" data-logout>🚪 Logout करें</button></div>`, false);
+  <div class="logout-row"><button class="btn red" data-logout>Logout करें</button></div>`, false);
 }
 
 async function subjectsView(cls, stream, isHome = false) {
@@ -182,7 +182,7 @@ async function subjectsView(cls, stream, isHome = false) {
   const st = streamOf(stream);
   const tile = (s) => {
     const ch = list.filter((c) => c.subject === s.id), n = ch.length, p = avg(ch), d = ch.filter((c) => pctOf(c.id) >= 100).length;
-    return `<a class="tile${n ? "" : " soon"}" style="${cvars(s.id)}" href="#c${cls}-${stream}-${s.id}"><div class="ic">${s.icon}</div>
+    return `<a class="tile${n ? "" : " soon"}" style="${cvars(s.id)}" href="#c${cls}-${stream}-${s.id}"><div class="ic"><span class="ai" data-s="${s.id}">${s.icon}</span></div>
       <div class="t">${esc(s.name)}</div><div class="en">${esc(s.en)}</div><div class="c">${countLabel(n)}</div>
       ${n ? `<div class="bar"><i style="width:${p}%"></i></div><div class="pc"><span>${d}/${n} पूरे</span><span>${p >= 100 ? "✓ पूरा" : p + "%"}</span></div>` : ""}</a>`;
   };
@@ -190,7 +190,7 @@ async function subjectsView(cls, stream, isHome = false) {
   <h2>📚 कौन सा विषय पढ़ना है?</h2>
   ${subjectGroups(cls, stream).map((g) => `<h3 class="gtitle">${esc(g.title)}</h3>
     <div class="grid">${g.items.map(tile).join("")}</div>`).join("")}
-  ${isHome ? `${schoolPic(true)}<div class="logout-row"><button class="btn red" data-logout>🚪 Logout करें</button></div>` : ""}`, !isHome);
+  ${isHome ? `${schoolPic(true)}<div class="logout-row"><button class="btn red" data-logout>Logout करें</button></div>` : ""}`, !isHome);
 }
 
 async function chapterListView(cls, stream, sid) {
@@ -211,7 +211,7 @@ async function chapterListView(cls, stream, sid) {
       <div class="rcol">${ring(p, 44, 5)}${p >= 100 ? "" : `<small>${p ? p + "% पढ़ा" : "शुरू करें"}</small>`}</div></a>`;
   };
   render(`<div class="crumb">कक्षा ${esc(cls)}${st ? " › " + st.name : ""} › ${esc(subjLabel(sub))}</div>
-  <section class="subhead" style="${cvars(sid)}"><div class="ic">${sub.icon}</div>
+  <section class="subhead" style="${cvars(sid)}"><div class="ic"><span class="ai" data-s="${sid}">${sub.icon}</span></div>
     <div class="tx"><div class="t">${esc(subjLabel(sub))}</div><div class="s">${list.length} चैप्टर · ${sd} पूरे</div></div>${list.length ? ring(sp, 62, 7) : ""}</section>
   <div class="chlist" style="${cvars(sid)}">
   ${list.length ? list.map(row).join("")
@@ -228,8 +228,8 @@ async function chapterView(cls, stream, sid, id) {
   if (i < 0) return go(`#c${cls}-${stream}-${sid}`);
   const c = list[i], prev = list[i - 1], next = list[i + 1];
   const base = `#c${cls}-${stream}-${sid}-`;
-  const notes = String(c.notes || "").split(/\n\s*\n/).filter((p) => p.trim())
-    .map((p) => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`).join("");
+  const paras = String(c.notes || "").split(/\n\s*\n/).filter((p) => p.trim());
+  const notes = paras.length ? "x" : "";
   const st = streamOf(stream);
   // अगला/पिछला चैप्टर history में नया पन्ना नहीं जोड़ता, ताकि Back सीधे चैप्टर लिस्ट पर जाए
   const p0 = pctOf(c.id);
@@ -247,8 +247,8 @@ async function chapterView(cls, stream, sid, id) {
   </div>
   ${c.video ? `<div class="speeds" id="speeds"><span>⚡ Speed</span>${[0.5,0.75,1,1.25,1.5,2,3].map((x) => `<button class="sp${x === 1 ? " on" : ""}" data-r="${x}">${x}×</button>`).join("")}</div>` : ""}
   <div class="progline"><span id="pring">${ring(p0, 46, 5)}</span><div class="pl-t" id="ptxt">${p0 >= 100 ? "यह चैप्टर पूरा हो गया ✓" : p0 ? `आपने ${p0}% पढ़ लिया है` : "पढ़ना शुरू करें"}<small>${c.video ? "वीडियो देखने के साथ आपकी प्रगति अपने-आप दर्ज होगी" : "पढ़ लेने पर नीचे का बटन दबाएँ"}</small></div></div>
-  <div class="tools"><button class="btn" id="fs2">⛶ पूरी स्क्रीन में देखें</button>${notes ? `<button class="btn" id="pdfbtn">📄 पूरी क्लास PDF में डाउनलोड करें</button>` : ""}${p0 >= 100 ? "" : `<button class="btn okb" id="markdone">✓ पूरा पढ़ लिया</button>`}</div>
-  ${notes ? `<section class="card notes"><div class="pdf-head">कक्षा ${esc(cls)} · ${esc(c.title)}</div><h3>📝 चैप्टर को कहानी की तरह समझें</h3>${notes}</section>` : ""}
+  <div class="tools"><button class="btn" id="fs2">⛶ पूरी स्क्रीन में देखें</button>${notes ? `<button class="btn" id="pdfbtn" ${c.video && p0 < 100 ? "hidden" : ""}>📄 पूरी क्लास PDF में डाउनलोड करें</button>` : ""}${p0 >= 100 || c.video ? "" : `<button class="btn okb" id="markdone">✓ पूरा पढ़ लिया</button>`}</div>
+  ${notes ? `<section class="card notes"><div class="pdf-head">कक्षा ${esc(cls)} · ${esc(c.title)}</div><h3>📝 चैप्टर को कहानी की तरह समझें</h3><div id="ntxt"></div></section>` : ""}
   <div class="pager">
     ${prev ? `<button class="btn" data-swap="${esc(base + encodeURIComponent(prev.id))}">← पिछला चैप्टर</button>` : "<span></span>"}
     ${next ? `<button class="btn dark" data-swap="${esc(base + encodeURIComponent(next.id))}">अगला चैप्टर →</button>` : "<span></span>"}
@@ -270,6 +270,48 @@ async function chapterView(cls, stream, sid, id) {
     const done = () => { document.body.classList.remove("printnotes"); document.title = old; window.removeEventListener("afterprint", done); };
     window.addEventListener("afterprint", done); window.print();
   };
+  // नोट्स वीडियो के साथ-साथ टाइप होंगे (जितना देखा उतना ही)
+  const ntxt = document.getElementById("ntxt");
+  if (ntxt) {
+    const total = paras.reduce((a, p) => a + p.length, 0);
+    const sec = ntxt.parentElement;
+    let shown = -1, want = 0, tm = null;
+    const draw = (n) => {
+      let left = n, h = "";
+      for (const p of paras) {
+        if (left <= 0) break;
+        const part = p.slice(0, left); left -= p.length;
+        h += `<p>${esc(part).replace(/\n/g, "<br>")}</p>`;
+      }
+      if (n < total) h = h.replace(/<\/p>$/, '<span class="cur">▍</span></p>');
+      ntxt.innerHTML = h; shown = n;
+      sec.style.display = n > 0 ? "" : "none";
+      const pdf = document.getElementById("pdfbtn");
+      if (pdf && n >= total) pdf.hidden = false;
+    };
+    const step = () => {
+      if (shown >= want) { clearInterval(tm); tm = null; return; }
+      draw(Math.min(want, shown + Math.max(2, Math.ceil((want - shown) / 25))));
+    };
+    const setWant = (n) => { want = Math.max(want, Math.min(total, n)); if (!tm && shown < want) tm = setInterval(step, 50); };
+    if (!c.video || p0 >= 100) draw(total);
+    else {
+      draw(0);
+      const o0 = loadProg(); o0.m = o0.m || {};
+      let maxT = o0.m[c.id] || 0, dur = 0, lastSave = 0;
+      const upd = () => { if (dur) setWant(Math.floor(total * Math.min(1, maxT / dur))); };
+      const v = app.querySelector(".player video");
+      v.addEventListener("loadedmetadata", () => { dur = v.duration; if (maxT > 0) { draw(Math.floor(total * Math.min(1, maxT / dur))); want = shown; } });
+      v.addEventListener("timeupdate", () => {
+        dur = v.duration || dur;
+        // आगे कूदने (seek) से नोट्स आगे नहीं बढ़ेंगे; सिर्फ़ असली देखने से
+        if (v.currentTime > maxT && v.currentTime - maxT < 3) maxT = v.currentTime;
+        upd();
+        if (Date.now() - lastSave > 4000) { lastSave = Date.now(); const o = loadProg(); o.m = o.m || {}; o.m[c.id] = maxT; saveProg(o); }
+      });
+      v.addEventListener("ended", () => { maxT = dur; upd(); const o = loadProg(); o.m = o.m || {}; o.m[c.id] = maxT; saveProg(o); });
+    }
+  }
   const md = document.getElementById("markdone");
   if (md) md.onclick = () => setP(100);
   const vid = app.querySelector(".player video");

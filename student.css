@@ -274,3 +274,25 @@ body.vplay .ticker{display:none}
 @keyframes hDown{50%{transform:translateY(8px)}}
 @keyframes hSide{50%{transform:translateX(10px)}}
 @media (min-width:900px){.go-side{display:inline}.go-down{display:none}}
+
+/* Logout: साफ़ शब्द */
+.stu .ghost{width:auto!important;padding:0 14px!important;font-size:14px!important;font-weight:700}
+/* नोट्स टाइप होने वाला कर्सर */
+.notes .cur{color:var(--c1,var(--p));animation:blk .8s steps(1) infinite}
+@keyframes blk{50%{opacity:0}}
+/* चलते हुए विषय-चिन्ह */
+.ai{display:inline-block;transform-origin:50% 60%;animation:ai-bob 2.6s ease-in-out infinite}
+.ai[data-s=maths],.ai[data-s=highermaths]{animation-name:ai-wig}
+.ai[data-s=physics],.ai[data-s=geography],.ai[data-s=social],.ai[data-s=multimedia],.ai[data-s=history]{animation:ai-spin 7s linear infinite}
+.ai[data-s=chemistry],.ai[data-s=science],.ai[data-s=biology],.ai[data-s=agriculture]{animation-name:ai-wob}
+.ai[data-s=music],.ai[data-s=dance],.ai[data-s=yoga]{animation:ai-dance 1.6s ease-in-out infinite}
+.ai[data-s=computer],.ai[data-s=economics],.ai[data-s=commerce],.ai[data-s=business]{animation-name:ai-pulse}
+.ai[data-s=hindi],.ai[data-s=english],.ai[data-s=sanskrit],.ai[data-s=urdu],.ai[data-s=bangla],.ai[data-s=maithili],.ai[data-s=arabic],.ai[data-s=persian],.ai[data-s=bhojpuri],.ai[data-s=prakrit],.ai[data-s=magahi],.ai[data-s=pali]{animation-name:ai-flip}
+@keyframes ai-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes ai-wig{0%,100%{transform:rotate(-14deg) scale(1)}50%{transform:rotate(14deg) scale(1.15)}}
+@keyframes ai-spin{to{transform:rotate(360deg)}}
+@keyframes ai-wob{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(12deg) translateY(-3px)}}
+@keyframes ai-dance{0%,100%{transform:translateY(0) rotate(-8deg)}25%{transform:translateY(-6px) rotate(8deg)}50%{transform:translateY(0) rotate(-8deg)}75%{transform:translateY(-6px) rotate(8deg)}}
+@keyframes ai-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+@keyframes ai-flip{0%,100%{transform:perspective(200px) rotateY(0)}50%{transform:perspective(200px) rotateY(180deg)}}
+@media (prefers-reduced-motion:reduce){.ai{animation:none!important}}
