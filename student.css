@@ -258,3 +258,19 @@ body.vplay .ticker{display:none}
   #printwm span{display:block;white-space:nowrap;transform:rotate(-55deg);font-size:110px;font-weight:800;letter-spacing:4px;color:rgba(30,60,120,.10);font-family:'Noto Sans Devanagari','Poppins',sans-serif}
   .sitefoot{display:block !important}
 }
+
+/* login hero – v2 */
+.stu .hero{display:flex;align-items:center;justify-content:center;text-align:center}
+.hero-in{display:flex;flex-direction:column;align-items:center;gap:12px;max-width:380px}
+.hero-logo{width:84px;height:84px;border-radius:50%;background:#fff;padding:6px;box-shadow:0 6px 22px rgba(0,0,0,.25)}
+.stu .hero .hero-t{color:#fff;font-size:clamp(20px,5vw,28px);font-weight:800;line-height:1.35;margin:2px 0}
+.hero-f{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:15px;color:#ede9fe}
+.hero-f li{background:rgba(255,255,255,.12);border-radius:12px;padding:8px 14px}
+.hero-go{margin:8px 0 0;font-size:17px;font-weight:800;color:#fde047}
+.hero-go .hand{display:inline-block;font-size:30px;vertical-align:middle;margin-left:6px}
+.go-side{display:none}
+.go-down .hand{animation:hDown 1s ease-in-out infinite}
+.go-side .hand{animation:hSide 1s ease-in-out infinite}
+@keyframes hDown{50%{transform:translateY(8px)}}
+@keyframes hSide{50%{transform:translateX(10px)}}
+@media (min-width:900px){.go-side{display:inline}.go-down{display:none}}

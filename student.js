@@ -94,8 +94,13 @@ function loginView(msg = "") {
   render(`<div class="login-wrap">
   ${schoolPic()}
   <section class="hero">
-    <div><span class="hero-badge">🎓 100% फ्री · कक्षा 9–12</span></div>
-    <p class="hero-go">👇 नीचे लॉगिन कीजिए और अपनी क्लास शुरू कीजिए</p>
+    <div class="hero-in">
+      <img class="hero-logo" src="bihar-shiksha.png" alt="">
+      <span class="hero-badge">🎓 100% फ्री · कक्षा 9–12</span>
+      <h3 class="hero-t">घर बैठे पढ़ाई,<br>अपने स्कूल के साथ</h3>
+      <ul class="hero-f"><li>🎬 हर अध्याय की वीडियो क्लास</li><li>📝 अभ्यास प्रश्न और सार</li><li>📱 मोबाइल पर कभी भी</li></ul>
+      <div class="hero-go"><span class="go-side">लॉगिन यहाँ करें <b class="hand">👉</b></span><span class="go-down">लॉगिन नीचे करें <b class="hand">👇</b></span></div>
+    </div>
   </section>
   <section class="card login">
     <h2>स्वागत है 🙏</h2>
