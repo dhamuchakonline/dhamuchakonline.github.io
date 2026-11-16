@@ -8,10 +8,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="student.css?v=20261115e">
+<link rel="stylesheet" href="student.css?v=20261116a">
 </head>
 <body>
-<div id="splash" aria-label="स्वागत">
+<div id="intro" aria-hidden="true">
+  <div class="in-stars"></div>
+  <div class="in-orb"><div class="in-rays"></div><div class="in-corona"></div><div class="in-moon"></div><div class="in-full"></div><div class="in-spark"></div></div>
+  <div class="in-burst"></div>
+  <div class="in-skip">TAP TO SKIP</div>
+</div>
+<div id="splash" class="sp-wait" aria-label="स्वागत">
   <div class="sp-grid"></div>
   <div class="sp-blob b1"></div><div class="sp-blob b2"></div><div class="sp-blob b3"></div>
   <div class="sp-in">
@@ -28,10 +34,17 @@
 </div>
 <script>
   (function () {
-    var s = document.getElementById("splash"), done = false;
+    var s = document.getElementById("splash"), it = document.getElementById("intro"), done = false, started = false;
     function hide() { if (done) return; done = true; s.classList.add("sp-out"); setTimeout(function () { s.remove(); }, 1800); }
-    setTimeout(hide, 6000);
-    s.addEventListener("click", hide);
+    function start() {
+      if (started) return; started = true;
+      s.classList.remove("sp-wait");
+      if (it) { it.classList.add("in-out"); setTimeout(function () { it.remove(); }, 1000); }
+      setTimeout(hide, 6000);
+    }
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!it || reduce) start(); else { setTimeout(start, 3550); it.addEventListener("click", start); }
+    s.addEventListener("click", function () { if (started) hide(); });
   })();
 </script>
 <div id="printwm" aria-hidden="true"><span>UHS धामुचक</span></div>
