@@ -43,6 +43,139 @@ const avg = (arr) => (arr.length ? Math.round(arr.reduce((a, c) => a + pctOf(c.i
 const TICK = ["🎓 कक्षा 9–12 · हर विषय की वीडियो क्लास", "📚 Bihar Board · हर चैप्टर की लंबी क्लास", "🏫 UHS Dhamuchak", "🔥 नए वीडियो रोज़ आ रहे हैं — जुड़े रहो"];
 const ticker = () => { const t = TICK.map((x) => `<span>${x}</span>`).join(""); return `<div class="ticker" aria-hidden="true"><div class="tk-in">${t}${t}</div></div>`; };
 
+
+// ---------- डार्क मोड ----------
+const isDark = () => { try { return localStorage.getItem("dc-theme") === "dark"; } catch { return false; } };
+document.body.classList.toggle("dark", isDark());
+function toggleTheme() {
+  const d = !document.body.classList.contains("dark");
+  document.body.classList.toggle("dark", d);
+  try { localStorage.setItem("dc-theme", d ? "dark" : "light"); } catch {}
+  const b = document.getElementById("themebtn"); if (b) b.textContent = d ? "☀️" : "🌙";
+}
+
+// ---------- त्योहार थीम (तारीख़ के हिसाब से अपने-आप) ----------
+const FESTS = [
+  ["01-01", "01-02", "newyear", "🎉", "नया साल मुबारक! इस साल और आगे बढ़ना है"],
+  ["01-24", "01-27", "tiranga", "🇮🇳", "गणतंत्र दिवस की शुभकामनाएँ! जय हिंद"],
+  ["2027-02-10", "2027-02-12", "saraswati", "🪷", "सरस्वती पूजा की शुभकामनाएँ! माँ सरस्वती का आशीर्वाद बना रहे"],
+  ["2027-03-20", "2027-03-23", "holi", "🎨", "होली की रंग-भरी शुभकामनाएँ! रंग खेलो, पढ़ाई भी करो"],
+  ["08-13", "08-16", "tiranga", "🇮🇳", "स्वतंत्रता दिवस की शुभकामनाएँ! जय हिंद"],
+  ["09-05", "09-05", "teacher", "🍎", "शिक्षक दिवस की शुभकामनाएँ! अपने गुरुजनों को धन्यवाद कहो"],
+  ["10-02", "10-02", "gandhi", "🕊️", "गांधी जयंती — सत्य और अहिंसा का दिन"],
+  ["2027-10-26", "2027-10-31", "diwali", "🪔", "शुभ दीपावली! ज्ञान का दीया हमेशा जलता रहे"],
+  ["2027-11-02", "2027-11-05", "chhath", "🌅", "छठ पूजा की हार्दिक शुभकामनाएँ! जय छठी मइया"],
+  ["11-14", "11-14", "children", "🎈", "बाल दिवस की ढेरों शुभकामनाएँ!"],
+];
+function festToday(d = new Date()) {
+  const ymd = d.toISOString ? new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10) : "";
+  const md = ymd.slice(5);
+  for (const [a, b, cls, ic, txt] of FESTS) {
+    const x = a.length === 5 ? md : ymd;
+    if (x >= a && x <= b) return { cls, ic, txt };
+  }
+  return null;
+}
+const FEST = festToday();
+if (FEST) document.body.classList.add("fest-" + FEST.cls);
+function festRain() {
+  if (!FEST || document.getElementById("fxrain")) return;
+  const em = { diwali: ["🪔", "✨", "🎆"], holi: ["🟣", "🟡", "🟢", "🔴", "🔵"], tiranga: ["🟧", "⚪", "🟩"], chhath: ["🌅", "🪔", "🌾"],
+    saraswati: ["🪷", "📚", "🌼"], newyear: ["🎉", "✨", "🎊"], children: ["🎈", "⭐", "🎈"], teacher: ["🍎", "📚", "⭐"], gandhi: ["🕊️", "🤍"] }[FEST.cls] || ["✨"];
+  const box = document.createElement("div"); box.id = "fxrain"; box.setAttribute("aria-hidden", "true");
+  for (let i = 0; i < 22; i++) {
+    const sp = document.createElement("span"); sp.textContent = em[i % em.length];
+    sp.style.left = Math.random() * 100 + "%"; sp.style.animationDelay = (Math.random() * 2.5).toFixed(2) + "s";
+    sp.style.animationDuration = (3 + Math.random() * 2.5).toFixed(2) + "s"; sp.style.fontSize = (14 + Math.random() * 16) + "px";
+    box.appendChild(sp);
+  }
+  document.body.appendChild(box); setTimeout(() => box.remove(), 8000);
+}
+
+// ---------- आज का विचार / आज का सवाल (रोज़ बदलेगा) ----------
+const DAILY = [
+  "रोज़ थोड़ा-थोड़ा पढ़ना, एक दिन बहुत पढ़ने से अच्छा है।",
+  { q: "भारत का राष्ट्रीय पशु कौन है?", a: "बाघ 🐅" },
+  "गलती करना बुरा नहीं, उससे न सीखना बुरा है।",
+  { q: "बिहार की राजधानी कौन सी है?", a: "पटना" },
+  "सपने वो नहीं जो सोते में आएँ, सपने वो हैं जो सोने न दें। मेहनत करो!",
+  { q: "पृथ्वी सूर्य का एक चक्कर कितने दिन में लगाती है?", a: "लगभग 365 दिन" },
+  "जो सवाल समझ न आए, उसे पूछने में शर्म मत करो।",
+  { q: "पानी का रासायनिक सूत्र क्या है?", a: "H₂O" },
+  "किताब सबसे अच्छी दोस्त है — कभी धोखा नहीं देती।",
+  { q: "नालंदा विश्वविद्यालय किस राज्य में है?", a: "बिहार" },
+  "आज की मेहनत, कल की कामयाबी।",
+  { q: "प्रकाश की गति लगभग कितनी है?", a: "3 लाख किलोमीटर प्रति सेकंड" },
+  "मोबाइल को पढ़ाई का साथी बनाओ, समय बर्बाद करने का नहीं।",
+  { q: "हमारे शरीर की सबसे बड़ी हड्डी कौन सी है?", a: "फीमर (जांघ की हड्डी)" },
+  "छोटे-छोटे कदम भी मंज़िल तक पहुँचाते हैं।",
+  { q: "भारत का राष्ट्रीय गान किसने लिखा?", a: "रवीन्द्रनाथ टैगोर" },
+  "पढ़ाई में सबसे बड़ा हथियार है — दोहराना (Revision)।",
+  { q: "सौरमंडल का सबसे बड़ा ग्रह कौन सा है?", a: "बृहस्पति (Jupiter)" },
+  "दूसरों से नहीं, कल वाले खुद से आगे निकलो।",
+  { q: "1 किलोमीटर में कितने मीटर होते हैं?", a: "1000 मीटर" },
+  "समय की कद्र करो, समय तुम्हारी कद्र करेगा।",
+  { q: "पौधे भोजन किस क्रिया से बनाते हैं?", a: "प्रकाश-संश्लेषण (Photosynthesis)" },
+  "हार मान लेना ही असली हार है।",
+  { q: "भारत के पहले राष्ट्रपति कौन थे?", a: "डॉ. राजेन्द्र प्रसाद (बिहार से!)" },
+  "अच्छी नींद और अच्छा खाना भी पढ़ाई का हिस्सा है।",
+  { q: "गंगा नदी किस जगह से निकलती है?", a: "गंगोत्री (गोमुख)" },
+  "जो आज सीखा, उसे किसी दोस्त को समझाओ — पक्का याद रहेगा।",
+  { q: "एक वर्ग (square) की कितनी भुजाएँ होती हैं?", a: "4" },
+  "बड़ा सोचो, छोटे से शुरू करो, अभी शुरू करो।",
+  { q: "वायुमंडल में सबसे ज़्यादा कौन सी गैस है?", a: "नाइट्रोजन (लगभग 78%)" },
+  "हर दिन कुछ नया सीखो — यही असली कमाई है।",
+];
+function dailyCard() {
+  const d = new Date(), day = Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 864e5);
+  const x = DAILY[day % DAILY.length];
+  if (typeof x === "string") return `<section class="daily"><div class="dy-h">💡 आज का विचार</div><p>${esc(x)}</p></section>`;
+  return `<section class="daily q"><div class="dy-h">🧠 आज का सवाल</div><p>${esc(x.q)}</p>
+    <button class="dy-btn" onclick="this.nextElementSibling.hidden=false;this.remove()">जवाब देखें 👀</button><div class="dy-a" hidden>✅ ${esc(x.a)}</div></section>`;
+}
+
+// ---------- पिछली बार कहाँ थे ----------
+const lkey = () => (me ? `dc-last:${me.class}:${String(me.name).trim().toLowerCase()}` : "dc-last");
+function saveLast(o) { try { localStorage.setItem(lkey(), JSON.stringify(o)); } catch {} }
+function loadLast() { try { return JSON.parse(localStorage.getItem(lkey())); } catch { return null; } }
+function continueCard(list) {
+  const L = loadLast(); if (!L || !L.h) return "";
+  const c = list.find((x) => x.id === L.id); if (!c) return "";
+  const p = pctOf(c.id); if (p >= 100) return "";
+  return `<a class="contcard" href="${esc(L.h)}" style="${cvars(c.subject)}"><div class="cc-ic">▶</div>
+    <div class="cc-t"><small>पिछली बार यहाँ थे · ${esc(L.s || "")}</small><b>${esc(c.title)}</b><span>${p ? `${p}% हो गया — आगे देखो` : "जहाँ छोड़ा था वहीं से शुरू करो"}</span></div>${ring(p, 46, 5)}</a>`;
+}
+
+// ---------- खोज ----------
+function searchBox() { return `<div class="srch"><span>🔍</span><input id="srch" type="search" placeholder="कोई भी चैप्टर खोजें…" autocomplete="off"><div class="srch-r" id="srchr"></div></div>`; }
+function wireSearch(list, cls, stream) {
+  const inp = document.getElementById("srch"), out = document.getElementById("srchr"); if (!inp) return;
+  const ok = new Set(subjectGroups(cls, stream).flatMap((g) => g.items.map((x) => x.id)));
+  const pool = list.filter((c) => ok.has(c.subject));
+  const norm = (t) => String(t || "").toLowerCase();
+  inp.oninput = () => {
+    const q = norm(inp.value).trim();
+    if (q.length < 2) { out.innerHTML = ""; return; }
+    const hits = pool.filter((c) => { const sb = subjectById(cls, c.subject); return norm(c.title + " " + c.title_en + " " + (sb ? sb.name + " " + sb.en : "")).includes(q); }).slice(0, 12);
+    out.innerHTML = hits.length ? hits.map((c) => { const sb = subjectById(cls, c.subject);
+      return `<a href="#c${cls}-${stream}-${c.subject}-${encodeURIComponent(c.id)}" style="${cvars(c.subject)}"><i>${sb ? sb.icon : "📘"}</i><span><b>${esc(c.title)}</b><small>${esc(sb ? subjLabel(sb) : "")} · अध्याय ${esc(c.number)}</small></span></a>`; }).join("")
+      : `<div class="srch-no">कुछ नहीं मिला 🤔 दूसरा शब्द लिखकर देखो</div>`;
+  };
+}
+
+// ---------- विषय-कार्ड पर 3D झुकाव ----------
+function tilt3d(el) {
+  if (el.dataset.t3) return; el.dataset.t3 = 1;
+  const sh = document.createElement("span"); sh.className = "shine"; el.appendChild(sh);
+  el.addEventListener("pointermove", (e) => {
+    const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    el.style.transform = `perspective(700px) rotateX(${(0.5 - y) * 14}deg) rotateY(${(x - 0.5) * 16}deg) translateY(-4px) scale(1.03)`;
+    el.style.setProperty("--mx", x * 100 + "%"); el.style.setProperty("--my", y * 100 + "%"); el.classList.add("t3on");
+  });
+  const off = () => { el.style.transform = ""; el.classList.remove("t3on"); };
+  el.addEventListener("pointerleave", off); el.addEventListener("pointercancel", off); el.addEventListener("pointerup", () => setTimeout(off, 150));
+}
+
 // ---------- Back बटन (फ़ोन का भी) ----------
 // History ऐसे बनती है: #root → #home → #c10 → ... ; फ़ोन से Back दबाने पर एक-एक पन्ना पीछे जाएगा।
 // होम पेज पर पहुँचकर Back दबाने पर साइट वहीं रहेगी, login पेज पर वापस नहीं जाएगी।
@@ -104,6 +237,11 @@ function render(html, showBack = true) {
   app.querySelectorAll("[data-logout]").forEach((b) => (b.onclick = doLogout));
   const bb = document.getElementById("backbtn");
   if (bb) bb.onclick = back;
+  if (!document.getElementById("themebtn")) {
+    const tb = document.createElement("button"); tb.id = "themebtn"; tb.setAttribute("aria-label", "डार्क / लाइट मोड");
+    tb.textContent = isDark() ? "☀️" : "🌙"; tb.onclick = toggleTheme; document.body.appendChild(tb);
+  }
+  app.querySelectorAll(".tile").forEach(tilt3d);
   window.scrollTo(0, 0);
 }
 
@@ -124,6 +262,7 @@ function loginView(msg = "") {
       <div class="hero-go"><span class="go-side">लॉगिन यहाँ करें <b class="hand">👉</b></span><span class="go-down">लॉगिन नीचे करें <b class="hand">👇</b></span></div>
     </div>
   </section>
+  ${FEST ? `<div class="festban">${FEST.ic} ${esc(FEST.txt)} ${FEST.ic}</div>` : ""}
   <section class="card login">
     <h2>Hello Student 👋🏻</h2>
     <p class="muted">नाम, कक्षा और UDISE कोड डालें।</p>
@@ -211,11 +350,12 @@ async function subjectsView(cls, stream, isHome = false) {
       <div class="t">${esc(s.name)}</div><div class="en">${esc(s.en)}</div><div class="c">${countLabel(n)}</div>
       ${n ? `<div class="bar"><i style="width:${p}%"></i></div><div class="pc"><span>${d}/${n} पूरे</span><span>${p >= 100 ? "✓ पूरा" : p + "%"}</span></div>` : ""}</a>`;
   };
-  render(`${isHome ? greet(list) : `<div class="crumb">कक्षा ${esc(cls)}${st ? " › " + st.name + " (" + st.en + ")" : ""}</div>`}
+  render(`${isHome ? (FEST ? `<div class="festban">${FEST.ic} ${esc(FEST.txt)} ${FEST.ic}</div>` : "") + continueCard(list) + greet(list) + dailyCard() + searchBox() : `<div class="crumb">कक्षा ${esc(cls)}${st ? " › " + st.name + " (" + st.en + ")" : ""}</div>`}
   <h2>📚 कौन सा विषय पढ़ना है?</h2>
   ${subjectGroups(cls, stream).map((g) => `<h3 class="gtitle">${esc(g.title)}</h3>
     <div class="grid">${g.items.map(tile).join("")}</div>`).join("")}
   ${isHome ? `${schoolPic(true)}<div class="logout-row"><button class="btn red" data-logout>Logout करें</button></div>` : ""}`, !isHome);
+  if (isHome) { wireSearch(list, cls, stream); festRain(); }
 }
 
 async function chapterListView(cls, stream, sid) {
@@ -278,6 +418,7 @@ async function chapterView(cls, stream, sid, id) {
     ${prev ? `<button class="btn" data-swap="${esc(base + encodeURIComponent(prev.id))}">← पिछला चैप्टर</button>` : "<span></span>"}
     ${next ? `<button class="btn dark" data-swap="${esc(base + encodeURIComponent(next.id))}">अगला चैप्टर →</button>` : "<span></span>"}
   </div></div>`);
+  saveLast({ h: base + encodeURIComponent(c.id), id: c.id, s: sub ? subjLabel(sub) : "" });
   // प्रगति: वीडियो जितना देखा, उतना % (और जहाँ छोड़ा वहीं से फिर शुरू)
   const setP = (pct) => {
     const o = loadProg(); const old = o.p[c.id] || 0; if (pct <= old && pct < 100) return;

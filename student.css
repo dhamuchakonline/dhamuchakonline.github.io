@@ -376,3 +376,99 @@ body.vplay .ticker{display:none}
 header.top .schweb{display:block;text-align:center;padding:6px 10px;font:800 13px/1.3 Poppins,"Noto Sans Devanagari",sans-serif;letter-spacing:.02em;
   color:#fff;background:linear-gradient(90deg,#1e3a8a,#0f766e);text-decoration:none}
 header.top .schweb b{color:#fde68a;font-weight:800}
+
+/* ===== नए फ़ीचर (16 नवंबर 2026) ===== */
+/* पिछली बार यहाँ थे */
+.contcard{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);background:#fff;border:1.5px solid var(--c1);border-radius:20px;
+  padding:12px 14px;margin:4px 0 14px;box-shadow:0 10px 26px -12px var(--c1);position:relative;overflow:hidden}
+.contcard:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,var(--c1),var(--c2));opacity:.09}
+.contcard .cc-ic{position:relative;flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:18px;
+  background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 0 0 0 var(--c1);animation:ccPulse 2s infinite}
+@keyframes ccPulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--c1) 55%,transparent)}100%{box-shadow:0 0 0 14px transparent}}
+.contcard .cc-t{position:relative;flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.35}
+.contcard small{font-size:11.5px;font-weight:700;color:var(--c1);text-transform:none}
+.contcard b{font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.contcard span{font-size:12px;color:var(--mut);font-weight:600}
+.contcard .ring{position:relative}
+/* आज का विचार / सवाल */
+.daily{position:relative;margin:0 0 16px;padding:14px 16px;border-radius:20px;background:linear-gradient(135deg,#fff7ed,#fef3c7);border:1px solid #fde68a;overflow:hidden}
+.daily.q{background:linear-gradient(135deg,#ecfeff,#e0e7ff);border-color:#c7d2fe}
+.daily .dy-h{font-size:12.5px;font-weight:800;letter-spacing:.03em;color:#b45309}
+.daily.q .dy-h{color:#4338ca}
+.daily p{margin:6px 0 0;font-size:15px;font-weight:700;line-height:1.5;color:var(--ink)}
+.dy-btn{margin-top:10px;border:0;border-radius:99px;padding:7px 14px;font:inherit;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(90deg,#6366f1,#0d9488)}
+.dy-a{margin-top:10px;font-weight:800;color:#047857;animation:inTxt .5s forwards}
+/* खोज */
+.srch{position:relative;margin:0 0 6px}
+.srch>span{position:absolute;left:14px;top:13px;font-size:16px;pointer-events:none}
+.srch input{margin:0;padding-left:42px!important;border-radius:16px!important;background:#fff!important;box-shadow:0 4px 16px rgba(67,56,202,.07)}
+.srch-r{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.srch-r a{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-left:4px solid var(--c1);border-radius:14px;padding:9px 12px}
+.srch-r a i{font-style:normal;font-size:20px}
+.srch-r a span{display:flex;flex-direction:column;min-width:0}
+.srch-r a b{font-size:14px;font-weight:800}.srch-r a small{font-size:11.5px;color:var(--mut);font-weight:600}
+.srch-no{font-size:13px;color:var(--mut);padding:8px 4px}
+/* 3D कार्ड */
+.stu .grid{perspective:900px}
+.stu .tile{transform-style:preserve-3d;will-change:transform;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+.stu .tile .ic{transition:transform .25s}
+.stu .tile.t3on{transition:transform .06s linear,box-shadow .2s;box-shadow:0 22px 40px -14px var(--c1,#6366f1)!important}
+.stu .tile.t3on .ic{transform:translateZ(30px) scale(1.08)}
+.stu .tile .shine{position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .25s;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.55),transparent 45%)}
+.stu .tile.t3on .shine{opacity:1}
+.stu .tile:active{transform:perspective(700px) translateY(-3px) scale(.98)}
+/* डार्क मोड बटन */
+#themebtn{position:fixed;right:14px;bottom:max(16px,env(safe-area-inset-bottom));z-index:60;width:48px;height:48px;border-radius:50%;border:0;font-size:22px;
+  background:linear-gradient(135deg,#1e1b4b,#4338ca);box-shadow:0 8px 22px rgba(30,27,75,.4);display:grid;place-items:center;transition:transform .2s}
+#themebtn:active{transform:scale(.9) rotate(-20deg)}
+body.dark #themebtn{background:linear-gradient(135deg,#fde68a,#f59e0b)}
+body.printnotes #themebtn{display:none}
+/* त्योहार */
+.festban{margin:2px 0 14px;padding:12px 14px;border-radius:18px;text-align:center;font-weight:800;font-size:15px;color:#fff;
+  background:linear-gradient(90deg,#f59e0b,#ef4444,#ec4899);box-shadow:0 10px 24px -12px #ef4444;animation:festGlow 2.4s ease-in-out infinite}
+@keyframes festGlow{50%{filter:brightness(1.15) saturate(1.2)}}
+.fest-tiranga .festban{background:linear-gradient(90deg,#ff9933,#ffffff 50%,#138808);color:#1e3a8a;text-shadow:0 1px 0 #fff}
+.fest-holi .festban{background:linear-gradient(90deg,#ec4899,#f59e0b,#22c55e,#3b82f6,#a855f7)}
+.fest-diwali .festban{background:linear-gradient(90deg,#7c2d12,#ea580c,#fbbf24)}
+.fest-chhath .festban{background:linear-gradient(90deg,#b45309,#f97316,#facc15)}
+.fest-saraswati .festban{background:linear-gradient(90deg,#facc15,#fde047,#fef08a);color:#713f12}
+.fest-tiranga header.top{border-bottom:4px solid;border-image:linear-gradient(90deg,#ff9933 33%,#fff 33% 66%,#138808 66%) 1}
+.fest-diwali header.top,.fest-chhath header.top{border-bottom:3px solid #f59e0b}
+.fest-holi header.top{border-bottom:4px solid;border-image:linear-gradient(90deg,#ec4899,#f59e0b,#22c55e,#3b82f6,#a855f7) 1}
+#fxrain{position:fixed;inset:0;pointer-events:none;z-index:70;overflow:hidden}
+#fxrain span{position:absolute;top:-40px;animation:fxFall linear forwards;opacity:.95}
+@keyframes fxFall{to{transform:translateY(110vh) rotate(360deg);opacity:.2}}
+@media (prefers-reduced-motion:reduce){#fxrain{display:none}}
+
+/* ===== डार्क मोड ===== */
+body.stu.dark{--ink:#e7e9f5;--mut:#a3a8c3;--line:#2b2f4a;color:var(--ink);
+  background:radial-gradient(1000px 500px at 0% -10%,#1e1b4b 0%,transparent 60%),radial-gradient(900px 500px at 105% 0%,#0f3b3a 0%,transparent 55%),#0b0d1a;background-attachment:fixed}
+body.dark .top{background:rgba(14,16,32,.88)!important;color:var(--ink)}
+body.dark .school,body.dark .stu .school{color:#c7d2fe}
+body.dark .sub{color:var(--mut)}
+body.dark .card,body.dark .tile,body.dark .row,body.dark .stat,body.dark .btn,body.dark .progline,body.dark .empty,body.dark .contcard,
+body.dark .srch-r a,body.dark .speeds .sp,body.dark .visfoot{background:#151830!important;border-color:var(--line)!important;color:var(--ink)}
+body.dark .row.done{background:linear-gradient(90deg,#0f2a1d,#151830 60%)!important}
+body.dark .tile .bar{background:#262a46}
+body.dark input,body.dark select,body.dark .srch input{background:#10132a!important;color:var(--ink);border-color:#33385a!important}
+body.dark .crumb{background:#1f1d45!important;color:#c7d2fe!important}
+body.dark .gtitle{color:#c7d2fe!important}
+body.dark .sir{background:#14172c;border-color:#33385a}body.dark .sir p{color:#c3c6dc}
+body.dark .daily{background:linear-gradient(135deg,#2a1d0b,#2b230a);border-color:#5b4510}
+body.dark .daily.q{background:linear-gradient(135deg,#0b2730,#1b1d45);border-color:#30357a}
+body.dark .daily .dy-h{color:#fbbf24}body.dark .daily.q .dy-h{color:#a5b4fc}
+body.dark .dy-a{color:#34d399}
+body.dark .ring circle.bg{stroke:#2b2f4a}
+body.dark .ghost{color:#c7d2fe;border-color:#3b3f63}
+body.dark .notes h3{color:var(--ink)}
+body.dark .sitefoot,body.dark .credit{color:var(--mut)}
+body.dark .sitefoot b,body.dark .credit b{color:#a5b4fc}
+body.dark .visfoot a{color:#7dd3fc}
+body.dark .chhead .s,body.dark .stat small{color:var(--mut)}
+body.dark .contcard span{color:var(--mut)}
+body.dark .stu .tile .shine{background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(165,180,252,.28),transparent 45%)}
+body.dark .top .ghost,body.dark #logout{background:#1f2240!important;color:#fda4af!important;border-color:#3b3f63!important}
+body.dark .notes{background:#151830!important;color:#dfe2f2}
+body.dark .top .back{background:#1f2240!important;color:#c7d2fe!important;border-color:#3b3f63!important}
+#themebtn{width:44px;height:44px;font-size:20px;opacity:.92}
