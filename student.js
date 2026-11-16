@@ -45,7 +45,7 @@ const ticker = () => { const t = TICK.map((x) => `<span>${x}</span>`).join(""); 
 
 
 // ---------- डार्क मोड ----------
-const isDark = () => { try { return localStorage.getItem("dc-theme") === "dark"; } catch { return false; } };
+const isDark = () => { try { return localStorage.getItem("dc-theme") !== "light"; } catch { return true; } };
 document.body.classList.toggle("dark", isDark());
 function toggleTheme() {
   const d = !document.body.classList.contains("dark");
