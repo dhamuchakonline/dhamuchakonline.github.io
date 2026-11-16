@@ -176,6 +176,16 @@ function tilt3d(el) {
   el.addEventListener("pointerleave", off); el.addEventListener("pointercancel", off); el.addEventListener("pointerup", () => setTimeout(off, 150));
 }
 
+// ---------- घड़ी: दिन, तारीख़, साल, समय ----------
+function clockText() {
+  const d = new Date();
+  const day = d.toLocaleDateString("hi-IN", { weekday: "long" });
+  const dt = d.toLocaleDateString("hi-IN", { day: "numeric", month: "long", year: "numeric" });
+  const tm = d.toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit", second: "2-digit", hour12: true }).toUpperCase();
+  return `<span>📅 ${day}, ${dt}</span><span>⏰ ${tm}</span>`;
+}
+setInterval(() => { const c = document.getElementById("clockbar"); if (c) c.innerHTML = clockText(); }, 1000);
+
 // ---------- Back बटन (फ़ोन का भी) ----------
 // History ऐसे बनती है: #root → #home → #c10 → ... ; फ़ोन से Back दबाने पर एक-एक पन्ना पीछे जाएगा।
 // होम पेज पर पहुँचकर Back दबाने पर साइट वहीं रहेगी, login पेज पर वापस नहीं जाएगी।
@@ -194,7 +204,7 @@ function header(showBack) {
     <div class="brand"><div class="brand-row"><img class="logo blogo" src="bihar-shiksha.png" alt="शिक्षा विभाग, बिहार सरकार"><div class="school">${esc(SCHOOL_NAME)}</div></div>
       <div class="sub">${esc(TAGLINE)}</div></div>
     ${me ? `<button class="ghost" id="logout" aria-label="Logout">Logout</button>` : ""}
-  </div>${ticker()}<a class="schweb" href="https://uhsdhamuchak.space" target="_blank" rel="noopener">School Website : <b>uhsdhamuchak.space</b></a></header>
+  </div>${ticker()}<a class="schweb" href="https://uhsdhamuchak.space" target="_blank" rel="noopener">School Website : <b>uhsdhamuchak.space</b></a><div class="clockbar" id="clockbar">${clockText()}</div></header>
   ${DEMO ? `<div class="demo">डेमो मोड — Firebase जोड़ने पर असली साइट चालू होगी</div>` : ""}`;
 }
 
