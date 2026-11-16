@@ -321,7 +321,7 @@ body.vplay .ticker{display:none}
 #intro .in-orb{position:relative;width:min(56vmin,320px);aspect-ratio:1;transform-style:preserve-3d;opacity:0;
   animation:inAppear 1.2s ease-out forwards, inTilt 4.2s ease-in-out forwards}
 @keyframes inAppear{to{opacity:1}}
-@keyframes inTilt{0%{transform:rotateX(18deg) rotateY(-28deg) scale(.7)}60%{transform:rotateX(4deg) rotateY(6deg) scale(.95)}100%{transform:rotateX(0) rotateY(0) scale(1)}}
+@keyframes inTilt{0%{transform:scale(.72)}100%{transform:scale(1)}}
 /* चारों ओर की रोशनी — चाँद जितना चमके उतनी बढ़े */
 #intro .in-glow{position:absolute;inset:-35%;border-radius:50%;
   background:radial-gradient(circle,rgba(255,250,230,.75) 0%,rgba(253,230,138,.35) 32%,rgba(147,197,253,.12) 50%,transparent 68%);
@@ -329,7 +329,7 @@ body.vplay .ticker{display:none}
 @keyframes inGlow{to{opacity:1;transform:scale(1.15)}}
 /* 3D गोला */
 #intro .in-ball{position:absolute;inset:0;border-radius:50%;overflow:hidden;isolation:isolate;
-  box-shadow:0 0 0 1px rgba(148,163,184,.18),0 0 24px rgba(96,165,250,.12)}
+  box-shadow:0 0 0 1.5px rgba(186,205,240,.35),0 0 18px 2px rgba(147,197,253,.28),0 0 50px 6px rgba(96,165,250,.14)}
 #intro .in-surf{position:absolute;inset:-12%;
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.022' numOctaves='5' seed='11'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.4 0 0 0 0 0.37 2.2 0 0 0 -0.95'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") 0 0/130% 130%,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.18' numOctaves='3' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.28 0 0 0 0 0.25 1.2 0 0 0 -0.45'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E") 0 0/45% 45%,
    radial-gradient(circle at 63% 36%,rgba(120,112,98,.38) 0 6%,rgba(120,112,98,0) 7.5%),
@@ -361,10 +361,14 @@ body.vplay .ticker{display:none}
 #intro .in-msg{position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,#ffffff 0%,#f8fafc 60%,#eef2ff 100%);
   display:grid;place-items:center;text-align:center;padding:24px;opacity:0;animation:inAppear .3s 4.75s forwards}
 #intro .in-msg div div{opacity:0;font-family:Poppins,sans-serif;font-weight:800}
-#intro .in-w1{font-size:clamp(14px,4vw,22px);letter-spacing:.32em;color:#475569;animation:inTxt .8s 4.9s forwards}
-#intro .in-w2{margin-top:10px;font-size:clamp(28px,9vw,64px);line-height:1.08;color:#0b1437;animation:inTxt .9s 5.15s forwards}
-#intro .in-w3{margin-top:18px;font-size:clamp(20px,6.4vw,42px);letter-spacing:.08em;
-  background:linear-gradient(90deg,#2563eb,#0d9488,#f59e0b,#2563eb);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+#intro .in-w1{font-size:clamp(13px,3.8vw,20px);letter-spacing:.32em;color:#64748b;animation:inTxt .8s 4.9s forwards}
+#intro .in-w2{margin-top:10px;font-size:clamp(28px,9vw,64px);line-height:1.08;color:#1e1b4b;animation:inTxt .9s 5.15s forwards}
+#intro .in-w3{margin-top:6px;font-size:clamp(28px,9vw,64px);line-height:1.08;letter-spacing:.02em;
+  background:linear-gradient(90deg,#4f46e5,#0891b2,#0d9488,#4f46e5);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
   animation:inTxt .9s 5.6s forwards, spShine 3s linear infinite}
 @keyframes inTxt{0%{opacity:0;transform:translateY(18px) scale(.92);filter:blur(8px)}100%{opacity:1;transform:none;filter:none}}
 @media (prefers-reduced-motion:reduce){#intro{display:none}}
+#intro .in-line{width:64px;height:3px;margin:22px auto 16px;border-radius:3px;background:linear-gradient(90deg,#6366f1,#14b8a6,#f59e0b);opacity:0;animation:inTxt .6s 6.1s forwards}
+#intro .in-w4{font-size:clamp(11px,3vw,14px);letter-spacing:.28em;color:#94a3b8;font-weight:600!important;animation:inTxt .7s 6.2s forwards}
+#intro .in-w5{margin-top:8px;font-family:"Noto Sans Devanagari",sans-serif!important;font-size:clamp(18px,5.4vw,30px);line-height:1.35;color:#0f766e;animation:inTxt .8s 6.45s forwards}
+#intro .in-w6{margin-top:6px;font-family:"Noto Sans Devanagari",sans-serif!important;font-weight:700!important;font-size:clamp(14px,4vw,19px);color:#b45309;animation:inTxt .8s 6.75s forwards}

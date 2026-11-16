@@ -8,14 +8,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="student.css?v=20261116b">
+<link rel="stylesheet" href="student.css?v=20261116c">
 </head>
 <body>
 <div id="intro" aria-hidden="true">
   <div class="in-stars"></div>
   <div class="in-orb"><div class="in-glow"></div><div class="in-ball"><div class="in-surf"></div><div class="in-limb"></div><div class="in-shade"></div><div class="in-flare"></div></div></div>
   <div class="in-burst"></div>
-  <div class="in-msg"><div><div class="in-w1">WELCOME TO THE</div><div class="in-w2">NEW ERA OF<br>EDUCATION</div><div class="in-w3">SMART EDUCATION</div></div></div>
+  <div class="in-msg"><div><div class="in-w1">WELCOME TO THE</div><div class="in-w2">NEW ERA OF</div><div class="in-w3">SMART EDUCATION</div><div class="in-line"></div><div class="in-w4">PRESENTED BY</div><div class="in-w5">उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</div><div class="in-w6">रजौली, नवादा (बिहार)</div></div></div>
 </div>
 <div id="splash" class="sp-wait" aria-label="स्वागत">
   <div class="sp-grid"></div>
@@ -34,7 +34,7 @@
 <script>
   (function () {
     var s = document.getElementById("splash"), it = document.getElementById("intro"), done = false, started = false;
-    var T0 = performance.now(), INTRO = 7400, timer = null;
+    var T0 = performance.now(), INTRO = 9000, timer = null;
     function hide() { if (done) return; done = true; s.classList.add("sp-out"); setTimeout(function () { s.remove(); }, 1800); }
     function start() {
       if (started) return; started = true; unarm();
@@ -57,7 +57,7 @@
     }
     function play() {
       if (played || !ctx || ctx.state !== "running") return;
-      var el = (performance.now() - T0) / 1000; if (el > 6.5) return; played = true;
+      var el = (performance.now() - T0) / 1000; if (el > 8) return; played = true;
       master = ctx.createGain(); master.gain.value = .55; master.connect(ctx.destination);
       var now = ctx.currentTime, at = function (sec) { return now + Math.max(0, sec - el); };
       if (el < 4.4) { var lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 400; lp.connect(master);
