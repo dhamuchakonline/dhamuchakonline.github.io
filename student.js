@@ -61,7 +61,7 @@ function header(showBack) {
     <div class="brand"><div class="brand-row"><img class="logo blogo" src="bihar-shiksha.png" alt="शिक्षा विभाग, बिहार सरकार"><div class="school">${esc(SCHOOL_NAME)}</div></div>
       <div class="sub">${esc(TAGLINE)}</div></div>
     ${me ? `<button class="ghost" id="logout" aria-label="Logout">Logout</button>` : ""}
-  </div>${ticker()}</header>
+  </div>${ticker()}<a class="schweb" href="https://uhsdhamuchak.space" target="_blank" rel="noopener">School Website : <b>uhsdhamuchak.space</b></a></header>
   ${DEMO ? `<div class="demo">डेमो मोड — Firebase जोड़ने पर असली साइट चालू होगी</div>` : ""}`;
 }
 
@@ -125,14 +125,14 @@ function loginView(msg = "") {
     </div>
   </section>
   <section class="card login">
-    <h2>स्वागत है 🙏</h2>
+    <h2>Hello Student 👋🏻</h2>
     <p class="muted">नाम, कक्षा और UDISE कोड डालें।</p>
     <form id="f">
-      <label>आपका नाम<input name="sname" required autocomplete="name" maxlength="50"></label>
-      <label>कक्षा
+      <label>Enter Your Name<input name="sname" required autocomplete="name" maxlength="50"></label>
+      <label>Choose your Class
         <select name="cls" required><option value="">चुनें</option>
         ${CLASSES.map((c) => `<option value="${c}">कक्षा ${c}</option>`).join("")}</select></label>
-      <label>स्कूल का UDISE कोड<input name="code" inputmode="numeric" required autocomplete="off"></label>
+      <label>School UDISE Code :<input name="code" inputmode="numeric" required autocomplete="off"></label>
       <div class="err">${esc(msg)}</div>
       <button class="primary" type="submit">पढ़ाई शुरू करें →</button>
     </form>
