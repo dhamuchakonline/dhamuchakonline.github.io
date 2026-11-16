@@ -176,6 +176,67 @@ function tilt3d(el) {
   el.addEventListener("pointerleave", off); el.addEventListener("pointercancel", off); el.addEventListener("pointerup", () => setTimeout(off, 150));
 }
 
+
+// ---------- चैप्टर क्विज़ (quiz/c9.json … हर चैप्टर के 5 सवाल) ----------
+const quizCache = {};
+async function quizFor(cls, id) {
+  try {
+    if (!quizCache[cls]) quizCache[cls] = fetch(`quiz/c${cls}.json?v=` + Math.floor(Date.now() / 600000)).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
+    const all = await quizCache[cls];
+    return Array.isArray(all[id]) && all[id].length ? all[id] : null;
+  } catch { return null; }
+}
+const qScore = (id) => { const q = loadProg().q || {}; return q[id]; };
+function confetti() {
+  const box = document.createElement("div"); box.className = "qconf"; box.setAttribute("aria-hidden", "true");
+  const col = ["#f43f5e", "#f59e0b", "#22c55e", "#3b82f6", "#a855f7", "#14b8a6"];
+  for (let i = 0; i < 60; i++) { const b = document.createElement("i"); b.style.left = Math.random() * 100 + "%"; b.style.background = col[i % col.length];
+    b.style.animationDelay = (Math.random() * .6).toFixed(2) + "s"; b.style.animationDuration = (1.6 + Math.random() * 1.4).toFixed(2) + "s"; box.appendChild(b); }
+  document.body.appendChild(box); setTimeout(() => box.remove(), 3500);
+}
+async function startQuiz({ cls, c, next, onNext }) {
+  if (document.getElementById("quizov")) return;
+  const ov = document.createElement("div"); ov.id = "quizov";
+  ov.innerHTML = `<div class="qz"><div class="qz-load"><div class="qz-spin"></div><b>Quiz लोड हो रहा है…</b><small>${esc(c.title)}</small></div></div>`;
+  document.body.appendChild(ov); document.body.classList.add("noscroll");
+  const close = () => { ov.remove(); document.body.classList.remove("noscroll"); };
+  const [qs] = await Promise.all([quizFor(cls, c.id), new Promise((r) => setTimeout(r, 1400))]);
+  const box = ov.querySelector(".qz");
+  if (!qs) { box.innerHTML = `<div class="qz-end"><div class="qz-big">📝</div><b>इस चैप्टर का Quiz जल्द आएगा</b><div class="qz-acts">${next ? `<button class="un-btn" id="qzNext">▶ Play Next Chapter</button>` : ""}<button class="qz-ghost" id="qzClose">Close</button></div></div>`;
+    box.querySelector("#qzClose").onclick = close; const nb = box.querySelector("#qzNext"); if (nb) nb.onclick = () => { close(); onNext(); }; return; }
+  const list = qs.slice(0, 5).map((q) => { const opts = q.slice(1, 5).map((t, i) => ({ t, ok: i === q[5] })); for (let i = opts.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [opts[i], opts[j]] = [opts[j], opts[i]]; } return { q: q[0], opts }; });
+  let i = 0, score = 0;
+  const show = () => {
+    const Q = list[i];
+    box.innerHTML = `<div class="qz-top"><span>📝 Chapter Quiz</span><button class="qz-x" aria-label="बंद करें">✕</button></div>
+      <div class="qz-dots">${list.map((_, k) => `<i class="${k < i ? "done" : k === i ? "cur" : ""}"></i>`).join("")}</div>
+      <div class="qz-n">Question ${i + 1} of ${list.length}</div><div class="qz-q">${esc(Q.q)}</div>
+      <div class="qz-opts">${Q.opts.map((o, k) => `<button class="qz-o" data-k="${k}"><span>${"ABCD"[k]}</span>${esc(o.t)}</button>`).join("")}</div><div class="qz-fb"></div>`;
+    box.querySelector(".qz-x").onclick = close;
+    box.querySelectorAll(".qz-o").forEach((b) => (b.onclick = () => {
+      const k = +b.dataset.k, ok = Q.opts[k].ok;
+      box.querySelectorAll(".qz-o").forEach((x, n) => { x.disabled = true; if (Q.opts[n].ok) x.classList.add("right"); });
+      if (!ok) b.classList.add("wrong"); else score++;
+      const fb = box.querySelector(".qz-fb");
+      fb.innerHTML = `<div class="${ok ? "yes" : "no"}">${ok ? ["🎉 Correct! शाबाश!", "✅ बिल्कुल सही!", "🌟 Great job!"][i % 3] : "❌ ग़लत — सही जवाब हरे रंग में है"}</div><button class="un-btn" id="qzGo">${i + 1 < list.length ? "Next Question →" : "See Result 🏆"}</button>`;
+      box.querySelector("#qzGo").onclick = () => { i++; i < list.length ? show() : result(); };
+    }));
+  };
+  const result = () => {
+    const o = loadProg(); o.q = o.q || {}; o.q[c.id] = Math.max(o.q[c.id] || 0, score); saveProg(o);
+    const n = list.length, stars = score >= n ? 3 : score >= Math.ceil(n * .6) ? 2 : score > 0 ? 1 : 0;
+    const msg = score >= n ? "Perfect Score! आप तो स्टार हो! 🌟" : score >= Math.ceil(n * .6) ? "बहुत बढ़िया! ऐसे ही आगे बढ़ो 💪" : "कोई बात नहीं, वीडियो दोबारा देखो और फिर कोशिश करो 📖";
+    box.innerHTML = `<div class="qz-end"><div class="qz-stars">${[0, 1, 2].map((k) => `<span class="${k < stars ? "on" : ""}" style="animation-delay:${k * .25}s">★</span>`).join("")}</div>
+      <div class="qz-score"><b>${score}</b>/${n}</div><div class="qz-msg">${msg}</div>
+      <div class="qz-acts">${next ? `<button class="un-btn" id="qzNext">▶ Play Next Chapter</button>` : ""}<button class="qz-ghost" id="qzRe">↻ Retry Quiz</button><button class="qz-ghost" id="qzClose">Close</button></div></div>`;
+    if (stars >= 2) confetti();
+    box.querySelector("#qzClose").onclick = () => { close(); route(); };
+    box.querySelector("#qzRe").onclick = () => { i = 0; score = 0; list.forEach((Q) => Q.opts.sort(() => Math.random() - .5)); show(); };
+    const nb = box.querySelector("#qzNext"); if (nb) nb.onclick = () => { close(); onNext(); };
+  };
+  show();
+}
+
 // ---------- वेबसाइट बनाने वाले का कार्ड ----------
 const devCard = () => `<div class="devcard"><div class="dv-av">👨‍🏫</div><div class="dv-t">
   <small>Website Created &amp; Managed by:</small><b>Ankush Sir</b><span>English Teacher · UHS Dhamuchak</span>
@@ -219,7 +280,7 @@ function header(showBack) {
     <div class="brand"><div class="brand-row"><img class="logo blogo" src="bihar-shiksha.png" alt="शिक्षा विभाग, बिहार सरकार"><div class="school">${esc(SCHOOL_NAME)}</div></div>
       <div class="sub">${esc(TAGLINE)}</div></div>
     ${me ? `<button class="ghost" id="logout" aria-label="Logout">Logout</button>` : ""}
-  </div>${ticker()}<a class="schweb" href="https://uhsdhamuchak.space" target="_blank" rel="noopener">School Website : <b>uhsdhamuchak.space</b></a><div class="clockbar" id="clockbar">${clockText()}</div></header>
+  </div>${ticker()}<div class="clockbar" id="clockbar">${clockText()}</div></header>
   ${DEMO ? `<div class="demo">डेमो मोड — Firebase जोड़ने पर असली साइट चालू होगी</div>` : ""}`;
 }
 
@@ -397,7 +458,7 @@ async function chapterListView(cls, stream, sid) {
       <div class="num">${esc(c.number)}</div>
       <div style="min-width:0"><div class="t">${esc(c.title)}${subT(c)}</div><div class="meta">
         ${hasV ? `<span class="chip v">▶ वीडियो${c.minutes ? ` · ${esc(c.minutes)} मिनट` : ""}</span>` : `<span class="chip">📝 नोट्स</span>`}
-        ${p >= 100 ? `<span class="chip ok">✓ पूरा</span>` : p > 0 ? `<span class="chip">जारी है</span>` : `<span class="chip new">नया</span>`}</div></div>
+        ${qScore(c.id) != null ? `<span class="chip qz">⭐ Quiz ${qScore(c.id)}/5</span>` : ""}${p >= 100 ? `<span class="chip ok">✓ पूरा</span>` : p > 0 ? `<span class="chip">जारी है</span>` : `<span class="chip new">नया</span>`}</div></div>
       <div class="rcol">${ring(p, 44, 5)}${p >= 100 ? "" : `<small>${p ? p + "% पढ़ा" : "शुरू करें"}</small>`}</div></a>`;
   };
   render(`<div class="crumb">कक्षा ${esc(cls)}${st ? " › " + st.name : ""} › ${esc(subjLabel(sub))}</div>
@@ -437,7 +498,7 @@ async function chapterView(cls, stream, sid, id) {
   </div>
   ${c.video ? `<div class="speeds" id="speeds"><span>⚡ Speed</span>${[0.5,0.75,1,1.25,1.5,2,3].map((x) => `<button class="sp${x === 1 ? " on" : ""}" data-r="${x}">${x}×</button>`).join("")}</div>` : ""}
   <div class="progline"><span id="pring">${ring(p0, 46, 5)}</span><div class="pl-t" id="ptxt">${p0 >= 100 ? "यह चैप्टर पूरा हो गया ✓" : p0 ? `आपने ${p0}% पढ़ लिया है` : "पढ़ना शुरू करें"}<small>${c.video ? "वीडियो देखने के साथ आपकी प्रगति अपने-आप दर्ज होगी" : "पढ़ लेने पर नीचे का बटन दबाएँ"}</small></div></div>
-  <div class="tools"><button class="btn" id="fs2">⛶ पूरी स्क्रीन में देखें</button>${notes ? `<button class="btn" id="pdfbtn" ${c.video && p0 < 100 ? "hidden" : ""}>📄 पूरी क्लास PDF में डाउनलोड करें</button>` : ""}${p0 >= 100 || c.video ? "" : `<button class="btn okb" id="markdone">✓ पूरा पढ़ लिया</button>`}</div>
+  <div class="tools"><button class="btn" id="fs2">⛶ पूरी स्क्रीन में देखें</button>${notes ? `<button class="btn" id="pdfbtn" ${c.video && p0 < 100 ? "hidden" : ""}>📄 पूरी क्लास PDF में डाउनलोड करें</button>` : ""}${p0 >= 100 || c.video ? "" : `<button class="btn okb" id="markdone">✓ पूरा पढ़ लिया</button>`}<button class="btn quizb" id="quizbtn" ${p0 >= 100 ? "" : "hidden"}>📝 Take Quiz${qScore(c.id) != null ? ` · ⭐ ${qScore(c.id)}/5` : ""}</button></div>
   ${notes ? `<section class="card notes"><div class="pdf-head">कक्षा ${esc(cls)} · ${esc(c.title)}</div><h3>📝 चैप्टर को कहानी की तरह समझें</h3><div id="ntxt"></div></section>` : ""}
   ${next ? `<div class="upnext" style="${cvars(sid)}"><div class="un-l"><small>UP NEXT · Chapter ${esc(next.number)}</small><b>${esc(next.title)}</b>${subT(next)}</div>
     <button class="un-btn" data-swap="${esc(base + encodeURIComponent(next.id))}">▶ Play Next Chapter</button></div>`
@@ -455,7 +516,7 @@ async function chapterView(cls, stream, sid, id) {
     const p = Math.min(100, Math.round(o.p[c.id]));
     document.getElementById("pring").innerHTML = ring(p, 46, 5);
     document.getElementById("ptxt").firstChild.textContent = p >= 100 ? "यह चैप्टर पूरा हो गया ✓" : `आपने ${p}% पढ़ लिया है`;
-    if (p >= 100) document.getElementById("markdone")?.remove();
+    if (p >= 100) { document.getElementById("markdone")?.remove(); const qb = document.getElementById("quizbtn"); if (qb) qb.hidden = false; }
   };
   const pb = document.getElementById("pdfbtn");
   if (pb) pb.onclick = () => {
@@ -507,8 +568,11 @@ async function chapterView(cls, stream, sid, id) {
       v.addEventListener("ended", () => { maxT = dur; upd(); const o = loadProg(); o.m = o.m || {}; o.m[c.id] = maxT; saveProg(o); });
     }
   }
+  const goNext = () => { if (next) { history.replaceState(null, "", base + encodeURIComponent(next.id)); route(); } };
+  const openQuiz = () => startQuiz({ cls, c, next, onNext: goNext });
+  const qbtn = document.getElementById("quizbtn"); if (qbtn) qbtn.onclick = openQuiz;
   const md = document.getElementById("markdone");
-  if (md) md.onclick = () => setP(100);
+  if (md) md.onclick = () => { setP(100); openQuiz(); };
   const vid = app.querySelector(".player video");
   if (vid) {
     let last = 0;
@@ -524,15 +588,10 @@ async function chapterView(cls, stream, sid, id) {
       setP(pct >= 95 ? 100 : Math.floor(pct));
     });
     vid.addEventListener("ended", () => setP(100));
-    if (next) vid.addEventListener("ended", () => {
+    vid.addEventListener("ended", () => {
       if (document.fullscreenElement) try { document.exitFullscreen(); } catch {}
-      const pl = document.getElementById("player"); if (pl.querySelector(".endov")) return;
-      const ov = document.createElement("div"); ov.className = "endov";
-      ov.innerHTML = `<div><small>✅ Chapter Completed!</small><b>Next: ${esc(next.title)}</b>
-        <button class="un-btn" data-swap="${esc(base + encodeURIComponent(next.id))}">▶ Play Next Chapter</button><button class="endx">↻ Watch Again</button></div>`;
-      pl.appendChild(ov);
-      ov.querySelector("[data-swap]").onclick = () => { history.replaceState(null, "", base + encodeURIComponent(next.id)); route(); };
-      ov.querySelector(".endx").onclick = () => { ov.remove(); vid.currentTime = 0; vid.play(); };
+      document.body.classList.remove("vplay");
+      openQuiz();
     });
     // स्पीड बटन (0.5× से 3×)
     const sb = document.getElementById("speeds");
