@@ -51,7 +51,7 @@ function toggleTheme() {
   const d = !document.body.classList.contains("dark");
   document.body.classList.toggle("dark", d);
   try { localStorage.setItem("dc-theme", d ? "dark" : "light"); } catch {}
-  const b = document.getElementById("themebtn"); if (b) b.textContent = d ? "☀️" : "🌙";
+  const b = document.getElementById("themebtn"); if (b) b.textContent = d ? "☀️ Light Mode" : "🌙 Dark Mode";
 }
 
 // ---------- त्योहार थीम (तारीख़ के हिसाब से अपने-आप) ----------
@@ -264,7 +264,7 @@ function render(html, showBack = true) {
   if (bb) bb.onclick = back;
   if (!document.getElementById("themebtn")) {
     const tb = document.createElement("button"); tb.id = "themebtn"; tb.setAttribute("aria-label", "डार्क / लाइट मोड");
-    tb.textContent = isDark() ? "☀️" : "🌙"; tb.onclick = toggleTheme; document.body.appendChild(tb);
+    tb.textContent = isDark() ? "☀️ Light Mode" : "🌙 Dark Mode"; tb.onclick = toggleTheme; document.body.appendChild(tb);
   }
   app.querySelectorAll(".tile").forEach(tilt3d);
   window.scrollTo(0, 0);
