@@ -8,14 +8,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="student.css?v=20261116a">
+<link rel="stylesheet" href="student.css?v=20261116b">
 </head>
 <body>
 <div id="intro" aria-hidden="true">
   <div class="in-stars"></div>
-  <div class="in-orb"><div class="in-rays"></div><div class="in-corona"></div><div class="in-moon"></div><div class="in-full"></div><div class="in-spark"></div></div>
+  <div class="in-orb"><div class="in-glow"></div><div class="in-ball"><div class="in-surf"></div><div class="in-limb"></div><div class="in-shade"></div><div class="in-flare"></div></div></div>
   <div class="in-burst"></div>
-  <div class="in-skip">TAP TO SKIP</div>
+  <div class="in-msg"><div><div class="in-w1">WELCOME TO THE</div><div class="in-w2">NEW ERA OF<br>EDUCATION</div><div class="in-w3">SMART EDUCATION</div></div></div>
 </div>
 <div id="splash" class="sp-wait" aria-label="स्वागत">
   <div class="sp-grid"></div>
@@ -27,7 +27,6 @@
     <div class="sp-by">presented by</div>
     <div class="sp-uhs">UHS DHAMUCHAK</div>
     <div class="sp-loc">RAJAULI, NAWADA (BIHAR)</div>
-    <div class="sp-era">WELCOMES YOU TO THE<br>NEW ERA OF EDUCATION</div>
     <div class="sp-bar"><span></span></div>
   </div>
   <div class="sp-foot">© 2026 UHS Dhamuchak · All rights reserved<br>Website managed by: <b>Ankush Sir</b></div>
@@ -35,15 +34,53 @@
 <script>
   (function () {
     var s = document.getElementById("splash"), it = document.getElementById("intro"), done = false, started = false;
+    var T0 = performance.now(), INTRO = 7400, timer = null;
     function hide() { if (done) return; done = true; s.classList.add("sp-out"); setTimeout(function () { s.remove(); }, 1800); }
     function start() {
-      if (started) return; started = true;
+      if (started) return; started = true; unarm();
       s.classList.remove("sp-wait");
-      if (it) { it.classList.add("in-out"); setTimeout(function () { it.remove(); }, 1000); }
+      if (it) { it.classList.add("in-out"); setTimeout(function () { it.remove(); }, 1100); }
       setTimeout(hide, 6000);
     }
+    /* आवाज़ — कोड से बनी (कोई फ़ाइल नहीं) */
+    var AC = window.AudioContext || window.webkitAudioContext, ctx = null, played = false, master;
+    function env(g, t, a, peak, d) { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + d); }
+    function tone(f, t, a, d, v, type) { var o = ctx.createOscillator(), g = ctx.createGain(); o.type = type || "sine"; o.frequency.value = f; env(g, t, a, v, d); o.connect(g); g.connect(master); o.start(t); o.stop(t + a + d + .1); }
+    function bell(f, t, v) { tone(f, t, .005, 2.2, v); tone(f * 2.76, t, .005, 1.1, v * .35); tone(f * 5.4, t, .005, .5, v * .12); }
+    function whoosh(t, d) {
+      var n = ctx.createBuffer(1, ctx.sampleRate * d, ctx.sampleRate), x = n.getChannelData(0);
+      for (var i = 0; i < x.length; i++) x[i] = Math.random() * 2 - 1;
+      var src = ctx.createBufferSource(), bp = ctx.createBiquadFilter(), g = ctx.createGain();
+      src.buffer = n; bp.type = "bandpass"; bp.Q.value = 1.2;
+      bp.frequency.setValueAtTime(250, t); bp.frequency.exponentialRampToValueAtTime(3200, t + d * .6); bp.frequency.exponentialRampToValueAtTime(900, t + d);
+      env(g, t, d * .55, .5, d * .45); src.connect(bp); bp.connect(g); g.connect(master); src.start(t);
+    }
+    function play() {
+      if (played || !ctx || ctx.state !== "running") return;
+      var el = (performance.now() - T0) / 1000; if (el > 6.5) return; played = true;
+      master = ctx.createGain(); master.gain.value = .55; master.connect(ctx.destination);
+      var now = ctx.currentTime, at = function (sec) { return now + Math.max(0, sec - el); };
+      if (el < 4.4) { var lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 400; lp.connect(master);
+        [55, 82.4, 110].forEach(function (f, i) { var o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.value = f; o.type = i ? "sine" : "triangle";
+          g.gain.setValueAtTime(0.0001, now); g.gain.exponentialRampToValueAtTime(.18 / (i + 1), now + .9); g.gain.setValueAtTime(.18 / (i + 1), at(3.6)); g.gain.exponentialRampToValueAtTime(0.0001, at(4.6));
+          o.connect(g); g.connect(lp); o.start(now); o.stop(at(4.8)); }); }
+      [[1.3, 659.3], [1.9, 784], [2.5, 987.8], [3.0, 1174.7]].forEach(function (n) { if (n[0] >= el) tone(n[1], at(n[0]), .02, 1.4, .07); });
+      if (el < 3.5) bell(1318.5, at(3.35), .22);
+      if (el < 3.7) whoosh(at(3.55), 1.3);
+      if (el < 5.2) { [261.6, 329.6, 392, 523.3].forEach(function (f) { tone(f, at(4.85), .35, 2.4, .07, "triangle"); }); bell(2093, at(4.9), .1); bell(1568, at(5.6), .08); }
+      setTimeout(function () { try { ctx.close(); } catch (e) {} }, 9000);
+    }
+    function arm() { if (!AC) return; try { if (!ctx) ctx = new AC(); if (ctx.state === "running") play(); else ctx.resume().then(play, function () {}); } catch (e) {} }
+    var EV = ["pointerdown", "touchstart", "keydown"];
+    function unarm() { EV.forEach(function (e) { window.removeEventListener(e, arm, true); }); }
     var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!it || reduce) start(); else { setTimeout(start, 3550); it.addEventListener("click", start); }
+    if (!it || reduce) start();
+    else {
+      arm(); EV.forEach(function (e) { window.addEventListener(e, arm, true); });
+      timer = setTimeout(start, INTRO + 1500);
+      var orb = it.querySelector(".in-orb");
+      orb.addEventListener("animationstart", function f() { orb.removeEventListener("animationstart", f); T0 = performance.now(); clearTimeout(timer); timer = setTimeout(start, INTRO); });
+    }
     s.addEventListener("click", function () { if (started) hide(); });
   })();
 </script>
