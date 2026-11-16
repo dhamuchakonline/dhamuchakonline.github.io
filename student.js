@@ -176,6 +176,21 @@ function tilt3d(el) {
   el.addEventListener("pointerleave", off); el.addEventListener("pointercancel", off); el.addEventListener("pointerup", () => setTimeout(off, 150));
 }
 
+// ---------- वेबसाइट बनाने वाले का कार्ड ----------
+const devCard = () => `<div class="devcard"><div class="dv-av">👨‍🏫</div><div class="dv-t">
+  <small>Website Created &amp; Managed by:</small><b>Ankush Sir</b><span>English Teacher · UHS Dhamuchak</span>
+  <em>✨ Designed with ❤️ for every student of Dhamuchak</em></div></div>`;
+
+function deepLink(e) {
+  const a = e.target.closest && e.target.closest("a.contcard, .srch-r a");
+  if (!a) return;
+  const h = a.getAttribute("href"), m = h.match(/^(#c\d+-[a-z]+-[a-z]+)-.+$/);
+  if (!m) return;
+  e.preventDefault();
+  history.pushState(null, "", m[1]);
+  location.hash = h;
+}
+
 // ---------- घड़ी: दिन, तारीख़, साल, समय ----------
 function clockText() {
   const d = new Date();
@@ -241,7 +256,7 @@ function visitorStats() {
 
 function render(html, showBack = true) {
   clearInterval(wmTimer);
-  app.innerHTML = header(showBack) + `<main class="wrap">${html}</main>${showBack ? `<footer class="sitefoot">© कॉपीराइट उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक · सर्वाधिकार सुरक्षित<br>Website Created &amp; Managed by: <b>Ankush Sir</b></footer>` : ""}`;
+  app.innerHTML = header(showBack) + `<main class="wrap">${html}</main>${showBack ? `<footer class="sitefoot">${devCard()}© कॉपीराइट उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक · सर्वाधिकार सुरक्षित</footer>` : ""}`;
   const lo = document.getElementById("logout");
   if (lo) lo.onclick = doLogout;
   app.querySelectorAll("[data-logout]").forEach((b) => (b.onclick = doLogout));
@@ -288,7 +303,7 @@ function loginView(msg = "") {
     <div class="sir"><div class="av">👨‍🏫</div><p><b>पंकज सर</b> (प्रधानाध्यापक):<br>विद्या सबसे बड़ा धन है। हर दिन थोड़ा सीखिए, कल आप खुद पर गर्व करेंगे। 🌟</p></div>
     ${DEMO ? `<p class="hint">डेमो के लिए: कोई भी नाम, कोई भी कक्षा, UDISE कोड 10010203040<br><a href="teacher.html">→ टीचर पैनल का डेमो देखें</a></p>` : ""}
   </section></div>
-  <p class="credit">🏫 प्रस्तुति: <b>उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</b><br>💻 Website Created &amp; Managed by: <b>Ankush Sir</b></p>
+  <p class="credit">🏫 प्रस्तुति: <b>उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</b></p>${devCard()}
   <div class="visfoot" id="visfoot"><div class="vf-row"><span class="vf-i"><b id="vOn">–</b><small>Online Now</small></span><span class="vf-i"><b id="vTot">–</b><small>Total Visitors</small></span></div>
   <div class="vf-c">📧 Contact: <a href="mailto:uhsdhamuchak2000@gmail.com">uhsdhamuchak2000@gmail.com</a></div></div>`, false);
   visitorStats();
@@ -364,7 +379,7 @@ async function subjectsView(cls, stream, isHome = false) {
   <h2>📚 कौन सा विषय पढ़ना है?</h2>
   ${subjectGroups(cls, stream).map((g) => `<h3 class="gtitle">${esc(g.title)}</h3>
     <div class="grid">${g.items.map(tile).join("")}</div>`).join("")}
-  ${isHome ? `${schoolPic(true)}<div class="logout-row"><button class="btn red" data-logout>Logout करें</button></div>` : ""}`, !isHome);
+  ${isHome ? `${schoolPic(true)}${devCard()}<div class="logout-row"><button class="btn red" data-logout>Logout करें</button></div>` : ""}`, !isHome);
   if (isHome) { wireSearch(list, cls, stream); festRain(); }
 }
 
@@ -424,9 +439,13 @@ async function chapterView(cls, stream, sid, id) {
   <div class="progline"><span id="pring">${ring(p0, 46, 5)}</span><div class="pl-t" id="ptxt">${p0 >= 100 ? "यह चैप्टर पूरा हो गया ✓" : p0 ? `आपने ${p0}% पढ़ लिया है` : "पढ़ना शुरू करें"}<small>${c.video ? "वीडियो देखने के साथ आपकी प्रगति अपने-आप दर्ज होगी" : "पढ़ लेने पर नीचे का बटन दबाएँ"}</small></div></div>
   <div class="tools"><button class="btn" id="fs2">⛶ पूरी स्क्रीन में देखें</button>${notes ? `<button class="btn" id="pdfbtn" ${c.video && p0 < 100 ? "hidden" : ""}>📄 पूरी क्लास PDF में डाउनलोड करें</button>` : ""}${p0 >= 100 || c.video ? "" : `<button class="btn okb" id="markdone">✓ पूरा पढ़ लिया</button>`}</div>
   ${notes ? `<section class="card notes"><div class="pdf-head">कक्षा ${esc(cls)} · ${esc(c.title)}</div><h3>📝 चैप्टर को कहानी की तरह समझें</h3><div id="ntxt"></div></section>` : ""}
+  ${next ? `<div class="upnext" style="${cvars(sid)}"><div class="un-l"><small>UP NEXT · Chapter ${esc(next.number)}</small><b>${esc(next.title)}</b>${subT(next)}</div>
+    <button class="un-btn" data-swap="${esc(base + encodeURIComponent(next.id))}">▶ Play Next Chapter</button></div>`
+    : `<div class="upnext last" style="${cvars(sid)}"><div class="un-l"><small>🎉 WELL DONE!</small><b>This was the last chapter of ${esc(sub ? sub.en || subjLabel(sub) : "this subject")}</b></div>
+    <a class="un-btn" href="#home">🏠 Back to Subjects</a></div>`}
   <div class="pager">
     ${prev ? `<button class="btn" data-swap="${esc(base + encodeURIComponent(prev.id))}">← पिछला चैप्टर</button>` : "<span></span>"}
-    ${next ? `<button class="btn dark" data-swap="${esc(base + encodeURIComponent(next.id))}">अगला चैप्टर →</button>` : "<span></span>"}
+    <span></span>
   </div></div>`);
   saveLast({ h: base + encodeURIComponent(c.id), id: c.id, s: sub ? subjLabel(sub) : "" });
   // प्रगति: वीडियो जितना देखा, उतना % (और जहाँ छोड़ा वहीं से फिर शुरू)
@@ -505,6 +524,16 @@ async function chapterView(cls, stream, sid, id) {
       setP(pct >= 95 ? 100 : Math.floor(pct));
     });
     vid.addEventListener("ended", () => setP(100));
+    if (next) vid.addEventListener("ended", () => {
+      if (document.fullscreenElement) try { document.exitFullscreen(); } catch {}
+      const pl = document.getElementById("player"); if (pl.querySelector(".endov")) return;
+      const ov = document.createElement("div"); ov.className = "endov";
+      ov.innerHTML = `<div><small>✅ Chapter Completed!</small><b>Next: ${esc(next.title)}</b>
+        <button class="un-btn" data-swap="${esc(base + encodeURIComponent(next.id))}">▶ Play Next Chapter</button><button class="endx">↻ Watch Again</button></div>`;
+      pl.appendChild(ov);
+      ov.querySelector("[data-swap]").onclick = () => { history.replaceState(null, "", base + encodeURIComponent(next.id)); route(); };
+      ov.querySelector(".endx").onclick = () => { ov.remove(); vid.currentTime = 0; vid.play(); };
+    });
     // स्पीड बटन (0.5× से 3×)
     const sb = document.getElementById("speeds");
     const setR = (r) => { vid.playbackRate = r; sb.querySelectorAll("button").forEach((b) => b.classList.toggle("on", +b.dataset.r === r)); };
@@ -570,6 +599,8 @@ function route() {
 }
 
 window.addEventListener("hashchange", route);
+// सीधे चैप्टर खोलने पर (resume/खोज) पहले विषय वाला पन्ना history में, ताकि Back वहीं जाए
+app.addEventListener("click", deepLink);
 document.addEventListener("fullscreenchange", () => {
   if (!document.fullscreenElement && screen.orientation && screen.orientation.unlock) try { screen.orientation.unlock(); } catch {}
 });
