@@ -1,0 +1,20 @@
+/* हिंदी के सिर्फ़ 3 फ़ॉन्ट (अंकुश सर की पसंद): हेडिंग = Yatra One, चैप्टर का नाम = Tiro Devanagari Hindi, बाकी सब = Martel.
+   अंग्रेज़ी अक्षर Poppins में रहेंगे (ये फ़ाइलें सिर्फ़ देवनागरी अक्षरों पर लागू होती हैं). */
+@font-face{font-family:"DC Body";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/martel-devanagari-400-normal.woff2) format("woff2");unicode-range:U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09}
+@font-face{font-family:"DC Body";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/martel-devanagari-600-normal.woff2) format("woff2");unicode-range:U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09}
+@font-face{font-family:"DC Body";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/martel-devanagari-700-normal.woff2) format("woff2");unicode-range:U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09}
+@font-face{font-family:"DC Body";font-style:normal;font-weight:800;font-display:swap;src:url(fonts/martel-devanagari-800-normal.woff2) format("woff2");unicode-range:U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09}
+@font-face{font-family:"DC Chapter";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/tiro-devanagari-hindi-devanagari-400-normal.woff2) format("woff2");unicode-range:U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09}
+@font-face{font-family:"DC Head";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/yatra-one-devanagari-400-normal.woff2) format("woff2");unicode-range:U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09}
+
+/* बाकी सब — Martel */
+body,body *{font-family:"DC Body",Poppins,system-ui,sans-serif!important}
+
+/* हेडिंग — Yatra One */
+h1,h2,h3,h4,.school,.gtitle,.hero-t,.subhead .t,.sp-title,.sp-uhs,#intro .in-w5,.welcome h2,.festban,.dy-h,.qz-top span,.qz-msg,.devcard b,.login h2,.dlg-box h3{
+  font-family:"DC Head",Poppins,system-ui,sans-serif!important;font-synthesis-weight:none}
+
+/* चैप्टर का नाम — Tiro Devanagari Hindi */
+.stu .row .t,.stu .chhead h2,.upnext b,.contcard b,.srch-r a b,.endov b,.qz-load small,.un-l b{
+  font-family:"DC Chapter",Poppins,system-ui,sans-serif!important;font-synthesis-weight:none}
+.stu .row .t small,.stu .chhead h2 small{font-family:Poppins,system-ui,sans-serif!important}

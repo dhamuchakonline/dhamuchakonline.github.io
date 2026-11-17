@@ -1,6 +1,6 @@
 :root{--bg:#f6f3ee;--card:#fff;--ink:#1f2430;--muted:#6b7280;--brand:#1e3a8a;--brand2:#f59e0b;--ok:#15803d;--bad:#b91c1c;--line:#e7e2d9;--r:16px}
 *{box-sizing:border-box}
-body{margin:0;font-family:"Noto Sans Devanagari","Mukta",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:"DC Body",Poppins,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-tap-highlight-color:transparent}
 .top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--brand);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
 .logo{width:40px;height:40px;flex:none;border-radius:12px;background:var(--brand2);display:grid;place-items:center;font-size:20px}
