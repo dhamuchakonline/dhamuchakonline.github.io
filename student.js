@@ -359,24 +359,22 @@ async function doLogout() {
   loginView();
 }
 
-// विज़िटर गिनती (सिर्फ़ login पेज पर; मुफ़्त counter सेवा, न चले तो चुपचाप छिप जाती है)
+// विज़िटर गिनती — मुफ़्त Abacus counter (counterapi.dev v1 अगस्त 2026 में बंद हो गई थी, इसलिए गिनती रुकी थी)
+// हर बार साइट खुलने/रिफ्रेश होने पर Total +1; "Online Now" = पिछले ~10 मिनट में खोलने वाले
+const VC = "https://abacus.jasoncameron.dev", VNS = "uhsdhamuchak-online-class";
+const vBucket = () => Math.floor(Date.now() / 300000); // 5 मिनट की खिड़की
+const vCall = (op, key) => fetch(`${VC}/${op}/${VNS}/${key}`).then((r) => (r.ok ? r.json() : { value: 0 })).then((j) => +j.value || 0).catch(() => 0);
+const VSTATE = { tot: vCall("hit", "total"), lastB: vBucket(), on: vCall("hit", "on" + vBucket()) };
+setInterval(() => { const b = vBucket(); if (b !== VSTATE.lastB) { VSTATE.lastB = b; VSTATE.on = vCall("hit", "on" + b); } }, 60000);
 function visitorStats() {
-  const B = "https://api.counterapi.dev/v1/uhsdhamuchak";
-  const get = (k, up) => fetch(`${B}/${k}${up ? "/up" : ""}`).then((r) => r.json()).then((j) => +j.count || 0);
-  const bucket = () => Math.floor(Date.now() / 300000); // 5 मिनट की खिड़की
   const el = (id) => document.getElementById(id);
-  let tot = 0;
-  try { if (!sessionStorage.getItem("vcounted")) { sessionStorage.setItem("vcounted", "1"); tot = -1; } } catch {}
   const run = async () => {
     if (!el("visfoot")) { clearInterval(tm); return; }
-    try {
-      const b = bucket();
-      if (run.last !== b) { run.last = b; await get(`on${b}`, true); }
-      const [cur, prev] = await Promise.all([get(`on${b}`), get(`on${b - 1}`)]);
-      if (el("vOn")) el("vOn").textContent = Math.max(cur, prev, 1);
-      if (tot === -1) { tot = await get("total", true); } else if (!tot) { tot = await get("total"); }
-      if (el("vTot")) el("vTot").textContent = tot.toLocaleString("en-IN");
-    } catch { const f = el("visfoot"); if (f && !el("vTot").textContent.match(/\d/)) f.querySelector(".vf-row").style.display = "none"; }
+    const b = vBucket();
+    const [cur, prev, tot] = await Promise.all([VSTATE.on, vCall("get", "on" + (b - 1)), VSTATE.tot]);
+    if (el("vOn")) el("vOn").textContent = Math.max(cur, prev, 1);
+    if (el("vTot")) el("vTot").textContent = tot ? tot.toLocaleString("en-IN") : "–";
+    VSTATE.on = vCall("get", "on" + b); VSTATE.tot = vCall("get", "total");
   };
   const tm = setInterval(run, 60000); run();
 }
