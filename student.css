@@ -685,3 +685,12 @@ html.intro-lock,html.intro-lock body{overflow:hidden!important;height:100%;overs
   transform:none!important;background:radial-gradient(circle at 50% 50%,#fff 0%,#fff 60%,#fffbea 80%,#fde68a 100%)!important;
   clip-path:circle(0% at 50% 50%);opacity:1!important;animation:inBurst2 1.2s 3.6s cubic-bezier(.55,0,.35,1) forwards!important}
 @keyframes inBurst2{0%{clip-path:circle(9% at 50% 50%)}100%{clip-path:circle(75% at 50% 50%)}}
+
+/* फ़ोन पर टूटन ठीक: 3D (perspective/preserve-3d) हटाया — इससे परतें बीच से कटकर आधी-आधी दिखती थीं */
+#intro{perspective:none!important}
+#intro .in-orb{transform-style:flat!important;animation:inAppear 1.2s ease-out forwards,inTilt 4.2s ease-in-out forwards,inOrbOut .3s 4.8s forwards!important}
+@keyframes inOrbOut{to{opacity:0;visibility:hidden}}
+#intro .in-stars{animation:none!important}
+#intro .in-burst{z-index:5}
+#intro .in-msg{z-index:6;transform:translateZ(0)}
+@keyframes inTxt{0%{opacity:0;transform:translateY(18px)}100%{opacity:1;transform:none}}
