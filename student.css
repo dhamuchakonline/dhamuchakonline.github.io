@@ -676,3 +676,12 @@ body.printnotes #soundbtn{display:none}
   transition:opacity .4s;animation:tapBlink 1.6s ease-in-out infinite}
 @keyframes tapBlink{50%{opacity:.45}}
 #soundbtn{right:auto!important;left:10px;bottom:max(10px,env(safe-area-inset-bottom))!important}
+
+/* इंट्रो: छूने/खिसकाने पर स्क्रीन न हिले-टूटे (फ़ोन) */
+html.intro-lock,html.intro-lock body{overflow:hidden!important;height:100%;overscroll-behavior:none}
+#intro,#splash{touch-action:none;overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+/* रोशनी फैलना: बड़ा गोला (scale 10) फ़ोन पर टूटता था — अब पूरी स्क्रीन की परत, गोल खिड़की बढ़ती है */
+#intro .in-burst{left:0!important;top:0!important;width:100%!important;height:100%!important;aspect-ratio:auto!important;border-radius:0!important;
+  transform:none!important;background:radial-gradient(circle at 50% 50%,#fff 0%,#fff 60%,#fffbea 80%,#fde68a 100%)!important;
+  clip-path:circle(0% at 50% 50%);opacity:1!important;animation:inBurst2 1.2s 3.6s cubic-bezier(.55,0,.35,1) forwards!important}
+@keyframes inBurst2{0%{clip-path:circle(9% at 50% 50%)}100%{clip-path:circle(75% at 50% 50%)}}
