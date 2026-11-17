@@ -698,3 +698,8 @@ html.intro-lock,html.intro-lock body{overflow:hidden!important;height:100%;overs
 #starsbg .s3{animation:twA 7s ease-in-out infinite reverse!important}
 #starsbg i{will-change:opacity}
 #soundbtn{display:none!important}
+
+/* वेलकम (logo) पेज का जाना — धुंधला (blur) + बड़ा होना फ़ोन पर रुक-रुककर चलता था; अब सिर्फ़ हल्का-सा fade */
+#splash{transition:opacity .9s ease!important;will-change:opacity}
+#splash.sp-out{opacity:0!important;transform:none!important;filter:none!important;pointer-events:none}
+#splash.sp-out *{animation-play-state:paused!important}

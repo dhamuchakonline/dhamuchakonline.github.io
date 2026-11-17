@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex,nofollow">
 <title>स्मार्ट क्लासरूम — उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</title>
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="student.css?v=20261117f">
+<link rel="stylesheet" href="student.css?v=20261117h">
 <link rel="stylesheet" href="fonts.css?v=20261117e">
 </head>
 <body>
@@ -38,7 +38,7 @@
     var stopMove = function (e) { if (e.cancelable) e.preventDefault(); };
     document.addEventListener("touchmove", stopMove, { passive: false });
     function unlock() { document.documentElement.classList.remove("intro-lock"); document.removeEventListener("touchmove", stopMove, { passive: false }); try { window.dispatchEvent(new Event("introdone")); } catch (e) {} }
-    function hide() { if (done) return; done = true; s.classList.add("sp-out"); unlock(); setTimeout(function () { s.remove(); }, 1800); }
+    function hide() { if (done) return; done = true; s.classList.add("sp-out"); unlock(); setTimeout(function () { s.remove(); }, 1000); }
     function start() {
       if (started) return; started = true;
       s.classList.remove("sp-wait");
