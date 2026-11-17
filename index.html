@@ -6,13 +6,12 @@
 <meta name="robots" content="noindex,nofollow">
 <title>स्मार्ट क्लासरूम — उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</title>
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="student.css?v=20261117e">
+<link rel="stylesheet" href="student.css?v=20261117f">
 <link rel="stylesheet" href="fonts.css?v=20261117e">
 </head>
 <body>
 <div id="intro" aria-hidden="true">
   <div class="in-stars"></div>
-  <div class="in-tap" id="intap">🔊 आवाज़ के लिए स्क्रीन को छुएँ</div>
   <div class="in-orb"><div class="in-glow"></div><div class="in-ball"><div class="in-surf"></div><div class="in-limb"></div><div class="in-shade"></div><div class="in-flare"></div></div></div>
   <div class="in-burst"></div>
   <div class="in-msg"><div><div class="in-w1">WELCOME TO THE</div><div class="in-w2">NEW ERA OF</div><div class="in-w3">SMART EDUCATION</div><div class="in-line"></div><div class="in-w4">PRESENTED BY</div><div class="in-w5">उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</div><div class="in-w6">रजौली, नवादा (बिहार)</div></div></div>
@@ -38,50 +37,17 @@
     document.documentElement.classList.add("intro-lock");
     var stopMove = function (e) { if (e.cancelable) e.preventDefault(); };
     document.addEventListener("touchmove", stopMove, { passive: false });
-    function unlock() { document.documentElement.classList.remove("intro-lock"); document.removeEventListener("touchmove", stopMove, { passive: false }); }
+    function unlock() { document.documentElement.classList.remove("intro-lock"); document.removeEventListener("touchmove", stopMove, { passive: false }); try { window.dispatchEvent(new Event("introdone")); } catch (e) {} }
     function hide() { if (done) return; done = true; s.classList.add("sp-out"); unlock(); setTimeout(function () { s.remove(); }, 1800); }
     function start() {
-      if (started) return; started = true; unarm();
+      if (started) return; started = true;
       s.classList.remove("sp-wait");
       if (it) { it.classList.add("in-out"); setTimeout(function () { it.remove(); }, 1100); }
       setTimeout(hide, 6000);
     }
-    /* आवाज़ — कोड से बनी (कोई फ़ाइल नहीं) */
-    var AC = window.AudioContext || window.webkitAudioContext, ctx = null, played = false, master;
-    function env(g, t, a, peak, d) { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + d); }
-    function tone(f, t, a, d, v, type) { var o = ctx.createOscillator(), g = ctx.createGain(); o.type = type || "sine"; o.frequency.value = f; env(g, t, a, v, d); o.connect(g); g.connect(master); o.start(t); o.stop(t + a + d + .1); }
-    function bell(f, t, v) { tone(f, t, .005, 2.2, v); tone(f * 2.76, t, .005, 1.1, v * .35); tone(f * 5.4, t, .005, .5, v * .12); }
-    function whoosh(t, d) {
-      var n = ctx.createBuffer(1, ctx.sampleRate * d, ctx.sampleRate), x = n.getChannelData(0);
-      for (var i = 0; i < x.length; i++) x[i] = Math.random() * 2 - 1;
-      var src = ctx.createBufferSource(), bp = ctx.createBiquadFilter(), g = ctx.createGain();
-      src.buffer = n; bp.type = "bandpass"; bp.Q.value = 1.2;
-      bp.frequency.setValueAtTime(250, t); bp.frequency.exponentialRampToValueAtTime(3200, t + d * .6); bp.frequency.exponentialRampToValueAtTime(900, t + d);
-      env(g, t, d * .55, .5, d * .45); src.connect(bp); bp.connect(g); g.connect(master); src.start(t);
-    }
-    function play() {
-      if (played || !ctx || ctx.state !== "running") return;
-      var ih = document.getElementById("intap"); if (ih) ih.style.opacity = "0";
-      var el = (performance.now() - T0) / 1000; if (el > 8) return; played = true;
-      master = ctx.createGain(); master.gain.value = .55; master.connect(ctx.destination);
-      var now = ctx.currentTime, at = function (sec) { return now + Math.max(0, sec - el); };
-      if (el < 4.4) { var lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 400; lp.connect(master);
-        [55, 82.4, 110].forEach(function (f, i) { var o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.value = f; o.type = i ? "sine" : "triangle";
-          g.gain.setValueAtTime(0.0001, now); g.gain.exponentialRampToValueAtTime(.18 / (i + 1), now + .9); g.gain.setValueAtTime(.18 / (i + 1), at(3.6)); g.gain.exponentialRampToValueAtTime(0.0001, at(4.6));
-          o.connect(g); g.connect(lp); o.start(now); o.stop(at(4.8)); }); }
-      [[1.3, 659.3], [1.9, 784], [2.5, 987.8], [3.0, 1174.7]].forEach(function (n) { if (n[0] >= el) tone(n[1], at(n[0]), .02, 1.4, .07); });
-      if (el < 3.5) bell(1318.5, at(3.35), .22);
-      if (el < 3.7) whoosh(at(3.55), 1.3);
-      if (el < 5.2) { [261.6, 329.6, 392, 523.3].forEach(function (f) { tone(f, at(4.85), .35, 2.4, .07, "triangle"); }); bell(2093, at(4.9), .1); bell(1568, at(5.6), .08); }
-      setTimeout(function () { try { ctx.close(); } catch (e) {} }, 9000);
-    }
-    function arm() { if (!AC) return; try { if (!ctx) ctx = new AC(); if (ctx.state === "running") play(); else ctx.resume().then(play, function () {}); } catch (e) {} }
-    var EV = ["pointerdown", "pointerup", "touchstart", "touchend", "click", "keydown"];
-    function unarm() { EV.forEach(function (e) { window.removeEventListener(e, arm, true); }); }
     var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!it || reduce) start();
     else {
-      arm(); EV.forEach(function (e) { window.addEventListener(e, arm, true); });
       timer = setTimeout(start, INTRO + 1500);
       var orb = it.querySelector(".in-orb");
       orb.addEventListener("animationstart", function f() { orb.removeEventListener("animationstart", f); T0 = performance.now(); clearTimeout(timer); timer = setTimeout(start, INTRO); });
@@ -91,6 +57,6 @@
 </script>
 <div id="printwm" aria-hidden="true"><span>UHS धामुचक</span></div>
 <div id="app"><div class="loading">लोड हो रहा है…</div></div>
-<script type="module" src="student.js?v=20261117c"></script>
+<script type="module" src="student.js?v=20261117f"></script>
 </body>
 </html>

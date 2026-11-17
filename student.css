@@ -694,3 +694,7 @@ html.intro-lock,html.intro-lock body{overflow:hidden!important;height:100%;overs
 #intro .in-burst{z-index:5}
 #intro .in-msg{z-index:6;transform:translateZ(0)}
 @keyframes inTxt{0%{opacity:0;transform:translateY(18px)}100%{opacity:1;transform:none}}
+/* तारे हल्के: खिसकना बंद, सिर्फ़ टिमटिमाना */
+#starsbg .s3{animation:twA 7s ease-in-out infinite reverse!important}
+#starsbg i{will-change:opacity}
+#soundbtn{display:none!important}

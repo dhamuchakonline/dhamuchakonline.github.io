@@ -216,7 +216,7 @@ async function startQuiz({ cls, c, next, onNext }) {
     box.querySelectorAll(".qz-o").forEach((b) => (b.onclick = () => {
       const k = +b.dataset.k, ok = Q.opts[k].ok;
       box.querySelectorAll(".qz-o").forEach((x, n) => { x.disabled = true; if (Q.opts[n].ok) x.classList.add("right"); });
-      if (!ok) { b.classList.add("wrong"); sfx("bad"); buzz([60, 40, 60]); } else { score++; sfx("ok"); buzz(40); }
+      if (!ok) b.classList.add("wrong"); else score++;
       const fb = box.querySelector(".qz-fb");
       fb.innerHTML = `<div class="${ok ? "yes" : "no"}">${ok ? ["🎉 Correct! शाबाश!", "✅ बिल्कुल सही!", "🌟 Great job!"][i % 3] : "❌ ग़लत — सही जवाब हरे रंग में है"}</div><button class="un-btn" id="qzGo">${i + 1 < list.length ? "Next Question →" : "See Result 🏆"}</button>`;
       box.querySelector("#qzGo").onclick = () => { i++; i < list.length ? show() : result(); };
@@ -229,7 +229,7 @@ async function startQuiz({ cls, c, next, onNext }) {
     box.innerHTML = `<div class="qz-end"><div class="qz-stars">${[0, 1, 2].map((k) => `<span class="${k < stars ? "on" : ""}" style="animation-delay:${k * .25}s">★</span>`).join("")}</div>
       <div class="qz-score"><b>${score}</b>/${n}</div><div class="qz-msg">${msg}</div>
       <div class="qz-acts">${next ? `<button class="un-btn" id="qzNext">▶ Play Next Chapter</button>` : ""}<button class="qz-ghost" id="qzRe">↻ Retry Quiz</button><button class="qz-ghost" id="qzClose">Close</button></div></div>`;
-    if (stars >= 2) { confetti(); sfx("win"); }
+    if (stars >= 2) confetti();
     box.querySelector("#qzClose").onclick = () => { close(); route(); };
     box.querySelector("#qzRe").onclick = () => { i = 0; score = 0; list.forEach((Q) => Q.opts.sort(() => Math.random() - .5)); show(); };
     const nb = box.querySelector("#qzNext"); if (nb) nb.onclick = () => { close(); onNext(); };
@@ -309,37 +309,13 @@ function hmLine() {
 }
 
 
-// ---------- आवाज़: बटन पर हल्की टिक, क्विज़ में सही/ग़लत (कोड से बनी, कोई फ़ाइल नहीं) ----------
-const soundOn = () => { try { return localStorage.getItem("dc-sound") !== "off"; } catch { return true; } };
-let sfxCtx = null;
-function sfx(kind) {
-  if (!soundOn()) return;
-  try {
-    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
-    if (!sfxCtx) sfxCtx = new AC();
-    if (sfxCtx.state === "suspended") sfxCtx.resume();
-    const t = sfxCtx.currentTime, out = sfxCtx.destination;
-    const tone = (f, at, dur, v, type = "sine") => { const o = sfxCtx.createOscillator(), g = sfxCtx.createGain(); o.type = type; o.frequency.value = f;
-      g.gain.setValueAtTime(0.0001, t + at); g.gain.exponentialRampToValueAtTime(v, t + at + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + at + dur);
-      o.connect(g); g.connect(out); o.start(t + at); o.stop(t + at + dur + 0.05); };
-    if (kind === "tap") tone(1200, 0, 0.06, 0.05, "triangle");
-    else if (kind === "ok") { tone(880, 0, 0.18, 0.12); tone(1318.5, 0.09, 0.45, 0.12); }
-    else if (kind === "bad") { tone(220, 0, 0.18, 0.1, "square"); tone(180, 0.12, 0.25, 0.08, "square"); }
-    else if (kind === "win") [523.3, 659.3, 784, 1046.5].forEach((f, i) => tone(f, i * 0.12, 0.5, 0.1, "triangle"));
-  } catch {}
+// ---------- Dark Mode के तारे (इंट्रो/वेलकम ख़त्म होने के बाद ही) ----------
+function ensureStars() {
+  if (document.getElementById("starsbg") || document.documentElement.classList.contains("intro-lock")) return;
+  const sg = document.createElement("div"); sg.id = "starsbg"; sg.setAttribute("aria-hidden", "true");
+  sg.innerHTML = '<i class="s1"></i><i class="s2"></i><i class="s3"></i>'; document.body.prepend(sg);
 }
-function buzz(ms) { if (soundOn()) try { navigator.vibrate && navigator.vibrate(ms); } catch {} }
-document.addEventListener("click", (e) => {
-  const b = e.target.closest && e.target.closest("button, a.tile, a.row, a.contcard, .srch-r a, .un-btn");
-  if (!b || b.classList.contains("qz-o") || b.id === "soundbtn") return;
-  sfx("tap");
-}, true);
-function toggleSound() {
-  const on = !soundOn();
-  try { localStorage.setItem("dc-sound", on ? "on" : "off"); } catch {}
-  const b = document.getElementById("soundbtn"); if (b) b.textContent = on ? "🔊 Sound On" : "🔇 Sound Off";
-  if (on) sfx("ok");
-}
+window.addEventListener("introdone", ensureStars);
 
 // ---------- घड़ी: दिन, तारीख़, साल, समय ----------
 function clockText() {
@@ -413,14 +389,7 @@ function render(html, showBack = true) {
   app.querySelectorAll("[data-logout]").forEach((b) => (b.onclick = doLogout));
   const bb = document.getElementById("backbtn");
   if (bb) bb.onclick = back;
-  if (!document.getElementById("soundbtn")) {
-    const sb2 = document.createElement("button"); sb2.id = "soundbtn"; sb2.setAttribute("aria-label", "आवाज़ चालू / बंद");
-    sb2.textContent = soundOn() ? "🔊 Sound On" : "🔇 Sound Off"; sb2.onclick = toggleSound; document.body.appendChild(sb2);
-  }
-  if (!document.getElementById("starsbg")) {
-    const sg = document.createElement("div"); sg.id = "starsbg"; sg.setAttribute("aria-hidden", "true");
-    sg.innerHTML = '<i class="s1"></i><i class="s2"></i><i class="s3"></i>'; document.body.prepend(sg);
-  }
+  ensureStars();
   if (!document.getElementById("themebtn")) {
     const tb = document.createElement("button"); tb.id = "themebtn"; tb.setAttribute("aria-label", "डार्क / लाइट मोड");
     tb.textContent = isDark() ? "☀️ Light Mode" : "🌙 Dark Mode"; tb.onclick = toggleTheme; document.body.appendChild(tb);
