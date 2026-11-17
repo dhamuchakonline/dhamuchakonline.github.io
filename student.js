@@ -216,7 +216,7 @@ async function startQuiz({ cls, c, next, onNext }) {
     box.querySelectorAll(".qz-o").forEach((b) => (b.onclick = () => {
       const k = +b.dataset.k, ok = Q.opts[k].ok;
       box.querySelectorAll(".qz-o").forEach((x, n) => { x.disabled = true; if (Q.opts[n].ok) x.classList.add("right"); });
-      if (!ok) b.classList.add("wrong"); else score++;
+      if (!ok) { b.classList.add("wrong"); sfx("bad"); buzz([60, 40, 60]); } else { score++; sfx("ok"); buzz(40); }
       const fb = box.querySelector(".qz-fb");
       fb.innerHTML = `<div class="${ok ? "yes" : "no"}">${ok ? ["🎉 Correct! शाबाश!", "✅ बिल्कुल सही!", "🌟 Great job!"][i % 3] : "❌ ग़लत — सही जवाब हरे रंग में है"}</div><button class="un-btn" id="qzGo">${i + 1 < list.length ? "Next Question →" : "See Result 🏆"}</button>`;
       box.querySelector("#qzGo").onclick = () => { i++; i < list.length ? show() : result(); };
@@ -229,7 +229,7 @@ async function startQuiz({ cls, c, next, onNext }) {
     box.innerHTML = `<div class="qz-end"><div class="qz-stars">${[0, 1, 2].map((k) => `<span class="${k < stars ? "on" : ""}" style="animation-delay:${k * .25}s">★</span>`).join("")}</div>
       <div class="qz-score"><b>${score}</b>/${n}</div><div class="qz-msg">${msg}</div>
       <div class="qz-acts">${next ? `<button class="un-btn" id="qzNext">▶ Play Next Chapter</button>` : ""}<button class="qz-ghost" id="qzRe">↻ Retry Quiz</button><button class="qz-ghost" id="qzClose">Close</button></div></div>`;
-    if (stars >= 2) confetti();
+    if (stars >= 2) { confetti(); sfx("win"); }
     box.querySelector("#qzClose").onclick = () => { close(); route(); };
     box.querySelector("#qzRe").onclick = () => { i = 0; score = 0; list.forEach((Q) => Q.opts.sort(() => Math.random() - .5)); show(); };
     const nb = box.querySelector("#qzNext"); if (nb) nb.onclick = () => { close(); onNext(); };
@@ -252,15 +252,105 @@ function deepLink(e) {
   location.hash = h;
 }
 
+
+// ---------- समय के हिसाब से स्वागत (सुबह / दोपहर / शाम / रात) ----------
+function dayPart(d = new Date()) {
+  const h = d.getHours();
+  if (h >= 5 && h < 12) return { k: "morning", g: "सुप्रभात", ic: "☀️", m: "नई सुबह, नई पढ़ाई — चलो शुरू करें!" };
+  if (h >= 12 && h < 17) return { k: "noon", g: "शुभ दोपहर", ic: "🌤️", m: "खाना खाकर थोड़ा आराम, फिर थोड़ी पढ़ाई 📚" };
+  if (h >= 17 && h < 20) return { k: "evening", g: "शुभ संध्या", ic: "🌆", m: "शाम की पढ़ाई सबसे अच्छी याद रहती है ✨" };
+  return { k: "night", g: "शुभ रात्रि", ic: "🌙", m: "थोड़ा पढ़कर समय पर सो जाना 😴" };
+}
+function applyDayPart() {
+  const P = dayPart();
+  ["morning", "noon", "evening", "night"].forEach((k) => document.body.classList.toggle("tod-" + k, k === P.k));
+  return P;
+}
+applyDayPart();
+
+
+// ---------- पंकज सर (प्रधानाध्यापक) की रोज़ नई प्रेरक बात ----------
+const HM_LINES = [
+  "विद्या सबसे बड़ा धन है। हर दिन थोड़ा सीखिए, कल आप खुद पर गर्व करेंगे। 🌟",
+  "मेहनत का कोई शॉर्टकट नहीं होता। रोज़ एक चैप्टर, और सफलता पक्की। 💪",
+  "गलतियों से डरो मत, उनसे सीखो — यही असली पढ़ाई है। 📘",
+  "मोबाइल को खेल का नहीं, ज्ञान का साधन बनाइए। 📱✨",
+  "आज का छोटा कदम, कल की बड़ी जीत बनेगा। 🚶‍♂️🏆",
+  "जो रोज़ दोहराता है, वही परीक्षा में मुस्कुराता है। 😊",
+  "माता-पिता के सपनों को अपनी मेहनत से सच कीजिए। 🙏",
+  "समय की कद्र करो — बीता समय लौटकर नहीं आता। ⏳",
+  "पढ़ाई बोझ नहीं, अपने भविष्य में निवेश है। 🌱",
+  "जिस सवाल पर अटके हो, उसे पूछो — पूछना समझदारी है। 🙋",
+  "धामुचक के बच्चे किसी से कम नहीं — खुद पर भरोसा रखो! 🇮🇳",
+  "अच्छी आदतें बनाओ: समय पर उठो, समय पर पढ़ो, समय पर सोओ। ⏰",
+  "किताब और मेहनत — ये दो दोस्त कभी धोखा नहीं देते। 📚",
+  "हार मान लेना ही असली हार है, कोशिश जारी रखो। 🔥",
+  "आज जो सीखा, उसे किसी दोस्त को समझाओ — दोनों की पढ़ाई पक्की। 🤝",
+  "बड़े सपने देखो, पर शुरुआत आज के छोटे काम से करो। 🌄",
+  "अनुशासन ही सफलता की पहली सीढ़ी है। 🪜",
+  "हर दिन खुद से एक वादा: कल से थोड़ा बेहतर बनूँगा। 🌟",
+  "ध्यान से पढ़ा एक घंटा, बिना ध्यान के पाँच घंटों से बेहतर है। 🎯",
+  "शिक्षा वह दीपक है जो जीवन भर रास्ता दिखाता है। 🪔",
+  "अपने गुरुजनों का सम्मान करो, ज्ञान अपने आप आएगा। 🙏",
+  "स्वस्थ शरीर में ही स्वस्थ मन रहता है — खेलो भी, पढ़ो भी। ⚽📖",
+  "कठिन चैप्टर से भागो मत, उसे दो बार पढ़ो — आसान लगेगा। 🔁",
+  "परीक्षा से डरना नहीं, तैयारी से उसे जीतना है। 🏅",
+  "सच्चाई और ईमानदारी — यही सबसे बड़ी डिग्री है। 🤍",
+  "रोज़ थोड़ा-थोड़ा, बूँद-बूँद से सागर भरता है। 🌊",
+  "आपकी मेहनत ही आपकी पहचान बनेगी। ✨",
+  "पढ़ाई के साथ अच्छे इंसान बनना भी ज़रूरी है। 💛",
+  "जो आज पढ़ेगा, वही कल आगे बढ़ेगा। 🚀",
+  "स्कूल आपका परिवार है — हम सब आपके साथ हैं। 🏫",
+  "मंज़िल दूर लगे तो मुड़कर देखो, कितना आगे आ चुके हो! 🌈",
+];
+function hmLine() {
+  const d = new Date(), day = Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 864e5);
+  return HM_LINES[day % HM_LINES.length];
+}
+
+
+// ---------- आवाज़: बटन पर हल्की टिक, क्विज़ में सही/ग़लत (कोड से बनी, कोई फ़ाइल नहीं) ----------
+const soundOn = () => { try { return localStorage.getItem("dc-sound") !== "off"; } catch { return true; } };
+let sfxCtx = null;
+function sfx(kind) {
+  if (!soundOn()) return;
+  try {
+    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+    if (!sfxCtx) sfxCtx = new AC();
+    if (sfxCtx.state === "suspended") sfxCtx.resume();
+    const t = sfxCtx.currentTime, out = sfxCtx.destination;
+    const tone = (f, at, dur, v, type = "sine") => { const o = sfxCtx.createOscillator(), g = sfxCtx.createGain(); o.type = type; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t + at); g.gain.exponentialRampToValueAtTime(v, t + at + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + at + dur);
+      o.connect(g); g.connect(out); o.start(t + at); o.stop(t + at + dur + 0.05); };
+    if (kind === "tap") tone(1200, 0, 0.06, 0.05, "triangle");
+    else if (kind === "ok") { tone(880, 0, 0.18, 0.12); tone(1318.5, 0.09, 0.45, 0.12); }
+    else if (kind === "bad") { tone(220, 0, 0.18, 0.1, "square"); tone(180, 0.12, 0.25, 0.08, "square"); }
+    else if (kind === "win") [523.3, 659.3, 784, 1046.5].forEach((f, i) => tone(f, i * 0.12, 0.5, 0.1, "triangle"));
+  } catch {}
+}
+function buzz(ms) { if (soundOn()) try { navigator.vibrate && navigator.vibrate(ms); } catch {} }
+document.addEventListener("click", (e) => {
+  const b = e.target.closest && e.target.closest("button, a.tile, a.row, a.contcard, .srch-r a, .un-btn");
+  if (!b || b.classList.contains("qz-o") || b.id === "soundbtn") return;
+  sfx("tap");
+}, true);
+function toggleSound() {
+  const on = !soundOn();
+  try { localStorage.setItem("dc-sound", on ? "on" : "off"); } catch {}
+  const b = document.getElementById("soundbtn"); if (b) b.textContent = on ? "🔊 Sound On" : "🔇 Sound Off";
+  if (on) sfx("ok");
+}
+
 // ---------- घड़ी: दिन, तारीख़, साल, समय ----------
 function clockText() {
   const d = new Date();
   const day = d.toLocaleDateString("hi-IN", { weekday: "long" });
   const dt = d.toLocaleDateString("hi-IN", { day: "numeric", month: "long", year: "numeric" });
   const tm = d.toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit", second: "2-digit", hour12: true }).toUpperCase();
-  return `<span>📅 ${day}, ${dt}</span><span>⏰ ${tm}</span>`;
+  const P = dayPart(d);
+  return `<span class="tod">${P.ic} ${P.g}</span><span>📅 ${day}, ${dt}</span><span>⏰ ${tm}</span>`;
 }
-setInterval(() => { const c = document.getElementById("clockbar"); if (c) c.innerHTML = clockText(); }, 1000);
+setInterval(() => { const c = document.getElementById("clockbar"); if (c) c.innerHTML = clockText(); if (new Date().getSeconds() === 0) applyDayPart(); }, 1000);
 
 // ---------- Back बटन (फ़ोन का भी) ----------
 // History ऐसे बनती है: #root → #home → #c10 → ... ; फ़ोन से Back दबाने पर एक-एक पन्ना पीछे जाएगा।
@@ -323,6 +413,14 @@ function render(html, showBack = true) {
   app.querySelectorAll("[data-logout]").forEach((b) => (b.onclick = doLogout));
   const bb = document.getElementById("backbtn");
   if (bb) bb.onclick = back;
+  if (!document.getElementById("soundbtn")) {
+    const sb2 = document.createElement("button"); sb2.id = "soundbtn"; sb2.setAttribute("aria-label", "आवाज़ चालू / बंद");
+    sb2.textContent = soundOn() ? "🔊 Sound On" : "🔇 Sound Off"; sb2.onclick = toggleSound; document.body.appendChild(sb2);
+  }
+  if (!document.getElementById("starsbg")) {
+    const sg = document.createElement("div"); sg.id = "starsbg"; sg.setAttribute("aria-hidden", "true");
+    sg.innerHTML = '<i class="s1"></i><i class="s2"></i><i class="s3"></i>'; document.body.prepend(sg);
+  }
   if (!document.getElementById("themebtn")) {
     const tb = document.createElement("button"); tb.id = "themebtn"; tb.setAttribute("aria-label", "डार्क / लाइट मोड");
     tb.textContent = isDark() ? "☀️ Light Mode" : "🌙 Dark Mode"; tb.onclick = toggleTheme; document.body.appendChild(tb);
@@ -361,7 +459,7 @@ function loginView(msg = "") {
       <div class="err">${esc(msg)}</div>
       <button class="primary" type="submit">पढ़ाई शुरू करें →</button>
     </form>
-    <div class="sir"><div class="av">👨‍🏫</div><p><b>पंकज सर</b> (प्रधानाध्यापक):<br>विद्या सबसे बड़ा धन है। हर दिन थोड़ा सीखिए, कल आप खुद पर गर्व करेंगे। 🌟</p></div>
+    <div class="sir"><div class="av">👨‍🏫</div><p><b>पंकज सर</b> (प्रधानाध्यापक) · <small>आज का संदेश</small><br>${esc(hmLine())}</p></div>
     ${DEMO ? `<p class="hint">डेमो के लिए: कोई भी नाम, कोई भी कक्षा, UDISE कोड 10010203040<br><a href="teacher.html">→ टीचर पैनल का डेमो देखें</a></p>` : ""}
   </section></div>
   <p class="credit">🏫 प्रस्तुति: <b>उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक</b></p>${devCard()}
@@ -408,7 +506,8 @@ function greet(list = []) {
   const started = list.filter((c) => { const p = pctOf(c.id); return p > 0 && p < 100; }).length;
   const all = avg(list);
   return `<section class="welcome"><div class="w-in"><div class="w-txt">
-      <div class="hi">आज क्या पढ़ेंगे, ${esc(me.name)}? 📖</div>
+      <div class="tod-g">${dayPart().ic} ${dayPart().g}, ${esc(me.name)}!</div>
+      <div class="hi">आज क्या पढ़ेंगे? 📖</div>
       <span class="cl">कक्षा ${esc(me.class)}${hasStreams(me.class) && st ? " · " + st.name : ""}</span>
       <div class="msg">${all >= 100 ? "शाबाश! सब पूरा हो गया 🎉" : all > 0 ? "बढ़िया चल रहा है, आगे बढ़ते रहो! 💪" : "आज से पढ़ाई शुरू करो — पहला चैप्टर खोलो! 🚀"}</div>
     </div>${list.length ? ring(all, 78, 8) : ""}</div></section>
@@ -493,6 +592,11 @@ async function chapterView(cls, stream, sid, id) {
       ? `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(c.youtubeId)}?rel=0&modestbranding=1&playsinline=1&fs=0"
           title="${esc(c.title)}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>`
       : `<div class="novideo">इस चैप्टर का वीडियो जल्द आएगा।<br>तब तक नीचे के नोट्स पढ़ें।</div>`}
+    ${c.video ? `<button class="cover" id="cover" type="button" aria-label="वीडियो चलाएँ"><span class="cv-bg"></span>
+      <span class="cv-top"><span class="cv-ic">${sub ? sub.icon : "📘"}</span><span class="cv-sub">${esc(sub ? subjLabel(sub) : "")}</span></span>
+      <span class="cv-num">अध्याय ${esc(c.number)}</span><span class="cv-t">${esc(c.title)}</span>${c.title_en ? `<span class="cv-en">${esc(c.title_en)}</span>` : ""}
+      <span class="cv-play">▶ ${p0 > 0 && p0 < 100 ? `आगे देखें (${p0}%)` : p0 >= 100 ? "फिर से देखें" : "वीडियो चलाएँ"}</span>
+      ${c.minutes ? `<span class="cv-min">⏱ ${esc(c.minutes)} मिनट</span>` : ""}</button>` : ""}
     <div class="wm" id="wm">${esc(me.name)} · कक्षा ${esc(me.class)}</div>
     <button class="fsbtn" id="fs" aria-label="पूरी स्क्रीन">⛶</button>
   </div>
@@ -567,6 +671,11 @@ async function chapterView(cls, stream, sid, id) {
       });
       v.addEventListener("ended", () => { maxT = dur; upd(); const o = loadProg(); o.m = o.m || {}; o.m[c.id] = maxT; saveProg(o); });
     }
+  }
+  const cov = document.getElementById("cover"), cvid = document.querySelector("#player video");
+  if (cov && cvid) {
+    cov.onclick = () => { cov.classList.add("gone"); try { cvid.play(); } catch {} setTimeout(() => cov.remove(), 450); };
+    cvid.addEventListener("play", () => { if (cov.isConnected) { cov.classList.add("gone"); setTimeout(() => cov.remove(), 450); } }, { once: true });
   }
   const goNext = () => { if (next) { history.replaceState(null, "", base + encodeURIComponent(next.id)); route(); } };
   const openQuiz = () => startQuiz({ cls, c, next, onNext: goNext });

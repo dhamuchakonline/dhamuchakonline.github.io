@@ -618,3 +618,61 @@ body.dark .qz-o.right span,body.dark .qz-o.wrong span{color:#fff!important}
 body.dark .speeds .sp.on,.stu .speeds .sp.on{background:linear-gradient(135deg,#fbbf24,#f59e0b)!important;color:#1e1b4b!important;border-color:#fde68a!important;
   box-shadow:0 0 0 2px rgba(251,191,36,.35),0 4px 14px -2px rgba(245,158,11,.7)!important;transform:scale(1.08)}
 .stu .speeds .sp.on::before{content:"✓ "}
+
+/* ===== समय के हिसाब से स्वागत ===== */
+.welcome .tod-g{font-size:14px;font-weight:800;opacity:.95;margin-bottom:2px;letter-spacing:.01em}
+body.tod-morning .welcome{background:linear-gradient(135deg,#f97316 0%,#f59e0b 45%,#ec4899 100%)!important;box-shadow:0 14px 34px rgba(249,115,22,.35)!important}
+body.tod-noon .welcome{background:linear-gradient(135deg,#0284c7 0%,#2563eb 50%,#0d9488 100%)!important;box-shadow:0 14px 34px rgba(37,99,235,.35)!important}
+body.tod-evening .welcome{background:linear-gradient(135deg,#7c3aed 0%,#db2777 55%,#f97316 100%)!important;box-shadow:0 14px 34px rgba(219,39,119,.35)!important}
+body.tod-night .welcome{background:linear-gradient(135deg,#1e1b4b 0%,#312e81 55%,#0f766e 100%)!important;box-shadow:0 14px 34px rgba(49,46,129,.45)!important}
+header.top .clockbar .tod{font-weight:800}
+body.tod-morning header.top .clockbar .tod{color:#ea580c}body.tod-noon header.top .clockbar .tod{color:#0369a1}
+body.tod-evening header.top .clockbar .tod{color:#be185d}body.tod-night header.top .clockbar .tod{color:#4338ca}
+body.dark.tod-morning header.top .clockbar .tod{color:#fdba74}body.dark.tod-noon header.top .clockbar .tod{color:#7dd3fc}
+body.dark.tod-evening header.top .clockbar .tod{color:#f9a8d4}body.dark.tod-night header.top .clockbar .tod{color:#c4b5fd}
+body.tod-morning header.top{border-bottom:3px solid #f59e0b}body.tod-noon header.top{border-bottom:3px solid #0ea5e9}
+body.tod-evening header.top{border-bottom:3px solid #db2777}body.tod-night header.top{border-bottom:3px solid #6366f1}
+
+/* ===== चैप्टर का रंगीन कवर (वीडियो चलने से पहले) ===== */
+.stu .player{position:relative}
+.cover{position:absolute;inset:0;z-index:4;border:0;padding:16px;margin:0;cursor:pointer;color:#fff;text-align:left;overflow:hidden;border-radius:inherit;
+  display:flex;flex-direction:column;justify-content:center;gap:4px;transition:opacity .4s,transform .4s}
+.cover .cv-bg{position:absolute;inset:0;z-index:-1;
+  background:radial-gradient(circle at 85% 15%,rgba(255,255,255,.22) 0 18%,transparent 19%),radial-gradient(circle at 10% 110%,rgba(255,255,255,.14) 0 30%,transparent 31%),
+  linear-gradient(135deg,color-mix(in srgb,var(--c1) 82%,#000),color-mix(in srgb,var(--c2) 70%,#000))}
+.cover .cv-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.cover .cv-ic{font-size:26px;width:42px;height:42px;display:grid;place-items:center;border-radius:10px;background:rgba(255,255,255,.18)}
+.cover .cv-sub{font-size:13px;font-weight:700;opacity:.95}
+.cover .cv-num{font-size:12px;font-weight:800;letter-spacing:.1em;opacity:.85}
+.cover .cv-t{font-size:clamp(20px,5.6vw,28px);line-height:1.3;text-shadow:0 2px 8px rgba(0,0,0,.35)}
+.cover .cv-en{font-size:13px;opacity:.85}
+.cover .cv-play{align-self:flex-start;margin-top:10px;padding:9px 16px;border-radius:8px;background:#fff;color:#1e1b4b;font-weight:800;font-size:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,.25);animation:unPulse 1.8s ease-in-out infinite}
+.cover .cv-min{position:absolute;right:14px;bottom:12px;font-size:12px;font-weight:700;opacity:.85}
+.cover.gone{opacity:0;transform:scale(1.04);pointer-events:none}
+
+/* ===== Dark Mode: हल्के-हल्के चमकते तारे ===== */
+#starsbg{display:none}
+body.dark #starsbg{display:block;position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+#starsbg i{position:absolute;inset:-20px;background-repeat:repeat}
+#starsbg .s1{background-image:radial-gradient(1.4px 1.4px at 20px 30px,#fff,transparent),radial-gradient(1px 1px at 140px 90px,#c7d2fe,transparent),
+  radial-gradient(1.2px 1.2px at 250px 160px,#fff,transparent),radial-gradient(1px 1px at 80px 220px,#a5f3fc,transparent);background-size:300px 260px;animation:twA 4s ease-in-out infinite}
+#starsbg .s2{background-image:radial-gradient(1.6px 1.6px at 60px 120px,#fde68a,transparent),radial-gradient(1px 1px at 200px 40px,#fff,transparent),
+  radial-gradient(1.3px 1.3px at 310px 250px,#e0e7ff,transparent);background-size:380px 320px;animation:twB 5.5s ease-in-out infinite}
+#starsbg .s3{background-image:radial-gradient(2px 2px at 120px 180px,#fff,transparent),radial-gradient(1.6px 1.6px at 420px 60px,#c4b5fd,transparent);
+  background-size:520px 420px;animation:twA 7s ease-in-out infinite reverse,drift 60s linear infinite}
+@keyframes twA{0%,100%{opacity:.25}50%{opacity:.9}}
+@keyframes twB{0%,100%{opacity:.8}50%{opacity:.2}}
+@keyframes drift{to{transform:translateY(-60px)}}
+@media (prefers-reduced-motion:reduce){#starsbg i{animation:none;opacity:.5}}
+body.printnotes #starsbg{display:none!important}
+
+/* ===== Sound बटन (Dark Mode बटन के ऊपर) ===== */
+#soundbtn{position:fixed;right:10px;bottom:calc(max(10px,env(safe-area-inset-bottom)) + 40px);z-index:60;border:0;border-radius:8px;padding:6px 11px;
+  font-size:12px;font-weight:800;color:#fff;background:linear-gradient(135deg,#0f766e,#0891b2);box-shadow:0 6px 16px rgba(8,145,178,.35);opacity:.95}
+body.printnotes #soundbtn{display:none}
+.sir small{font-size:11px;opacity:.75;font-weight:700}
+#intro .in-tap{position:absolute;bottom:max(22px,env(safe-area-inset-bottom));left:0;right:0;text-align:center;font-size:13px;font-weight:700;color:#cbd5e1;
+  transition:opacity .4s;animation:tapBlink 1.6s ease-in-out infinite}
+@keyframes tapBlink{50%{opacity:.45}}
+#soundbtn{right:auto!important;left:10px;bottom:max(10px,env(safe-area-inset-bottom))!important}
