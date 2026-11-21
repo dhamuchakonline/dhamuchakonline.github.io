@@ -13,7 +13,6 @@ c12_bus_ch1 business 1
 c12_bus_ch10 business 10
 c12_bus_ch11 business 11
 c12_bus_ch12 business 12
-c12_bus_ch2 business 2
 c12_bus_ch3 business 3
 c12_bus_ch4 business 4
 c12_bus_ch5 business 5
