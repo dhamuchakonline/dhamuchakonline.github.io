@@ -29,7 +29,6 @@ c12_eco_ch3 economics 3
 c12_eco_ch4 economics 4
 c12_eco_ch5 economics 5
 c12_eco_ch7 economics 7
-c12_eco_ch9 economics 9
 c12_geo_ch11 geography 11
 c12_geo_ch12 geography 12
 c12_geo_ch13 geography 13
