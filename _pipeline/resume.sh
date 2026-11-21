@@ -16,12 +16,17 @@ import json
 d=json.load(open('/home/claude/dco/chapters.json'))
 done={x['id'] for x in d if x.get('video')}
 out=[]
-for f in ('/home/claude/dco/_pipeline/tools/pending_jobs.txt','/home/claude/dco/_pipeline/jobs_pending.txt','/home/claude/dco/_pipeline/jobs_c10.txt'):
+hold={l.split()[0] for l in open('/home/claude/dco/_pipeline/tools/jobs_hold.txt') if l.strip()}
+# ताज़ा लाइन (pending_jobs.txt) जैसी है वैसी रहेगी — इसमें दोबारा बनने वाले वीडियो भी हैं
+for l in open('/home/claude/dco/_pipeline/tools/pending_jobs.txt'):
+    p=l.split()
+    if len(p)>=3 and p[0] not in hold and l.strip() not in out: out.append(l.strip())
+for f in ('/home/claude/dco/_pipeline/jobs_pending.txt','/home/claude/dco/_pipeline/jobs_c10.txt'):
     for l in open(f):
         p=l.split()
         if len(p)<3: continue
         cid=f"c{p[0][1:p[0].index('_')]}_{p[1]}_{int(p[2]):02d}"
-        if cid not in done and l.strip() not in out: out.append(l.strip())
+        if cid not in done and p[0] not in hold and l.strip() not in out: out.append(l.strip())
 open('/home/claude/videos/jobs.txt','w').write('\n'.join(out)+'\n')
 print(len(out),'jobs')
 PY
