@@ -37,7 +37,6 @@ c12_geo_ch15 geography 15
 c12_geo_ch16 geography 16
 c12_geo_ch17 geography 17
 c12_his_ch1 history 1
-c12_his_ch10 history 10
 c12_his_ch12 history 12
 c12_his_ch2 history 2
 c12_his_ch3 history 3
