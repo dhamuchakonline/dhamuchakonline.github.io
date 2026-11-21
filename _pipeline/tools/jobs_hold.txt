@@ -13,7 +13,6 @@ c12_bus_ch1 business 1
 c12_bus_ch10 business 10
 c12_bus_ch11 business 11
 c12_bus_ch12 business 12
-c12_bus_ch3 business 3
 c12_bus_ch4 business 4
 c12_bus_ch5 business 5
 c12_bus_ch6 business 6
@@ -37,7 +36,6 @@ c12_eco_ch2 economics 2
 c12_eco_ch3 economics 3
 c12_eco_ch4 economics 4
 c12_eco_ch5 economics 5
-c12_eco_ch6 economics 6
 c12_eco_ch7 economics 7
 c12_eco_ch8 economics 8
 c12_eco_ch9 economics 9
