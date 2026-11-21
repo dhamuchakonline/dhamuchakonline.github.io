@@ -1,3 +1,8 @@
+c12_bus_ch3 business 3
+c12_phy_ch4 physics 4
+c12_bus_ch4 business 4
+c12_bus_ch7 business 7
+c12_eco_ch6 economics 6
 c12_bus_ch2 business 2
 c9_music_ch5 music 5
 c9_music_ch4 music 4
