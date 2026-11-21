@@ -12,7 +12,6 @@ c12_bio_ch9 biology 9
 c12_bus_ch1 business 1
 c12_bus_ch10 business 10
 c12_bus_ch11 business 11
-c12_bus_ch12 business 12
 c12_bus_ch5 business 5
 c12_bus_ch6 business 6
 c12_bus_ch8 business 8
@@ -27,7 +26,6 @@ c12_chem_ch6 chemistry 6
 c12_chem_ch7 chemistry 7
 c12_chem_ch8 chemistry 8
 c12_chem_ch9 chemistry 9
-c12_eco_ch1 economics 1
 c12_eco_ch11 economics 11
 c12_eco_ch2 economics 2
 c12_eco_ch3 economics 3
