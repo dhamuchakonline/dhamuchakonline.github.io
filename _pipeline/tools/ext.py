@@ -16,7 +16,8 @@ def ext(name,new,lv=1):
         s["ext"]=lv
         for k in ("head","points","q","a","rows","eq"):
             if k in s: s[k]=fx(s[k])
-    idx=next(i for i,s in enumerate(S) if s['kind']=='question' and str(s.get('head','')).startswith('अभ्यास'))
+    idx=next((i for i,s in enumerate(S) if s['kind']=='question' and str(s.get('head','')).startswith('अभ्यास')),None)
+    if idx is None: idx=next((i for i,s in enumerate(S) if str(s.get('head',''))=='सार'),len(S)-1)
     S=S[:idx]+new+S[idx:]
     with open(P+name+'.py','w') as f:
         f.write("META = "+json.dumps(ns['META'],ensure_ascii=False)+"\nS = [\n")
