@@ -1,14 +1,3 @@
-c12_bus_ch5 business 5
-c12_eco_ch8 economics 8
-c12_his_ch11 history 11
-c12_bus_ch11 business 11
-c12_bus_ch6 business 6
-c12_eco_ch1 economics 1
-c12_bus_ch12 business 12
-c12_his_ch7 history 7
-c12_eco_ch10 economics 10
-c12_eco_ch6 economics 6
-c12_bus_ch2 business 2
 c9_music_ch5 music 5
 c9_music_ch4 music 4
 c9_dance_ch2 dance 2
@@ -158,9 +147,6 @@ c12_bio_ch8 biology 8
 c12_bio_ch9 biology 9
 c12_bus_ch1 business 1
 c12_bus_ch10 business 10
-c12_bus_ch3 business 3
-c12_bus_ch4 business 4
-c12_bus_ch7 business 7
 c12_bus_ch8 business 8
 c12_bus_ch9 business 9
 c12_chem_ch1 chemistry 1
@@ -179,7 +165,6 @@ c12_eco_ch3 economics 3
 c12_eco_ch4 economics 4
 c12_eco_ch5 economics 5
 c12_eco_ch7 economics 7
-c12_eco_ch9 economics 9
 c12_geo_ch11 geography 11
 c12_geo_ch12 geography 12
 c12_geo_ch13 geography 13
@@ -188,13 +173,11 @@ c12_geo_ch15 geography 15
 c12_geo_ch16 geography 16
 c12_geo_ch17 geography 17
 c12_his_ch1 history 1
-c12_his_ch10 history 10
 c12_his_ch12 history 12
 c12_his_ch2 history 2
 c12_his_ch3 history 3
 c12_his_ch4 history 4
 c12_his_ch5 history 5
-c12_his_ch6 history 6
 c12_his_ch8 history 8
 c12_his_ch9 history 9
 c12_math_ch1 maths 1
