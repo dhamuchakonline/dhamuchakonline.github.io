@@ -1,9 +1,3 @@
-c12_his_ch1 history 1
-c10_sci_ch10 science 10
-c11_bio_ch15 biology 15
-c10_sst_ch3 social 3
-c11_his_ch6 history 6
-c9_dance_ch1 dance 1
 c9_yoga_ch2 yoga 2
 c11_eco_ch11 economics 11
 c11_geo_ch13 geography 13
