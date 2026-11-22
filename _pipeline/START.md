@@ -86,3 +86,10 @@
 - कतार पूरी ख़ाली है; कोई वीडियो फेल नहीं। सभी 538 अध्यायों के वीडियो साइट पर हैं, hold वाले 86 अध्याय ~15–19 मिनट के हो चुके हैं।
 - ज़रूरी: publish के लिए ये repos सेशन में जुड़े होने चाहिए: class-9, class-9-a, class-9-b, class-10, class-10-b, class-11, class-12 (नहीं तो 403 आता है)।
 - आगे (सर के कहने पर): कुछ ~14 मिनट वाले अध्याय ext 7 से और बढ़ाना; नई साइट-बदलाव।
+
+## आवाज़ बदलने की योजना (22 Nov रात, सर की मंज़ूरी)
+- सर को Piper की हिंदी लड़के वाली आवाज़ें पसंद आईं: **hi_IN-pratham-medium** और **hi_IN-rohan-medium**।
+- पहले 16–20 मिनट वाला सारा काम पूरा करना है। उसके **बाद** सारे वीडियो की आवाज़ बदलनी है।
+- हर चैप्टर में अपने हिसाब से pratham या rohan लगाओ (या मिलाकर), दोनों ठीक हैं।
+- मॉडल: `pip install piper-tts`; फ़ाइलें `https://huggingface.co/rhasspy/piper-voices/resolve/main/hi/hi_IN/<pratham|rohan>/medium/hi_IN-<name>-medium.onnx` (+ `.onnx.json`)। इसके लिए नेटवर्क में huggingface.co और us.aws.cdn.hf.co खुले होने चाहिए (सर ने जोड़े हैं)।
+- उपयोग: `echo "पाठ" | python3 -m piper -m hi_pratham.onnx -f out.wav`। `build.py` में gTTS (लाइन ~163) की जगह यह लगाना है।
