@@ -1,12 +1,3 @@
-c10_sst_ch22 social 22
-c11_phy_ch13 physics 13
-c11_eng_ch11 english 11
-c12_hin_ch20 hindi 20
-c10_sci_ch9 science 9
-c11_eng_ch19 english 19
-c11_eng_ch16 english 16
-c12_phy_ch5 physics 5
-c9_hin_ch12 hindi 12
 c11_pol_ch13 polsci 13
 c11_bus_ch2 business 2
 c12_phy_ch2 physics 2
