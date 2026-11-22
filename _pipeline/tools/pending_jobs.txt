@@ -1,9 +1,3 @@
-c9_yoga_ch2 yoga 2
-c11_eco_ch11 economics 11
-c11_geo_ch13 geography 13
-c11_pol_ch18 polsci 18
-c11_eco_ch10 economics 10
-c11_pol_ch12 polsci 12
 c11_eng_ch8 english 8
 c10_math_ch2 math 2
 c12_math_ch7 maths 7
