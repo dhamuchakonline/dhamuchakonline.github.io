@@ -1,9 +1,3 @@
-c10_sst_ch11 social 11
-c11_chem_ch5 chemistry 5
-c11_math_ch3 maths 3
-c11_bus_ch7 business 7
-c11_chem_ch7 chemistry 7
-c11_bio_ch10 biology 10
 c9_music_ch6 music 6
 c12_geo_ch5 geography 5
 c10_sst_ch5 social 5
