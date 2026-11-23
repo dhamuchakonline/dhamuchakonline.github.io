@@ -1,8 +1,3 @@
-c9_sci_ch10 science 10
-c9_sci_ch5 science 5
-c9_san_ch10 sanskrit 10
-c9_san_ch9 sanskrit 9
-c9_music_ch8 music 8
 c11_math_ch13 maths 13
 c9_san_ch14 sanskrit 14
 c10_eng_ch8 english 8
