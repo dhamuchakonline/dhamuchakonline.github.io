@@ -1,7 +1,3 @@
-c10_math_ch13 maths 13
-c10_math_ch14 math 14
-c10_math_ch2 math 2
-c10_math_ch3 math 3
 c10_math_ch4 math 4
 c10_math_ch5 math 5
 c10_math_ch6 math 6
