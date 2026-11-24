@@ -1,5 +1,0 @@
-c12_eco_ch1 economics 1
-c12_bus_ch12 business 12
-c12_bus_ch11 business 11
-c12_bus_ch6 business 6
-c12_bus_ch2 business 2
