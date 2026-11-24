@@ -1,9 +1,3 @@
-c10_eng_ch4 english 4
-c12_bio_ch2 biology 2
-c12_bio_ch3 biology 3
-c11_math_ch12 maths 12
-c10_eng_ch2 english 2
-c12_eco_ch6 economics 6
 c12_eco_ch1 economics 1
 c12_bus_ch12 business 12
 c12_bus_ch11 business 11
