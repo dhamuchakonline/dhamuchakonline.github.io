@@ -1,7 +1,3 @@
-c11_bio_ch18 biology 18
-c11_bio_ch19 biology 19
-c11_bio_ch2 biology 2
-c11_bio_ch3 biology 3
 c11_bio_ch4 biology 4
 c11_bio_ch5 biology 5
 c11_bio_ch6 biology 6
