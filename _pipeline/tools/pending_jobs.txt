@@ -1,7 +1,3 @@
-c11_his_ch3 history 3
-c11_his_ch4 history 4
-c11_his_ch5 history 5
-c11_his_ch6 history 6
 c11_his_ch7 history 7
 c11_math_ch1 maths 1
 c11_math_ch10 maths 10
