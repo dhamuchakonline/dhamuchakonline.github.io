@@ -174,7 +174,7 @@ for pt in _smp:
         _sec += _rf.getnframes() / _rf.getframerate()
     _sw += len(pt["say"].split())
 _spw = _sec / max(_sw, 1)
-_scale = max(0.8, min(1.5, (18 * 60 - _P) / (_W * _spw)))
+_scale = max(0.8, min(1.8, (18 * 60 - _P) / (_W * _spw)))
 print(f"words {_W} pauses {_P:.0f}s sec/word {_spw:.3f} length_scale {_scale:.2f}")
 CFG = SynthesisConfig(length_scale=_scale)
 lst = []
