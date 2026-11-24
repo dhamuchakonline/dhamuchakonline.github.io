@@ -1,7 +1,3 @@
-c11_eng_ch14 english 14
-c11_eng_ch15 english 15
-c11_eng_ch16 english 16
-c11_eng_ch17 english 17
 c11_eng_ch18 english 18
 c11_eng_ch19 english 19
 c11_eng_ch2 english 2
