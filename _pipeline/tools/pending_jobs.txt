@@ -1,7 +1,3 @@
-c11_geo_ch10 geography 10
-c11_geo_ch11 geography 11
-c11_geo_ch12 geography 12
-c11_geo_ch13 geography 13
 c11_geo_ch14 geography 14
 c11_geo_ch15 geography 15
 c11_geo_ch16 geography 16
