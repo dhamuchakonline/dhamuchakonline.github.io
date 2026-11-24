@@ -13,12 +13,14 @@ frames_only = "--frames-only" in sys.argv
 mod = importlib.import_module(name)
 META, SCENES = mod.META, mod.S
 OUT = Path(f"/home/claude/videos/out_{name}")
-if OUT.exists() and not (OUT / ".piper").exists():
+if OUT.exists() and not (OUT / ".piper2").exists():
     shutil.rmtree(OUT)  # old gTTS audio/video: rebuild with Piper
-OUT.mkdir(exist_ok=True); (OUT / ".piper").write_text("1")
+OUT.mkdir(exist_ok=True); (OUT / ".piper2").write_text("1")
 _vn = "pratham" if (sum(map(ord, name)) % 2 == 0) else "rohan"
 VOICE = PiperVoice.load(f"/home/claude/videos/voices/hi_{_vn}.onnx")
 print("voice:", _vn)
+from piper import SynthesisConfig
+_wpm = 118 if _vn == "pratham" else 105
 FONTS = "/home/claude/videos/fonts"
 W, H, FPS = 1280, 720, 30
 
@@ -159,6 +161,22 @@ if frames_only:
     raise SystemExit(0)
 
 # 3) audio + scene files
+_W = sum(len(pt["say"].split()) for pt in parts); _P = sum(pt["pause"] + 0.4 for pt in parts)
+_big = [pt for pt in parts if len(pt["say"].split()) >= 25]
+_smp = _big[:: max(1, len(_big) // 8)][:8] or parts[:3]
+_sec = 0.0; _sw = 0
+for pt in _smp:
+    _bio = __import__("io").BytesIO()
+    with wave.open(_bio, "wb") as _wf:
+        VOICE.synthesize_wav(pt["say"], _wf)
+    _bio.seek(0)
+    with wave.open(_bio) as _rf:
+        _sec += _rf.getnframes() / _rf.getframerate()
+    _sw += len(pt["say"].split())
+_spw = _sec / max(_sw, 1)
+_scale = max(0.8, min(1.5, (18 * 60 - _P) / (_W * _spw)))
+print(f"words {_W} pauses {_P:.0f}s sec/word {_spw:.3f} length_scale {_scale:.2f}")
+CFG = SynthesisConfig(length_scale=_scale)
 lst = []
 total = 0
 for n, pt in enumerate(parts):
@@ -169,7 +187,7 @@ for n, pt in enumerate(parts):
             try:
                 raw = OUT / f"r{n:03d}.wav"
                 with wave.open(str(raw), "wb") as wf:
-                    VOICE.synthesize_wav(pt["say"], wf)
+                    VOICE.synthesize_wav(pt["say"], wf, CFG)
                 run(["ffmpeg", "-y", "-v", "error", "-i", str(raw), "-ar", "44100", "-ac", "1", str(wav)]); break
             except (Exception, SystemExit) as e:
                 print("tts retry", n, e)
