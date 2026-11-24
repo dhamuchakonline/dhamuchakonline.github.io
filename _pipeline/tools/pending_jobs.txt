@@ -1,7 +1,3 @@
-c11_math_ch11 maths 11
-c11_math_ch12 maths 12
-c11_math_ch13 maths 13
-c11_math_ch14 maths 14
 c11_math_ch2 maths 2
 c11_math_ch3 maths 3
 c11_math_ch4 maths 4
