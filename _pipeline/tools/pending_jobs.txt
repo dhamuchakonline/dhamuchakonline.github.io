@@ -1,6 +1,3 @@
-c10_sst_ch16 social 16
-c10_sst_ch17 social 17
-c10_sst_ch18 social 18
 c10_sst_ch19 social 19
 c10_sst_ch2 social 2
 c10_sst_ch20 social 20
