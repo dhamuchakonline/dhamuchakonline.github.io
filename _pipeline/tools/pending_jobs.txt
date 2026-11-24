@@ -1,6 +1,3 @@
-c11_pol_ch9 polsci 9
-c12_bio_ch1 biology 1
-c12_bio_ch10 biology 10
 c12_bio_ch11 biology 11
 c12_bio_ch12 biology 12
 c12_bio_ch13 biology 13
