@@ -1,6 +1,3 @@
-c11_phy_ch13 physics 13
-c11_phy_ch14 physics 14
-c11_phy_ch2 physics 2
 c11_phy_ch3 physics 3
 c11_phy_ch4 physics 4
 c11_phy_ch5 physics 5
