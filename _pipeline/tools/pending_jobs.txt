@@ -1,7 +1,3 @@
-c12_bus_ch5 business 5
-c12_bus_ch6 business 6
-c12_bus_ch7 business 7
-c12_bus_ch8 business 8
 c12_bus_ch9 business 9
 c12_chem_ch1 chemistry 1
 c12_chem_ch10 chemistry 10
