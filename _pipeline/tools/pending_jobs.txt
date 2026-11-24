@@ -1,8 +1,3 @@
-c11_pol_ch14 polsci 14
-c11_pol_ch15 polsci 15
-c11_pol_ch16 polsci 16
-c11_pol_ch17 polsci 17
-c11_pol_ch18 polsci 18
 c11_pol_ch2 polsci 2
 c11_pol_ch3 polsci 3
 c11_pol_ch4 polsci 4
