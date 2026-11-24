@@ -1,7 +1,3 @@
-c11_eco_ch12 economics 12
-c11_eco_ch13 economics 13
-c11_eco_ch14 economics 14
-c11_eco_ch15 economics 15
 c11_eco_ch16 economics 16
 c11_eco_ch2 economics 2
 c11_eco_ch3 economics 3
