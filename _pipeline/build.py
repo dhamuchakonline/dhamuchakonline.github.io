@@ -4,14 +4,21 @@ Usage: python3 build.py c10_sci_ch1  [--frames-only]
 """
 import importlib, json, os, re, subprocess, sys, html
 from pathlib import Path
-from gtts import gTTS
+import wave, shutil
+from piper import PiperVoice
 from playwright.sync_api import sync_playwright
 
 name = sys.argv[1]
 frames_only = "--frames-only" in sys.argv
 mod = importlib.import_module(name)
 META, SCENES = mod.META, mod.S
-OUT = Path(f"/home/claude/videos/out_{name}"); OUT.mkdir(exist_ok=True)
+OUT = Path(f"/home/claude/videos/out_{name}")
+if OUT.exists() and not (OUT / ".piper").exists():
+    shutil.rmtree(OUT)  # old gTTS audio/video: rebuild with Piper
+OUT.mkdir(exist_ok=True); (OUT / ".piper").write_text("1")
+_vn = "pratham" if (sum(map(ord, name)) % 2 == 0) else "rohan"
+VOICE = PiperVoice.load(f"/home/claude/videos/voices/hi_{_vn}.onnx")
+print("voice:", _vn)
 FONTS = "/home/claude/videos/fonts"
 W, H, FPS = 1280, 720, 30
 
@@ -160,8 +167,10 @@ for n, pt in enumerate(parts):
     if not wav.exists():
         for t in range(6):
             try:
-                gTTS(pt["say"], lang="hi").save(str(mp3))
-                run(["ffmpeg", "-y", "-v", "error", "-i", str(mp3), "-ar", "44100", "-ac", "1", str(wav)]); break
+                raw = OUT / f"r{n:03d}.wav"
+                with wave.open(str(raw), "wb") as wf:
+                    VOICE.synthesize_wav(pt["say"], wf)
+                run(["ffmpeg", "-y", "-v", "error", "-i", str(raw), "-ar", "44100", "-ac", "1", str(wav)]); break
             except (Exception, SystemExit) as e:
                 print("tts retry", n, e)
                 if mp3.exists(): mp3.unlink()
