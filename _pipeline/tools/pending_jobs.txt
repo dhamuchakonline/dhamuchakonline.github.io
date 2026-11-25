@@ -1,7 +1,3 @@
-c9_sci_ch7 science 7
-c9_sci_ch8 science 8
-c9_sci_ch9 science 9
-c9_sst_ch1 social 1
 c9_sst_ch10 social 10
 c9_sst_ch11 social 11
 c9_sst_ch12 social 12
