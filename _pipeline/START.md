@@ -93,3 +93,13 @@
 - हर चैप्टर में अपने हिसाब से pratham या rohan लगाओ (या मिलाकर), दोनों ठीक हैं।
 - मॉडल: `pip install piper-tts`; फ़ाइलें `https://huggingface.co/rhasspy/piper-voices/resolve/main/hi/hi_IN/<pratham|rohan>/medium/hi_IN-<name>-medium.onnx` (+ `.onnx.json`)। इसके लिए नेटवर्क में huggingface.co और us.aws.cdn.hf.co खुले होने चाहिए (सर ने जोड़े हैं)।
 - उपयोग: `echo "पाठ" | python3 -m piper -m hi_pratham.onnx -f out.wav`। `build.py` में gTTS (लाइन ~163) की जगह यह लगाना है।
+
+## 25 नवंबर — हैंडओवर 4 (Piper आवाज़ का काम पूरा)
+- सभी 548 चैप्टर के वीडियो Piper की पुरुष आवाज़ों में दोबारा बनकर साइट पर हैं। कतार ख़ाली है, कोई FAIL नहीं, हर वीडियो 16–20 मिनट का है।
+- आवाज़: `build.py` नाम के अक्षरों के योग (`sum(map(ord,name))`) के जोड़/विषम से `pratham` या `rohan` चुनता है। मॉडल `/home/claude/videos/voices/hi_pratham.onnx`, `hi_rohan.onnx` (+ `.json`) में हैं; सेशन बदले तो यहीं से कॉपी करें या huggingface से फिर लाएँ।
+- लंबाई: `build.py` हर चैप्टर की गति नापकर `length_scale` तय करता है (लक्ष्य 18.8 मिनट, सीमा 0.8–1.8)। इस बार 15.6–15.9 मिनट वाले 12 वीडियो इसी लक्ष्य से दोबारा बने।
+- `out_` फ़ोल्डर में `.piper2` निशान न हो तो build.py पुराना फ़ोल्डर मिटा देता है (पुरानी gTTS फ़ाइलें दोबारा इस्तेमाल नहीं होतीं)।
+- कतार: `/home/claude/videos/jobs.txt` (लाइन: `name subject n`), `worker.sh` वही job छोड़ देता है जिसके `log_<name>.txt` में "EXIT 0" हो — दोबारा बनाना हो तो पहले वह log मिटाएँ। 3 worker चलाएँ; `/tmp/mon.sh <सेकंड>` उन्हें फिर चालू कर देता है। worker तभी चलते हैं जब सेशन सक्रिय हो; सर्वर रीस्टार्ट पर अधूरे job (log में EXIT नहीं) दोबारा लगाएँ।
+- विषय-कुंजियाँ (jobs/qh के लिए): social, polsci, business, hindi, yoga, biology, geography, english, math/maths, economics, chemistry, physics, history, music, dance, sanskrit, science, computer। कक्षा 10 में अध्याय 2,3,4,5,6,8,10,11,12,14 का विषय `math` (repo class-10-b), बाक़ी (और कक्षा 9/11/12) `maths`; `tools/jobs_second.txt` में उन 10 का `maths` वाला दोहरा publish है।
+- ext.py: स्तर 7, 8, 9 अब इस्तेमाल हो चुके हैं (9 = टॉप-अप); नया पास 10 से करें। ext स्क्रिप्टें `tools/e7/` में हैं। जिस चैप्टर का वीडियो अभी बन रहा हो उसे दोबारा लाइन में न लगाएँ।
+- लिखने के नियम: संख्या/सूत्र हिंदी शब्दों में, अंग्रेज़ी देवनागरी में, कोई अंग्रेज़ी अक्षर के बाद ASCII अंक नहीं (Unicode subscript लें)।
