@@ -1,8 +1,3 @@
-c9_computer_ch2 computer 2
-c9_computer_ch3 computer 3
-c9_computer_ch4 computer 4
-c9_computer_ch5 computer 5
-c9_computer_ch6 computer 6
 c9_computer_ch7 computer 7
 c9_computer_ch8 computer 8
 c9_dance_ch1 dance 1
