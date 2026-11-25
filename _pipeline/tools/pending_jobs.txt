@@ -1,7 +1,3 @@
-c9_math_ch9 maths 9
-c9_music_ch1 music 1
-c9_music_ch2 music 2
-c9_music_ch3 music 3
 c9_music_ch4 music 4
 c9_music_ch5 music 5
 c9_music_ch6 music 6
