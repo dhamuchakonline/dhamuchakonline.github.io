@@ -1,7 +1,3 @@
-c9_sst_ch3 social 3
-c9_sst_ch4 social 4
-c9_sst_ch5 social 5
-c9_sst_ch6 social 6
 c9_sst_ch7 social 7
 c9_sst_ch8 social 8
 c9_sst_ch9 social 9
