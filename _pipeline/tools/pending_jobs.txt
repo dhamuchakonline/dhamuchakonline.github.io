@@ -1,8 +1,3 @@
-c12_hin_ch14 hindi 14
-c12_hin_ch15 hindi 15
-c12_hin_ch16 hindi 16
-c12_hin_ch17 hindi 17
-c12_hin_ch18 hindi 18
 c12_hin_ch19 hindi 19
 c12_hin_ch2 hindi 2
 c12_hin_ch20 hindi 20
