@@ -1,12 +1,3 @@
-c12_geo_ch14 geography 14
-c12_geo_ch15 geography 15
-c12_geo_ch16 geography 16
-c10_eng_ch7 english 7
-c10_sst_ch16 social 16
-c10_sst_ch18 social 18
-c11_bio_ch19 biology 19
-c11_eco_ch3 economics 3
-c11_eng_ch20 english 20
 c11_eng_ch24 english 24
 c12_eng_ch21 english 21
 c12_math_ch4 maths 4
