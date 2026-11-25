@@ -1,8 +1,3 @@
-c9_hin_ch21 hindi 21
-c9_hin_ch22 hindi 22
-c9_hin_ch24 hindi 24
-c9_hin_ch3 hindi 3
-c9_hin_ch4 hindi 4
 c9_hin_ch5 hindi 5
 c9_hin_ch6 hindi 6
 c9_hin_ch7 hindi 7
