@@ -1,8 +1,3 @@
-c12_pol_ch15 polsci 15
-c12_pol_ch2 polsci 2
-c12_pol_ch3 polsci 3
-c12_pol_ch4 polsci 4
-c12_pol_ch5 polsci 5
 c12_pol_ch6 polsci 6
 c12_pol_ch7 polsci 7
 c12_pol_ch8 polsci 8
