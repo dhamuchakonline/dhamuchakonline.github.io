@@ -1,7 +1,3 @@
-c9_san_ch1 sanskrit 1
-c9_san_ch10 sanskrit 10
-c9_san_ch11 sanskrit 11
-c9_san_ch12 sanskrit 12
 c9_san_ch13 sanskrit 13
 c9_san_ch14 sanskrit 14
 c9_san_ch15 sanskrit 15
