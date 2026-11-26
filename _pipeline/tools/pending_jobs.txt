@@ -1,2 +1,1 @@
-c9_finearts_ch1 finearts 1
-c9_music_ch4 music 4
+c9_finearts_ch6 finearts 6
