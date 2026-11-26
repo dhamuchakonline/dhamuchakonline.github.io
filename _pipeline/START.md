@@ -110,3 +110,12 @@
 - `tools/e10/apply.py` (योग ch4–8) और `apply_cc.py` (कंप्यूटर) स्क्रिप्ट में img/cap जोड़ते हैं (केवल मौजूद फ़ाइल)। ext लेवल 10, 11 इस्तेमाल हो चुके — अगला 12।
 - बने: c9 योग ch4–8 (फ़ोटो सहित), c10 computer ch1–4 (इंटरनेट, HTML5, XML, JavaScript)।
 - बाक़ी: c9 finearts/homescience, c10 अन्य, c11/12 computer-multimedia-yoga, c11 English ch26–31, c11 Hindi, music/dance। हर वीडियो में फ़ोटो।
+
+## 26 नवंबर रात — हैंडओवर 6
+- सब वीडियो डिफ़ॉल्ट 1.25x (student.js में setR(1.25)).
+- नई स्क्रिप्ट: c9_homescience ch1, c9_finearts ch1,4,5,6, c9 computer ch1–8 (cm_* फ़ोटो), yoga ch1–3 / music ch1,4,5,8 में फ़ोटो जोड़े।
+- ext levels अब 14, 15 तक इस्तेमाल हुए → अगला 16।
+- बाकी: dance 1–8, music 2,3,6,7 (फ़ोटो नहीं), c10/c11/c12 extras, c11 English ch26–31, पुराने सब अध्यायों में फ़ोटो।
+- पुराना ऑडियो नहीं बचता (out_ डिरेक्टरी डिस्क के लिए मिटती है); रीबिल्ड में TTS दोबारा चलता है (मशीन का समय, usage नहीं)।
+- Commons फ़ोटो: tools/e10/pri_plan.py चल रहा (/tmp/pri.log); सितार, तबला आ चुके → music ch4 रीबिल्ड करें।
+- qh.sh से कतार में डालने से पहले ext पूरा करें, वरना बिल्ड टकराते हैं।
