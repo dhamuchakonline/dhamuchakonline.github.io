@@ -673,6 +673,7 @@ async function chapterView(cls, stream, sid, id) {
     const sb = document.getElementById("speeds");
     const setR = (r) => { vid.playbackRate = r; sb.querySelectorAll("button").forEach((b) => b.classList.toggle("on", +b.dataset.r === r)); };
     sb.querySelectorAll("button").forEach((b) => (b.onclick = () => setR(+b.dataset.r)));
+    setR(1.25); vid.addEventListener("loadedmetadata", () => setR(1.25));
     vid.addEventListener("ratechange", () => sb.querySelectorAll("button").forEach((b) => b.classList.toggle("on", +b.dataset.r === vid.playbackRate)));
     // वीडियो चलते ही ऊपर की चलती पट्टी हट जाए, रुकने पर लौट आए
     vid.addEventListener("play", () => document.body.classList.add("vplay"));
