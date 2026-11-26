@@ -103,3 +103,10 @@
 - विषय-कुंजियाँ (jobs/qh के लिए): social, polsci, business, hindi, yoga, biology, geography, english, math/maths, economics, chemistry, physics, history, music, dance, sanskrit, science, computer। कक्षा 10 में अध्याय 2,3,4,5,6,8,10,11,12,14 का विषय `math` (repo class-10-b), बाक़ी (और कक्षा 9/11/12) `maths`; `tools/jobs_second.txt` में उन 10 का `maths` वाला दोहरा publish है।
 - ext.py: स्तर 7, 8, 9 अब इस्तेमाल हो चुके हैं (9 = टॉप-अप); नया पास 10 से करें। ext स्क्रिप्टें `tools/e7/` में हैं। जिस चैप्टर का वीडियो अभी बन रहा हो उसे दोबारा लाइन में न लगाएँ।
 - लिखने के नियम: संख्या/सूत्र हिंदी शब्दों में, अंग्रेज़ी देवनागरी में, कोई अंग्रेज़ी अक्षर के बाद ASCII अंक नहीं (Unicode subscript लें)।
+
+## 26 नवंबर — हैंडओवर 5 (फ़ोटो वाली क्लासें)
+- **फ़ोटो ज़रूर:** कला/योग/कंप्यूटर/संगीत जैसे विषयों के वीडियो में असली फ़ोटो हों (अंकुश सर की माँग)। content स्लाइड में `"img": "<file>", "cap": "<श्रेय>"`; `photo` kind भी है। फ़ोटो `/home/claude/videos/img/` में, नक़ल `_pipeline/images/` में, श्रेय `images/CREDITS.tsv` में।
+- **फ़ोटो के स्रोत (allow हैं):** `tools/e10/pxh.py` (pxhere.com, CC0; `python3 pxh.py नाम "query" must-शब्द…`; स्लग में must-शब्द होना ज़रूरी, पर नतीजे अक्सर गलत/पश्चिमी — contact sheet से ज़रूर देखें, बुरे हटाएँ)। `tools/img.py` (Wikimedia Commons: सही फ़ोटो पर upload.wikimedia.org 429 से बहुत धीमा; Openverse रोज़ की सीमा से बंद हो जाता है)। Unsplash/Pexels/Pixabay बिना चाबी नहीं।
+- `tools/e10/apply.py` (योग ch4–8) और `apply_cc.py` (कंप्यूटर) स्क्रिप्ट में img/cap जोड़ते हैं (केवल मौजूद फ़ाइल)। ext लेवल 10, 11 इस्तेमाल हो चुके — अगला 12।
+- बने: c9 योग ch4–8 (फ़ोटो सहित), c10 computer ch1–4 (इंटरनेट, HTML5, XML, JavaScript)।
+- बाक़ी: c9 finearts/homescience, c10 अन्य, c11/12 computer-multimedia-yoga, c11 English ch26–31, c11 Hindi, music/dance। हर वीडियो में फ़ोटो।
