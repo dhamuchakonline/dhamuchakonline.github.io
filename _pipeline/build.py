@@ -79,8 +79,18 @@ td{{padding:8px 30px;border-bottom:2px solid #e3e8ee;text-align:center}} tr:firs
 .title .en{{font-size:38px;color:#5b6b80}}
 .title .sch{{margin-top:40px;font-size:30px;color:#44536e}}
 .title .sch b{{color:#8a5a1a}}
+.row{{display:flex;gap:34px;align-items:center}}.row .pts{{flex:1.25;font-size:33px}}.row .pts li{{margin:6px 0;padding:8px 18px}}
+.pic{{flex:1;text-align:center}}.pic img{{max-width:100%;max-height:430px;border-radius:20px;box-shadow:0 10px 28px rgba(47,79,134,.22);border:6px solid #fff;object-fit:contain;background:#fff}}
+.pic .cap{{font-size:25px;color:#5b6b80;margin-top:10px}}
+.gal{{display:flex;gap:26px;justify-content:center;align-items:flex-start}}.gal .pic{{flex:1}}.gal .pic img{{max-height:410px}}
 .foot{{position:absolute;bottom:14px;right:34px;font-size:18px;color:#8090a8}}
 """
+
+def pic(img, cap=""):
+    pth = img if img.startswith("/") else f"/home/claude/videos/img/{img}"
+    if not os.path.exists(pth):
+        raise SystemExit(f"image missing: {pth}")
+    return f'<div class="pic"><img src="file://{pth}"><div class="cap">{txt(cap)}</div></div>' if cap else f'<div class="pic"><img src="file://{pth}"></div>'
 
 def slide_html(sc, reveal=True):
     k = sc["kind"]
@@ -99,7 +109,16 @@ def slide_html(sc, reveal=True):
           <div class="en">{txt(META["title_en"])}</div>
           <div class="sch">{"<b>शाबाश!</b> अगला अध्याय जल्द · " if k=="end" else ""}Upgraded High School, Dhamuchak · उत्क्रमित उच्च माध्यमिक विद्यालय, धामुचक<br>Created by <b>Ankush Sir</b></div></div>'''
     elif k in ("content", "list"):
-        body = head() + "<ul class=pts>" + "".join(f"<li>{chem(p)}</li>" for p in sc["points"]) + "</ul>"
+        ul = "<ul class=pts>" + "".join(f"<li>{chem(p)}</li>" for p in sc["points"]) + "</ul>"
+        if sc.get("img"):
+            body = head() + f'<div class="row">{ul}{pic(sc["img"], sc.get("cap",""))}</div>'
+        else:
+            body = head() + ul
+    elif k == "photo":
+        imgs = sc["img"] if isinstance(sc["img"], list) else [sc["img"]]
+        caps = sc.get("cap", [""] * len(imgs))
+        caps = caps if isinstance(caps, list) else [caps]
+        body = head() + '<div class="gal">' + "".join(pic(i, c) for i, c in zip(imgs, caps)) + "</div>"
     elif k == "eq":
         body = head() + f'<div class="words">{chem(sc["words"])}</div><div class="eqbox">{chem(sc["eq"])}</div>' + (f'<div class="note">{chem(sc["note"])}</div>' if sc.get("note") else "")
     elif k == "big":
