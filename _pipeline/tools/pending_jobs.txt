@@ -1,6 +1,6 @@
-c9_homescience_ch1 homescience 1
-c9_computer_ch5 computer 5
-c9_computer_ch4 computer 4
-c9_computer_ch3 computer 3
-c9_computer_ch2 computer 2
-c9_computer_ch1 computer 1
+c9_music_ch8 music 8
+c9_music_ch5 music 5
+c9_music_ch1 music 1
+c9_yoga_ch3 yoga 3
+c9_yoga_ch2 yoga 2
+c9_yoga_ch1 yoga 1
