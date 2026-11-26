@@ -53,13 +53,12 @@ def ov_get(name, *queries):
     return False
 
 def get(name, *queries):
-    if ov_get(name,*queries): return True
     for q in queries:
         for c in find(q):
             dst = f"/home/claude/videos/img/{name}.jpg"
             data = None
             u = c["url"]
-            if "thumb.wikimedia.org" in u: continue
+            u=u.replace("thumb.wikimedia.org","upload.wikimedia.org").split("?")[0]; time.sleep(2)
             for t in range(40):
                 try:
                     data = urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=60).read(); break
