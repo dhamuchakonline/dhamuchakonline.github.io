@@ -1,6 +1,2 @@
-c9_music_ch8 music 8
-c9_music_ch5 music 5
-c9_music_ch1 music 1
-c9_yoga_ch3 yoga 3
-c9_yoga_ch2 yoga 2
-c9_yoga_ch1 yoga 1
+c9_finearts_ch1 finearts 1
+c9_music_ch4 music 4
