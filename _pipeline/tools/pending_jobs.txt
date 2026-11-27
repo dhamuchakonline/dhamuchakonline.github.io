@@ -1,10 +1,3 @@
-c10_sst_ch24 social 24
-c10_sst_ch23 social 23
-c10_sst_ch22 social 22
-c10_sst_ch21 social 21
-c10_sst_ch19 social 19
-c10_sst_ch18 social 18
-c10_sst_ch17 social 17
 c10_sst_ch16 social 16
 c10_sst_ch15 social 15
 c10_sst_ch13 social 13
