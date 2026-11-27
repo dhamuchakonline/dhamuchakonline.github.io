@@ -1,1 +1,10 @@
-c9_finearts_ch4 finearts 4
+c9_sci_ch12 science 12
+c9_sci_ch11 science 11
+c9_sci_ch10 science 10
+c9_sci_ch8 science 8
+c9_sci_ch7 science 7
+c9_sci_ch6 science 6
+c9_sci_ch5 science 5
+c9_sci_ch3 science 3
+c9_sci_ch2 science 2
+c9_sci_ch1 science 1
