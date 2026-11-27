@@ -16,7 +16,7 @@ def apply_plan(path):
         idx=[i for i,s in enumerate(S) if s['kind'] in('content','list')]
         used=set();rest=[]
         for head,name,label in L:
-            hit=[i for i in idx if i not in used and head in S[i].get('head','')]
+            hit=[i for i in idx if head and i not in used and head in S[i].get('head','')]
             if hit:
                 i=hit[0];used.add(i);S[i]['img']=name+'.jpg';S[i]['cap']=cap(name,label)
             else:rest.append((name,label))
