@@ -80,7 +80,7 @@ td{{padding:8px 30px;border-bottom:2px solid #e3e8ee;text-align:center}} tr:firs
 .title .sch{{margin-top:40px;font-size:30px;color:#44536e}}
 .title .sch b{{color:#8a5a1a}}
 .row{{display:flex;gap:34px;align-items:center}}.row .pts{{flex:1.25;font-size:33px}}.row .pts li{{margin:6px 0;padding:8px 18px}}
-.pic{{flex:1;text-align:center}}.pic img{{max-width:100%;max-height:430px;border-radius:20px;box-shadow:0 10px 28px rgba(47,79,134,.22);border:6px solid #fff;object-fit:contain;background:#fff}}
+.pic{{flex:1;min-width:0;text-align:center}}.pic img{{width:100%;height:auto;max-height:430px;border-radius:20px;box-shadow:0 10px 28px rgba(47,79,134,.22);border:6px solid #fff;object-fit:contain;background:#fff}}
 .pic .cap{{font-size:25px;color:#5b6b80;margin-top:10px}}
 .gal{{display:flex;gap:26px;justify-content:center;align-items:flex-start}}.gal .pic{{flex:1}}.gal .pic img{{max-height:410px}}
 .foot{{position:absolute;bottom:14px;right:34px;font-size:18px;color:#8090a8}}
@@ -90,7 +90,11 @@ def pic(img, cap=""):
     pth = img if img.startswith("/") else f"/home/claude/videos/img/{img}"
     if not os.path.exists(pth):
         raise SystemExit(f"image missing: {pth}")
-    return f'<div class="pic"><img src="file://{pth}"><div class="cap">{txt(cap)}</div></div>' if cap else f'<div class="pic"><img src="file://{pth}"></div>'
+    import base64
+    ext = pth.rsplit(".", 1)[-1].lower()
+    mime = "image/png" if ext == "png" else "image/jpeg"
+    uri = f"data:{mime};base64," + base64.b64encode(open(pth, "rb").read()).decode()
+    return f'<div class="pic"><img src="{uri}"><div class="cap">{txt(cap)}</div></div>' if cap else f'<div class="pic"><img src="{uri}"></div>'
 
 def slide_html(sc, reveal=True):
     k = sc["kind"]
