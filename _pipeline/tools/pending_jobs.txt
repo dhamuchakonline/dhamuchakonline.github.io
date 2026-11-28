@@ -1,11 +1,3 @@
-c11_eng_ch25 english 25
-c11_eng_ch24 english 24
-c11_eng_ch23 english 23
-c11_eng_ch20 english 20
-c11_eng_ch18 english 18
-c11_eng_ch15 english 15
-c11_eng_ch10 english 10
-c11_eng_ch6 english 6
 c11_eng_ch5 english 5
 c11_eng_ch4 english 4
 c11_eng_ch3 english 3
