@@ -1,3 +1,16 @@
+c12_hin_ch21 hindi 21
+c12_hin_ch20 hindi 20
+c12_hin_ch19 hindi 19
+c12_hin_ch16 hindi 16
+c12_hin_ch14 hindi 14
+c12_hin_ch13 hindi 13
+c12_hin_ch12 hindi 12
+c12_hin_ch10 hindi 10
+c12_hin_ch8 hindi 8
+c12_hin_ch7 hindi 7
+c12_hin_ch5 hindi 5
+c12_hin_ch2 hindi 2
+c12_hin_ch1 hindi 1
 c11_eng_ch5 english 5
 c11_eng_ch4 english 4
 c11_eng_ch3 english 3
