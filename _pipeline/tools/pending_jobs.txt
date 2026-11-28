@@ -1,3 +1,13 @@
+c10_hin_ch15 hin 15
+c10_hin_ch14 hin 14
+c10_hin_ch13 hin 13
+c10_hin_ch11 hin 11
+c10_hin_ch9 hin 9
+c10_hin_ch7 hin 7
+c10_hin_ch6 hin 6
+c10_hin_ch4 hin 4
+c10_hin_ch3 hin 3
+c10_hin_ch1 hin 1
 c9_sci_ch7 science 7
 c9_sci_ch6 science 6
 c9_sci_ch5 science 5
